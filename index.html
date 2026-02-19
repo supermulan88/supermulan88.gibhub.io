@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AATG — Breath-Based Cancer Diagnostic System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* ─── RESET & ROOT ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --navy:    #0D1B4B;
+  --blue:    #1A56A0;
+  --teal:    #0E9F8E;
+  --teal2:   #00C9B1;
+  --ice:     #C8DEFF;
+  --white:   #FFFFFF;
+  --offwhite:#F4F7FC;
+  --gray:    #64748B;
+  --lgray:   #E2E8F0;
+  --red:     #C0392B;
+  --font-h:  'Playfair Display', Georgia, serif;
+  --font-b:  'Source Sans 3', sans-serif;
+  --font-m:  'JetBrains Mono', monospace;
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-b);
+  background: var(--offwhite);
+  color: #1a1a2e;
+  overflow-x: hidden;
+}
+
+/* ─── NAV ─── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(13,27,75,0.96);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(14,159,142,0.3);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; height: 64px;
+}
+.nav-brand {
+  font-family: var(--font-h); font-size: 18px; font-weight: 700;
+  color: var(--white); letter-spacing: 0.02em; text-decoration: none;
+}
+.nav-brand span { color: var(--teal); }
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a {
+  color: var(--ice); font-size: 14px; font-weight: 600; text-decoration: none;
+  letter-spacing: 0.05em; text-transform: uppercase;
+  transition: color 0.2s;
+  position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+  height: 2px; background: var(--teal);
+  transform: scaleX(0); transition: transform 0.2s;
+}
+.nav-links a:hover { color: var(--teal); }
+.nav-links a:hover::after { transform: scaleX(1); }
+.nav-cta {
+  background: var(--teal); color: var(--white) !important;
+  padding: 8px 20px; border-radius: 4px;
+  font-size: 13px !important; letter-spacing: 0.08em !important;
+  transition: background 0.2s !important;
+}
+.nav-cta:hover { background: var(--teal2) !important; }
+.nav-cta::after { display: none !important; }
+
+/* ─── HERO ─── */
+#hero {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #060e2a 0%, #0D1B4B 50%, #0a2a40 100%);
+  display: flex; flex-direction: column; justify-content: center;
+  position: relative; overflow: hidden; padding: 100px 0 60px;
+}
+.hero-bg-circles {
+  position: absolute; inset: 0; pointer-events: none;
+}
+.hero-bg-circles span {
+  position: absolute; border-radius: 50%;
+  border: 1px solid rgba(14,159,142,0.15);
+}
+.hero-bg-circles span:nth-child(1) { width: 600px; height: 600px; top: -150px; right: -100px; }
+.hero-bg-circles span:nth-child(2) { width: 400px; height: 400px; top: -50px; right: 50px; border-color: rgba(14,159,142,0.08); }
+.hero-bg-circles span:nth-child(3) { width: 300px; height: 300px; bottom: 50px; left: -100px; border-color: rgba(26,86,160,0.2); }
+
+.hero-inner {
+  max-width: 1200px; margin: 0 auto; padding: 0 40px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(14,159,142,0.15); border: 1px solid rgba(14,159,142,0.4);
+  color: var(--teal2); font-size: 12px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 6px 14px; border-radius: 20px; margin-bottom: 24px;
+}
+.hero-badge::before { content: '●'; font-size: 8px; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+.hero-title {
+  font-family: var(--font-h); font-size: clamp(36px, 4vw, 58px);
+  font-weight: 900; line-height: 1.1; color: var(--white); margin-bottom: 20px;
+}
+.hero-title em { color: var(--teal); font-style: normal; }
+.hero-subtitle {
+  font-size: 18px; color: var(--ice); line-height: 1.6;
+  margin-bottom: 36px; font-weight: 300; opacity: 0.9;
+}
+.hero-pills { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 40px; }
+.pill {
+  background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15);
+  color: var(--ice); font-size: 13px; font-weight: 600;
+  padding: 7px 16px; border-radius: 20px; letter-spacing: 0.03em;
+}
+.hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+.btn-primary {
+  background: var(--teal); color: var(--white);
+  padding: 14px 32px; border-radius: 4px; font-size: 15px; font-weight: 700;
+  text-decoration: none; letter-spacing: 0.04em; text-transform: uppercase;
+  transition: all 0.2s; display: inline-block;
+}
+.btn-primary:hover { background: var(--teal2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(14,159,142,0.4); }
+.btn-outline {
+  border: 2px solid rgba(200,222,255,0.4); color: var(--ice);
+  padding: 12px 30px; border-radius: 4px; font-size: 15px; font-weight: 700;
+  text-decoration: none; letter-spacing: 0.04em; text-transform: uppercase;
+  transition: all 0.2s; display: inline-block;
+}
+.btn-outline:hover { border-color: var(--teal); color: var(--teal); }
+
+/* Hero right — animated breath graphic */
+.hero-visual {
+  display: flex; flex-direction: column; align-items: center; gap: 20px;
+}
+.breath-ring {
+  position: relative; width: 320px; height: 320px;
+}
+.ring {
+  position: absolute; border-radius: 50%;
+  border: 2px solid var(--teal);
+  animation: breathe 4s ease-in-out infinite;
+}
+.ring:nth-child(1) { inset: 0; opacity: 0.8; }
+.ring:nth-child(2) { inset: 20px; opacity: 0.5; animation-delay: 0.4s; border-color: var(--teal2); }
+.ring:nth-child(3) { inset: 40px; opacity: 0.3; animation-delay: 0.8s; }
+.ring:nth-child(4) { inset: 60px; opacity: 0.2; animation-delay: 1.2s; border-color: var(--blue); }
+@keyframes breathe {
+  0%,100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.04); opacity: 0.4; }
+}
+.ring-center {
+  position: absolute; inset: 80px;
+  border-radius: 50%; background: radial-gradient(circle, rgba(14,159,142,0.3), rgba(13,27,75,0.8));
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  border: 2px solid rgba(14,159,142,0.5);
+}
+.ring-center .lung-icon { font-size: 42px; margin-bottom: 4px; }
+.ring-center .ring-label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--teal); font-weight: 700; }
+
+.stats-row {
+  display: flex; gap: 24px;
+}
+.stat-mini {
+  text-align: center; background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(14,159,142,0.2); border-radius: 8px;
+  padding: 14px 20px;
+}
+.stat-mini .val { font-family: var(--font-h); font-size: 28px; font-weight: 900; color: var(--teal); line-height: 1; }
+.stat-mini .lbl { font-size: 11px; color: var(--ice); opacity: 0.7; margin-top: 4px; letter-spacing: 0.05em; }
+
+/* ─── SECTION BASE ─── */
+section { padding: 100px 0; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+.section-tag {
+  font-family: var(--font-m); font-size: 11px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--teal); margin-bottom: 12px; display: block;
+}
+.section-title {
+  font-family: var(--font-h); font-size: clamp(28px, 3vw, 44px);
+  font-weight: 700; line-height: 1.15; margin-bottom: 16px;
+}
+.section-sub { font-size: 17px; color: var(--gray); line-height: 1.7; max-width: 640px; }
+
+/* ─── PROBLEM SECTION ─── */
+#problem { background: var(--navy); }
+#problem .section-title { color: var(--white); }
+#problem .section-sub { color: var(--ice); opacity: 0.8; }
+.problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 60px; }
+.problem-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(14,159,142,0.2);
+  border-top: 3px solid var(--teal);
+  border-radius: 4px; padding: 36px 28px;
+  transition: transform 0.2s, background 0.2s;
+}
+.problem-card:hover { transform: translateY(-4px); background: rgba(255,255,255,0.07); }
+.problem-stat { font-family: var(--font-h); font-size: 64px; font-weight: 900; color: var(--teal); line-height: 1; margin-bottom: 12px; }
+.problem-label { font-size: 15px; font-weight: 700; color: var(--white); margin-bottom: 10px; letter-spacing: 0.02em; }
+.problem-desc { font-size: 14px; color: rgba(200,222,255,0.65); line-height: 1.6; }
+.problem-bottom {
+  margin-top: 48px; padding: 24px 32px;
+  background: rgba(14,159,142,0.1); border-left: 4px solid var(--teal); border-radius: 0 4px 4px 0;
+}
+.problem-bottom p { color: var(--ice); font-size: 16px; font-style: italic; line-height: 1.6; }
+
+/* ─── HOW IT WORKS ─── */
+#how { background: var(--offwhite); }
+.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 60px; position: relative; }
+.steps::before {
+  content: ''; position: absolute;
+  top: 36px; left: calc(12.5%); right: calc(12.5%);
+  height: 2px; background: linear-gradient(to right, var(--teal), var(--blue), var(--teal));
+  z-index: 0;
+}
+.step { text-align: center; padding: 0 20px; position: relative; z-index: 1; }
+.step-num {
+  width: 72px; height: 72px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-h); font-size: 28px; font-weight: 900; color: var(--white);
+  margin: 0 auto 24px; position: relative;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+.step:nth-child(1) .step-num { background: var(--teal); }
+.step:nth-child(2) .step-num { background: var(--blue); }
+.step:nth-child(3) .step-num { background: #7B5EA7; }
+.step:nth-child(4) .step-num { background: #0E8A4A; }
+.step-icon { font-size: 22px; position: absolute; top: -5px; right: -5px; }
+.step-title { font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 10px; }
+.step-body { font-size: 14px; color: var(--gray); line-height: 1.6; }
+.step-time {
+  margin-top: 14px; display: inline-block;
+  font-family: var(--font-m); font-size: 11px; color: var(--teal);
+  background: rgba(14,159,142,0.08); padding: 4px 12px; border-radius: 20px;
+  border: 1px solid rgba(14,159,142,0.2);
+}
+
+/* ─── THE SCIENCE ─── */
+#science { background: var(--navy); }
+#science .section-title { color: var(--white); }
+.science-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 60px; }
+.sci-card {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px; padding: 40px; position: relative; overflow: hidden;
+}
+.sci-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+}
+.sci-card.voc::before { background: var(--teal); }
+.sci-card.ai::before { background: #7B5EA7; }
+.sci-card-icon { font-size: 36px; margin-bottom: 16px; }
+.sci-card h3 { font-family: var(--font-h); font-size: 22px; color: var(--white); margin-bottom: 14px; }
+.sci-card p { font-size: 14px; color: rgba(200,222,255,0.75); line-height: 1.7; margin-bottom: 16px; }
+.voc-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.voc-tag {
+  background: rgba(14,159,142,0.15); border: 1px solid rgba(14,159,142,0.3);
+  color: var(--teal2); font-family: var(--font-m); font-size: 12px;
+  padding: 4px 12px; border-radius: 4px;
+}
+.ai-steps { list-style: none; margin-top: 16px; }
+.ai-steps li {
+  padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+  color: rgba(200,222,255,0.75); font-size: 14px; display: flex; align-items: center; gap: 10px;
+}
+.ai-steps li::before { content: '→'; color: #7B5EA7; font-weight: 700; flex-shrink: 0; }
+.ai-steps li:last-child { border-bottom: none; }
+
+/* ─── LR CHART (CSS-drawn) ─── */
+.lr-section { margin-top: 60px; }
+.lr-card {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px; padding: 40px;
+}
+.lr-card h3 { font-family: var(--font-h); font-size: 20px; color: var(--white); margin-bottom: 8px; }
+.lr-card .lr-sub { font-size: 13px; color: var(--gray); margin-bottom: 32px; }
+.lr-table-wrap { overflow-x: auto; }
+table {
+  width: 100%; border-collapse: collapse; font-size: 14px;
+}
+th {
+  background: rgba(14,159,142,0.15); color: var(--teal2); font-weight: 700;
+  padding: 12px 16px; text-align: left; font-family: var(--font-m); font-size: 12px;
+  letter-spacing: 0.05em; text-transform: uppercase; border-bottom: 2px solid rgba(14,159,142,0.3);
+}
+td {
+  padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.05);
+  color: rgba(200,222,255,0.8);
+}
+tr:hover td { background: rgba(255,255,255,0.03); }
+.lr-badge {
+  display: inline-block; padding: 3px 10px; border-radius: 12px;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.03em;
+}
+.lr-against { background: rgba(192,57,43,0.2); color: #F1948A; border: 1px solid rgba(192,57,43,0.3); }
+.lr-weak    { background: rgba(100,116,139,0.2); color: #94a3b8; border: 1px solid rgba(100,116,139,0.3); }
+.lr-for     { background: rgba(14,159,142,0.2); color: var(--teal2); border: 1px solid rgba(14,159,142,0.3); }
+.lr-strong  { background: rgba(14,159,142,0.35); color: var(--teal2); border: 1px solid rgba(14,159,142,0.5); }
+.lr-vstrong { background: rgba(0,201,177,0.25); color: #00C9B1; border: 1px solid rgba(0,201,177,0.5); font-weight:700; }
+.lr-def     { background: var(--teal); color: var(--navy); border: none; font-weight:700; }
+
+/* ─── MARKET ─── */
+#market { background: var(--offwhite); }
+.market-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 60px; }
+.market-card {
+  background: var(--white); border-radius: 8px; padding: 36px;
+  border-left: 4px solid var(--teal); box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.market-card:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,0,0,0.1); }
+.market-card .mval {
+  font-family: var(--font-h); font-size: 52px; font-weight: 900;
+  color: var(--teal); line-height: 1; margin-bottom: 8px;
+}
+.market-card .mlbl { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+.market-card .mdesc { font-size: 13px; color: var(--gray); line-height: 1.5; }
+
+/* ─── PATENT / STATUS ─── */
+#status { background: var(--navy); }
+#status .section-title { color: var(--white); }
+.timeline { display: grid; grid-template-columns: repeat(5,1fr); gap: 16px; margin-top: 60px; position: relative; }
+.timeline::before {
+  content: ''; position: absolute;
+  top: 22px; left: 10%; right: 10%; height: 2px;
+  background: linear-gradient(to right, var(--teal) 60%, rgba(170,187,204,0.3) 60%);
+}
+.tl-item { text-align: center; position: relative; z-index: 1; }
+.tl-dot {
+  width: 44px; height: 44px; border-radius: 50%;
+  margin: 0 auto 16px; display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 700;
+}
+.tl-dot.done { background: var(--teal); color: var(--white); box-shadow: 0 0 0 4px rgba(14,159,142,0.2); }
+.tl-dot.next { background: var(--blue); color: var(--white); box-shadow: 0 0 0 4px rgba(26,86,160,0.2); }
+.tl-dot.future { background: rgba(170,187,204,0.3); color: rgba(200,222,255,0.5); border: 2px solid rgba(170,187,204,0.3); }
+.tl-title { font-size: 13px; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+.tl-desc { font-size: 11px; color: rgba(200,222,255,0.5); line-height: 1.5; }
+.patent-box {
+  margin-top: 48px; padding: 32px 40px;
+  background: linear-gradient(135deg, rgba(14,159,142,0.12), rgba(26,86,160,0.08));
+  border: 1px solid rgba(14,159,142,0.3); border-radius: 8px;
+  display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap;
+}
+.patent-box .ptxt h4 { font-family: var(--font-h); font-size: 22px; color: var(--white); margin-bottom: 6px; }
+.patent-box .ptxt p { font-size: 14px; color: var(--ice); opacity: 0.8; }
+.patent-badge {
+  background: var(--teal); color: var(--navy);
+  padding: 12px 28px; border-radius: 4px; font-weight: 900;
+  font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;
+}
+
+/* ─── OTHER TECHNOLOGIES ─── */
+#other { background: var(--offwhite); }
+.other-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; margin-top: 48px; }
+.other-card {
+  background: var(--white); border-radius: 8px; padding: 32px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06); transition: transform 0.2s;
+  border-top: 3px solid var(--blue);
+}
+.other-card:hover { transform: translateY(-3px); }
+.other-card h4 { font-family: var(--font-h); font-size: 20px; color: var(--navy); margin-bottom: 6px; }
+.other-card .other-sub { font-size: 12px; font-family: var(--font-m); color: var(--teal); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 14px; }
+.other-card p { font-size: 13px; color: var(--gray); line-height: 1.6; }
+.other-tag {
+  display: inline-block; margin-top: 16px;
+  background: rgba(26,86,160,0.08); color: var(--blue); border: 1px solid rgba(26,86,160,0.2);
+  font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 12px;
+  letter-spacing: 0.04em;
+}
+
+/* ─── CONTACT ─── */
+#contact {
+  background: linear-gradient(135deg, #060e2a, #0D1B4B);
+  padding: 100px 0;
+}
+.contact-inner {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start;
+}
+.contact-info .section-title { color: var(--white); }
+.contact-info p { color: var(--ice); opacity: 0.8; margin-top: 16px; line-height: 1.7; font-size: 16px; }
+.contact-detail { display: flex; align-items: center; gap: 12px; margin-top: 24px; }
+.contact-detail .icon { font-size: 20px; }
+.contact-detail a { color: var(--teal2); font-size: 15px; font-weight: 600; text-decoration: none; }
+.contact-detail a:hover { color: var(--white); }
+.contact-form { display: flex; flex-direction: column; gap: 16px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+input, textarea, select {
+  width: 100%; padding: 14px 18px;
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 4px; color: var(--white); font-family: var(--font-b); font-size: 14px;
+  transition: border-color 0.2s;
+  outline: none;
+}
+input:focus, textarea:focus { border-color: var(--teal); background: rgba(255,255,255,0.08); }
+input::placeholder, textarea::placeholder { color: rgba(200,222,255,0.35); }
+textarea { min-height: 130px; resize: vertical; }
+.form-submit {
+  background: var(--teal); color: var(--navy); border: none; cursor: pointer;
+  padding: 16px 36px; border-radius: 4px; font-size: 15px; font-weight: 900;
+  letter-spacing: 0.08em; text-transform: uppercase; transition: all 0.2s;
+  align-self: flex-start;
+}
+.form-submit:hover { background: var(--teal2); transform: translateY(-2px); }
+
+/* ─── FOOTER ─── */
+footer {
+  background: #060e2a; padding: 32px 40px;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+  border-top: 1px solid rgba(14,159,142,0.15);
+}
+.footer-brand { font-family: var(--font-h); font-size: 16px; color: var(--ice); }
+.footer-brand span { color: var(--teal); }
+footer p { font-size: 12px; color: rgba(200,222,255,0.4); }
+.footer-links { display: flex; gap: 24px; }
+.footer-links a { font-size: 12px; color: rgba(200,222,255,0.5); text-decoration: none; }
+.footer-links a:hover { color: var(--teal); }
+
+/* ─── SCROLL ANIMATIONS ─── */
+.fade-up {
+  opacity: 0; transform: translateY(32px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 900px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+  .hero-visual { display: none; }
+  .problem-grid, .science-grid, .steps,
+  .market-grid, .other-grid, .contact-inner { grid-template-columns: 1fr; }
+  .steps::before { display: none; }
+  .timeline { grid-template-columns: 1fr 1fr; }
+  .timeline::before { display: none; }
+  .form-row { grid-template-columns: 1fr; }
+  nav { padding: 0 20px; }
+  .nav-links { gap: 16px; }
+  .container { padding: 0 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── NAVIGATION ─── -->
+<nav>
+  <a href="#hero" class="nav-brand">AATG <span>·</span> Analytical Experts</a>
+  <ul class="nav-links">
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#science">The Science</a></li>
+    <li><a href="#market">Impact</a></li>
+    <li><a href="#other">Technologies</a></li>
+    <li><a href="#contact" class="nav-cta">Contact Us</a></li>
+  </ul>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section id="hero">
+  <div class="hero-bg-circles">
+    <span></span><span></span><span></span>
+  </div>
+  <div class="hero-inner">
+    <div class="hero-text fade-up">
+      <div class="hero-badge">Provisional Patent Filed · February 2026</div>
+      <h1 class="hero-title">
+        <em>Breath-Based</em><br>
+        Cancer Diagnostic<br>
+        System
+      </h1>
+      <p class="hero-subtitle">
+        An integrated, non-invasive platform that detects early-stage lung cancer 
+        from a single exhaled breath — delivering a clinical probability score 
+        in under 15 minutes.
+      </p>
+      <div class="hero-pills">
+        <span class="pill">🫁 Non-Invasive</span>
+        <span class="pill">🧠 AI-Powered</span>
+        <span class="pill">⏱ 15-Minute Results</span>
+        <span class="pill">📄 Provisional Patent Filed</span>
+      </div>
+      <div class="hero-btns">
+        <a href="#how" class="btn-primary">See How It Works</a>
+        <a href="#contact" class="btn-outline">Request Information</a>
+      </div>
+    </div>
+    <div class="hero-visual fade-up">
+      <div class="breath-ring">
+        <div class="ring"></div>
+        <div class="ring"></div>
+        <div class="ring"></div>
+        <div class="ring"></div>
+        <div class="ring-center">
+          <div class="lung-icon">🫁</div>
+          <div class="ring-label">BreathDX</div>
+        </div>
+      </div>
+      <div class="stats-row">
+        <div class="stat-mini"><div class="val">#1</div><div class="lbl">Cancer killer<br>worldwide</div></div>
+        <div class="stat-mini"><div class="val">85%</div><div class="lbl">Diagnosed<br>too late</div></div>
+        <div class="stat-mini"><div class="val">15m</div><div class="lbl">Time to<br>result</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PROBLEM ─── -->
+<section id="problem">
+  <div class="container">
+    <span class="section-tag">The Challenge</span>
+    <h2 class="section-title" style="color:var(--white)">Lung cancer is the #1 cancer killer.<br>We still have no fast, simple screening tool.</h2>
+    <p class="section-sub">Current detection methods are expensive, invasive, or arrive too late. The result: most patients are diagnosed only when treatment options are limited.</p>
+    <div class="problem-grid">
+      <div class="problem-card fade-up">
+        <div class="problem-stat">#1</div>
+        <div class="problem-label">Cancer Killer Worldwide</div>
+        <div class="problem-desc">Lung cancer causes more deaths than breast, colon, and prostate cancers combined.</div>
+      </div>
+      <div class="problem-card fade-up" style="border-top-color:#E74C3C">
+        <div class="problem-stat" style="color:#E74C3C">85%</div>
+        <div class="problem-label">Diagnosed Too Late</div>
+        <div class="problem-desc">Most lung cancers are found at Stage III or IV, when treatment is least effective and survival rates are lowest.</div>
+      </div>
+      <div class="problem-card fade-up" style="border-top-color:#27AE60">
+        <div class="problem-stat" style="color:#27AE60">5×</div>
+        <div class="problem-label">Better Survival If Caught Early</div>
+        <div class="problem-desc">Stage I survival rate is ~80% versus ~5% at Stage IV. Early detection saves lives.</div>
+      </div>
+    </div>
+    <div class="problem-bottom fade-up">
+      <p>"CT scans are expensive and expose patients to radiation. Biopsies are invasive and come too late. Blood tests are still experimental. <strong>There is a clear gap: a fast, non-invasive, primary care–ready screening tool does not yet exist.</strong>"</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── HOW IT WORKS ─── -->
+<section id="how">
+  <div class="container">
+    <span class="section-tag">The Solution</span>
+    <h2 class="section-title">Four steps. Fifteen minutes.<br>No needles. No radiation.</h2>
+    <p class="section-sub">Our integrated system takes a patient from walk-in to clinical probability score in a single, non-invasive workflow that can run in any clinical setting.</p>
+    <div class="steps">
+      <div class="step fade-up">
+        <div class="step-num">1<span class="step-icon">🫁</span></div>
+        <div class="step-title">Patient Breathes</div>
+        <div class="step-body">The patient exhales into a compact collection device — like blowing into a tube. No preparation, no needles, no discomfort.</div>
+        <span class="step-time">0 – 5 min</span>
+      </div>
+      <div class="step fade-up">
+        <div class="step-num">2<span class="step-icon">⚗️</span></div>
+        <div class="step-title">Device Concentrates & Scans</div>
+        <div class="step-body">A microtrap pre-concentrates the breath sample by 100–1000×. A laser sensor then scans the concentrated sample to identify chemical signatures.</div>
+        <span class="step-time">5 – 12 min</span>
+      </div>
+      <div class="step fade-up">
+        <div class="step-num">3<span class="step-icon">🧠</span></div>
+        <div class="step-title">AI Calculates Probability</div>
+        <div class="step-body">A Bayesian inference engine compares the chemical pattern against a structured database built from 50+ published clinical studies.</div>
+        <span class="step-time">12 – 14 min</span>
+      </div>
+      <div class="step fade-up">
+        <div class="step-num">4<span class="step-icon">📋</span></div>
+        <div class="step-title">Doctor Gets the Report</div>
+        <div class="step-body">A clear probability score and supporting evidence report is generated and displayed — helping the clinician decide on next steps.</div>
+        <span class="step-time">~15 min total</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── THE SCIENCE ─── -->
+<section id="science">
+  <div class="container">
+    <span class="section-tag" style="color:var(--teal2)">The Science</span>
+    <h2 class="section-title" style="color:var(--white)">Grounded in over 50 published studies.<br>Powered by Bayesian AI.</h2>
+    <p class="section-sub" style="color:rgba(200,222,255,0.75)">Two proven scientific principles — breath biomarker chemistry and probabilistic inference — combined into a single diagnostic pipeline.</p>
+    <div class="science-grid fade-up">
+      <div class="sci-card voc">
+        <div class="sci-card-icon">🔬</div>
+        <h3>Your Breath Has Clues</h3>
+        <p>When cancer cells grow, they produce metabolic byproducts — small chemical compounds that enter the bloodstream and are eventually exhaled. Scientists call these Volatile Organic Compounds (VOCs).</p>
+        <p>Multiple peer-reviewed studies confirm that lung cancer patients have measurably elevated concentrations of specific aldehydes and other VOCs in their breath compared to healthy controls.</p>
+        <div class="voc-tags">
+          <span class="voc-tag">Hexanal ↑</span>
+          <span class="voc-tag">Pentanal ↑</span>
+          <span class="voc-tag">Nonanal ↑</span>
+          <span class="voc-tag">Heptanal ↑</span>
+          <span class="voc-tag">Octanal ↑</span>
+          <span class="voc-tag">Isoprene ↓</span>
+          <span class="voc-tag">Acetone ↓</span>
+          <span class="voc-tag">Benzene ↑</span>
+        </div>
+      </div>
+      <div class="sci-card ai">
+        <div class="sci-card-icon">🧠</div>
+        <h3>The AI Inference Engine</h3>
+        <p>Our system uses Bayesian inference — the same mathematical framework used in clinical diagnostic reasoning — to combine multiple biomarker measurements into a single, reliable probability estimate.</p>
+        <p>Rather than a simple threshold, the system weights each biomarker by its clinical discriminatory power (Likelihood Ratio), accounts for confounders, and continuously improves as new research is published.</p>
+        <ul class="ai-steps">
+          <li>Patient demographics → Pre-test probability (prior)</li>
+          <li>VOC measurements → Likelihood Ratio lookup per biomarker</li>
+          <li>Confounder adjustment (smoking, medications, diet)</li>
+          <li>Bayesian combination → Posterior probability score</li>
+          <li>Structured report generation with supporting evidence</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- LR Table -->
+    <div class="lr-section fade-up">
+      <div class="lr-card">
+        <h3>Hexanal Likelihood Ratio Table</h3>
+        <p class="lr-sub">Source: Poli 2010 + Fuchs 2010 · n=52 lung cancer, n=62 healthy controls · Evidence quality: 90/100</p>
+        <div class="lr-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Hexanal Concentration (pM)</th>
+                <th>P(C | Lung Cancer)</th>
+                <th>P(C | Healthy)</th>
+                <th>Likelihood Ratio</th>
+                <th>Interpretation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>0 – 5,000</td><td>0.05</td><td>0.25</td><td>0.20</td><td><span class="lr-badge lr-against">Strong evidence AGAINST LC</span></td></tr>
+              <tr><td>5,000 – 10,000</td><td>0.10</td><td>0.35</td><td>0.29</td><td><span class="lr-badge lr-against">Moderate evidence against</span></td></tr>
+              <tr><td>10,000 – 15,000</td><td>0.15</td><td>0.25</td><td>0.60</td><td><span class="lr-badge lr-weak">Weak evidence against</span></td></tr>
+              <tr><td>15,000 – 20,000</td><td>0.22</td><td>0.10</td><td>2.20</td><td><span class="lr-badge lr-for">Moderate evidence FOR LC</span></td></tr>
+              <tr><td>20,000 – 30,000</td><td>0.28</td><td>0.04</td><td>7.00</td><td><span class="lr-badge lr-strong">Strong evidence FOR LC</span></td></tr>
+              <tr><td>30,000 – 50,000</td><td>0.12</td><td>0.01</td><td>15.0</td><td><span class="lr-badge lr-vstrong">Very strong evidence FOR</span></td></tr>
+              <tr><td>&gt; 50,000</td><td>0.05</td><td>0.001</td><td>50.0</td><td><span class="lr-badge lr-def">Definitive evidence FOR</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── MARKET ─── -->
+<section id="market">
+  <div class="container">
+    <span class="section-tag">Clinical Impact & Market</span>
+    <h2 class="section-title">A massive unmet need.<br>A proven market opportunity.</h2>
+    <p class="section-sub">Lung cancer screening is dramatically underutilized. Only a fraction of eligible patients receive recommended annual screening — because current tools are not practical for primary care settings.</p>
+    <div class="market-grid">
+      <div class="market-card fade-up">
+        <div class="mval">235K</div>
+        <div class="mlbl">New Lung Cancer Cases Per Year (U.S.)</div>
+        <div class="mdesc">Lung cancer remains the deadliest cancer in the United States, accounting for more deaths than the next three most common cancers combined.</div>
+      </div>
+      <div class="market-card fade-up" style="border-left-color:var(--blue)">
+        <div class="mval" style="color:var(--blue)">$25B+</div>
+        <div class="mlbl">Global Lung Cancer Diagnostics Market by 2030</div>
+        <div class="mdesc">Rapid growth driven by rising incidence, aging populations, and increasing demand for non-invasive, point-of-care testing solutions.</div>
+      </div>
+      <div class="market-card fade-up" style="border-left-color:#7B5EA7">
+        <div class="mval" style="color:#7B5EA7">50M+</div>
+        <div class="mlbl">High-Risk Americans Eligible for Annual Screening</div>
+        <div class="mdesc">Current USPSTF guidelines recommend annual screening for current and former heavy smokers aged 50–80 — a population largely unserved by existing tools.</div>
+      </div>
+      <div class="market-card fade-up" style="border-left-color:#E74C3C">
+        <div class="mval" style="color:#E74C3C">&lt;5%</div>
+        <div class="mlbl">Currently Receiving Recommended Screening</div>
+        <div class="mdesc">The screening compliance gap is enormous. A practical, affordable, primary-care–ready breath test could close this gap and save tens of thousands of lives annually.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── STATUS / PATENT ─── -->
+<section id="status">
+  <div class="container">
+    <span class="section-tag" style="color:var(--teal2)">Project Status</span>
+    <h2 class="section-title" style="color:var(--white)">Where we are today</h2>
+    <div class="timeline">
+      <div class="tl-item fade-up">
+        <div class="tl-dot done">✓</div>
+        <div class="tl-title">Literature Review</div>
+        <div class="tl-desc">5+ foundational studies extracted and validated</div>
+      </div>
+      <div class="tl-item fade-up">
+        <div class="tl-dot done">✓</div>
+        <div class="tl-title">Biomarker Database</div>
+        <div class="tl-desc">Bayesian LR tables built and verified</div>
+      </div>
+      <div class="tl-item fade-up">
+        <div class="tl-dot done">✓</div>
+        <div class="tl-title">Provisional Patent</div>
+        <div class="tl-desc">Full system architecture and method claims filed Feb 2026</div>
+      </div>
+      <div class="tl-item fade-up">
+        <div class="tl-dot next">→</div>
+        <div class="tl-title">SBIR/STTR Application</div>
+        <div class="tl-desc">NIAID/NHLBI Phase I target submission</div>
+      </div>
+      <div class="tl-item fade-up">
+        <div class="tl-dot future">○</div>
+        <div class="tl-title">Prototype Development</div>
+        <div class="tl-desc">Hardware + software integration and clinical validation</div>
+      </div>
+    </div>
+    <div class="patent-box fade-up">
+      <div class="ptxt">
+        <h4>Provisional Patent Filed — February 2026</h4>
+        <p>The integrated HCPF-Raman + Bayesian Inference diagnostic system has been filed as a provisional patent, protecting the full system architecture, detection methodology, and AI inference pipeline. NIAID/NHLBI SBIR/STTR Phase I application in preparation.</p>
+      </div>
+      <div class="patent-badge">Patent Pending</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── OTHER TECHNOLOGIES ─── -->
+<section id="other">
+  <div class="container">
+    <span class="section-tag">Other Technologies</span>
+    <h2 class="section-title">Additional Platforms in Development</h2>
+    <p class="section-sub">AATG's core expertise in advanced analytical instrumentation extends to detection systems for security, pharmaceutical, and defense applications.</p>
+    <div class="other-grid">
+      <div class="other-card fade-up">
+        <div class="other-sub">Security · Detection</div>
+        <h4>r-Trace™</h4>
+        <p>A revolutionary Explosive Trace Detector leveraging advanced spectrometry for high-sensitivity identification of explosive materials. Designed for airports, public venues, and critical infrastructure with significantly reduced operating costs and no radioactive ionization source.</p>
+        <span class="other-tag">Explosive Trace Detection</span>
+      </div>
+      <div class="other-card fade-up">
+        <div class="other-sub">Defense · Safety</div>
+        <h4>r-CWA™</h4>
+        <p>Next-generation Chemical Warfare Agent Detector offering broad-spectrum detection of CWAs and Toxic Industrial Components (TICs). Wearable, battery-powered, and designed for continuous monitoring in battlefield and environmental applications.</p>
+        <span class="other-tag">Chemical Warfare Detection</span>
+      </div>
+      <div class="other-card fade-up">
+        <div class="other-sub">Pharmaceutical · Compliance</div>
+        <h4>r-Pharm™</h4>
+        <p>A fast, on-site cleaning validation analyzer for pharmaceutical manufacturing. Eliminates the need for HPLC/MS with real-time contaminant detection in under 1 minute, dramatically reducing production downtime and validation costs.</p>
+        <span class="other-tag">Cleaning Validation</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CONTACT ─── -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-inner">
+      <div class="contact-info fade-up">
+        <span class="section-tag" style="color:var(--teal2)">Get in Touch</span>
+        <h2 class="section-title" style="color:var(--white)">Interested in<br>collaborating?</h2>
+        <p>We welcome inquiries from clinical researchers, potential co-founders, investors, and SBIR/STTR program officers. Whether you're interested in the breath diagnostics platform or our other detection technologies, we'd love to hear from you.</p>
+        <div class="contact-detail">
+          <span class="icon">✉️</span>
+          <a href="mailto:info@advanced-analytical-technology-group.com">info@advanced-analytical-technology-group.com</a>
+        </div>
+        <div class="contact-detail">
+          <span class="icon">📞</span>
+          <a href="tel:+19088245389">(908) 824-5389</a>
+        </div>
+        <div class="contact-detail">
+          <span class="icon">📍</span>
+          <span style="color:var(--ice);font-size:15px;">New Jersey, USA</span>
+        </div>
+      </div>
+      <form class="contact-form fade-up" onsubmit="return false;">
+        <div class="form-row">
+          <input type="text" placeholder="Your Name" required>
+          <input type="email" placeholder="Your Email" required>
+        </div>
+        <input type="text" placeholder="Organization / Affiliation">
+        <select style="color:rgba(200,222,255,0.6)">
+          <option value="" style="background:#0D1B4B">Area of Interest...</option>
+          <option style="background:#0D1B4B">Breath Diagnostics — Clinical Research</option>
+          <option style="background:#0D1B4B">Breath Diagnostics — Investment / Funding</option>
+          <option style="background:#0D1B4B">Breath Diagnostics — Co-founder / Partnership</option>
+          <option style="background:#0D1B4B">r-Trace / r-CWA — Security Applications</option>
+          <option style="background:#0D1B4B">r-Pharm — Pharmaceutical Applications</option>
+          <option style="background:#0D1B4B">Other Inquiry</option>
+        </select>
+        <textarea placeholder="Tell us about your interest or inquiry..."></textarea>
+        <button type="submit" class="form-submit">Send Message →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-brand">AATG <span>·</span> The Analytical Experts</div>
+  <div class="footer-links">
+    <a href="#how">How It Works</a>
+    <a href="#science">The Science</a>
+    <a href="#other">Technologies</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <p>© Advanced Analytical Technology Group LLC, 2002–2025. All rights reserved.</p>
+</footer>
+
+<script>
+// Scroll reveal
+const faders = document.querySelectorAll('.fade-up');
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      // Stagger siblings
+      const siblings = e.target.parentElement.querySelectorAll('.fade-up');
+      let delay = 0;
+      siblings.forEach((s, idx) => { if (s === e.target) delay = idx * 80; });
+      setTimeout(() => e.target.classList.add('visible'), delay);
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+faders.forEach(f => obs.observe(f));
+
+// Nav active highlight on scroll
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 100) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.style.color = '';
+    if (a.getAttribute('href') === '#' + current) a.style.color = 'var(--teal)';
+  });
+});
+</script>
+</body>
+</html>
