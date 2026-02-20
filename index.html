@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AATG — Breath-Based Cancer Diagnostic System</title>
+<title>AATG · Innovative Diagnostic Solutions</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
@@ -44,6 +44,7 @@ nav {
 .nav-brand {
   font-family: var(--font-h); font-size: 18px; font-weight: 700;
   color: var(--white); letter-spacing: 0.02em; text-decoration: none;
+  white-space: nowrap; z-index: 101;
 }
 .nav-brand span { color: var(--teal); }
 .nav-links { display: flex; gap: 32px; list-style: none; }
@@ -68,6 +69,44 @@ nav {
 }
 .nav-cta:hover { background: var(--teal2) !important; }
 .nav-cta::after { display: none !important; }
+
+/* Hamburger button */
+.nav-toggle {
+  display: none; flex-direction: column; justify-content: center;
+  gap: 5px; background: none; border: none; cursor: pointer;
+  padding: 8px; z-index: 101;
+}
+.nav-toggle span {
+  display: block; width: 24px; height: 2px;
+  background: var(--white); border-radius: 2px;
+  transition: all 0.3s ease;
+}
+.nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle.open span:nth-child(2) { opacity: 0; }
+.nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 900px) {
+  nav { padding: 0 20px; }
+  .nav-toggle { display: flex; }
+  .nav-links {
+    display: none; flex-direction: column; gap: 0;
+    position: fixed; top: 64px; left: 0; right: 0;
+    background: rgba(13,27,75,0.98);
+    border-bottom: 2px solid var(--teal);
+    padding: 16px 0; z-index: 100;
+  }
+  .nav-links.open { display: flex; }
+  .nav-links li { width: 100%; }
+  .nav-links a {
+    display: block; padding: 14px 24px;
+    font-size: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .nav-links a::after { display: none; }
+  .nav-cta {
+    margin: 12px 24px 4px; border-radius: 4px;
+    text-align: center; display: block;
+  }
+}
 
 /* ─── HERO ─── */
 #hero {
@@ -440,15 +479,40 @@ footer p { font-size: 12px; color: rgba(200,222,255,0.4); }
 @media (max-width: 900px) {
   .hero-inner { grid-template-columns: 1fr; gap: 40px; }
   .hero-visual { display: none; }
-  .problem-grid, .science-grid, .steps,
-  .market-grid, .other-grid, .contact-inner { grid-template-columns: 1fr; }
+  .hero-title { font-size: 32px; }
+  .hero-subtitle { font-size: 16px; }
+  .hero-pills { gap: 8px; }
+  .pill { font-size: 12px; padding: 5px 12px; }
+  .hero-btns { flex-direction: column; gap: 12px; }
+  .btn-primary, .btn-outline { text-align: center; }
+  .problem-grid { grid-template-columns: 1fr; }
+  .problem-stat { font-size: 48px; }
+  .steps { grid-template-columns: 1fr 1fr; }
   .steps::before { display: none; }
-  .timeline { grid-template-columns: 1fr 1fr; }
+  .science-grid { grid-template-columns: 1fr; }
+  .market-grid { grid-template-columns: 1fr; }
+  .timeline { grid-template-columns: 1fr 1fr; gap: 20px; }
   .timeline::before { display: none; }
+  .patent-box { flex-direction: column; gap: 20px; }
+  .other-grid { grid-template-columns: 1fr; }
+  .contact-inner { grid-template-columns: 1fr; gap: 40px; }
   .form-row { grid-template-columns: 1fr; }
-  nav { padding: 0 20px; }
-  .nav-links { gap: 16px; }
-  .container { padding: 0 24px; }
+  .container { padding: 0 20px; }
+  section { padding: 70px 0; }
+  .section-title { font-size: 26px; }
+  footer { flex-direction: column; text-align: center; gap: 12px; }
+  .footer-links { justify-content: center; flex-wrap: wrap; }
+  /* Beyond section grid */
+  #beyond > .container > div[style*="grid-template-columns:repeat(3"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+@media (max-width: 480px) {
+  .steps { grid-template-columns: 1fr; }
+  .timeline { grid-template-columns: 1fr; }
+  .stats-row { flex-direction: column; }
+  nav { padding: 0 16px; }
+  .nav-brand { font-size: 15px; }
 }
 </style>
 </head>
@@ -456,14 +520,17 @@ footer p { font-size: 12px; color: rgba(200,222,255,0.4); }
 
 <!-- ─── NAVIGATION ─── -->
 <nav>
-  <a href="#hero" class="nav-brand">AATG <span>·</span> Analytical Experts</a>
-  <ul class="nav-links">
-    <li><a href="#how">How It Works</a></li>
-    <li><a href="#science">The Science</a></li>
-    <li><a href="#beyond">Beyond Lung Cancer</a></li>
-    <li><a href="#market">Impact</a></li>
-    <li><a href="#other">Technologies</a></li>
-    <li><a href="#contact" class="nav-cta">Contact Us</a></li>
+  <a href="#hero" class="nav-brand">AATG <span>·</span> Innovative Diagnostic Solutions</a>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#how" onclick="closeNav()">How It Works</a></li>
+    <li><a href="#science" onclick="closeNav()">The Science</a></li>
+    <li><a href="#beyond" onclick="closeNav()">Beyond Lung Cancer</a></li>
+    <li><a href="#market" onclick="closeNav()">Impact</a></li>
+    <li><a href="#other" onclick="closeNav()">Technologies</a></li>
+    <li><a href="#contact" class="nav-cta" onclick="closeNav()">Contact Us</a></li>
   </ul>
 </nav>
 
@@ -879,7 +946,7 @@ footer p { font-size: 12px; color: rgba(200,222,255,0.4); }
 
 <!-- ─── FOOTER ─── -->
 <footer>
-  <div class="footer-brand">AATG <span>·</span> The Analytical Experts</div>
+  <div class="footer-brand">AATG <span>·</span> Innovative Diagnostic Solutions</div>
   <div class="footer-links">
     <a href="#how">How It Works</a>
     <a href="#science">The Science</a>
@@ -890,12 +957,28 @@ footer p { font-size: 12px; color: rgba(200,222,255,0.4); }
 </footer>
 
 <script>
+// Hamburger menu
+const navToggle = document.getElementById('navToggle');
+const navLinks  = document.getElementById('navLinks');
+navToggle.addEventListener('click', () => {
+  navToggle.classList.toggle('open');
+  navLinks.classList.toggle('open');
+});
+function closeNav() {
+  navToggle.classList.remove('open');
+  navLinks.classList.remove('open');
+}
+document.addEventListener('click', (e) => {
+  if (!navToggle.contains(e.target) && !navLinks.contains(e.target)) {
+    closeNav();
+  }
+});
+
 // Scroll reveal
 const faders = document.querySelectorAll('.fade-up');
 const obs = new IntersectionObserver((entries) => {
   entries.forEach((e, i) => {
     if (e.isIntersecting) {
-      // Stagger siblings
       const siblings = e.target.parentElement.querySelectorAll('.fade-up');
       let delay = 0;
       siblings.forEach((s, idx) => { if (s === e.target) delay = idx * 80; });
@@ -908,13 +991,13 @@ faders.forEach(f => obs.observe(f));
 
 // Nav active highlight on scroll
 const sections = document.querySelectorAll('section[id]');
-const navLinks = document.querySelectorAll('.nav-links a');
+const navMenuLinks = document.querySelectorAll('.nav-links a');
 window.addEventListener('scroll', () => {
   let current = '';
   sections.forEach(s => {
     if (window.scrollY >= s.offsetTop - 100) current = s.id;
   });
-  navLinks.forEach(a => {
+  navMenuLinks.forEach(a => {
     a.style.color = '';
     if (a.getAttribute('href') === '#' + current) a.style.color = 'var(--teal)';
   });
