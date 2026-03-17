@@ -1255,7 +1255,10 @@ function sexChg() {
 
 function calcD() {
   var age = parseFloat(document.getElementById('d_age').value);
-  var sex = parseFloat(document.getElementById('d_sex').value);
+  var sexRaw = parseFloat(document.getElementById('d_sex').value);
+  // For LC, male sex has no significant penalty (~1.0)
+  // For BC, male sex is ~100x rarer than female (0.01)
+  var sex = (dDis === 'bc') ? sexRaw : (sexRaw === 0.01 ? 1.0 : 1.0);
   var smk = parseFloat(document.getElementById('d_smk').value);
   var base = BASE[dDis];
   var preO = (base / (1 - base)) * age * sex * smk;
