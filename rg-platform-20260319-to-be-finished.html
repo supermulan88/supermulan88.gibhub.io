@@ -311,6 +311,14 @@ footer{background:var(--navy);padding:26px 0;border-top:1px solid rgba(255,255,2
 </style>
 </head>
 <body>
+  <script>
+(function(){
+  var p = prompt("Enter access code:");
+  if(p !== "aatg2026") { 
+    document.body.innerHTML = "<p style='text-align:center;margin-top:40vh;font-family:sans-serif'>Access restricted.</p>";
+  }
+})();
+</script>
 <nav id="nav">
 <div class="nav-in">
   <div class="nav-logo">AATG <b>&middot;</b> r-Guard&trade;</div>
