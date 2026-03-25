@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AATG &middot; r-Guard&trade; Multi-Threat Detection Platform</title>
-<link rel="icon" type="image/png" href="images/favicon.png">
+<link rel="icon" type="image/png" href="images/aatg_logo.png">
 <style>
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -16,7 +16,7 @@
   --slate3:#E2E8F0;--white:#F8FAFC;--text:#1E293B;--text2:#475569;
   --orange:#F97316;
 }
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;scroll-padding-top:100px}
 body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;color:var(--text);background:#fff;line-height:1.6;overflow-x:hidden}
 h1,h2,h3,h4{font-family:Georgia,'Times New Roman',serif;line-height:1.15;letter-spacing:-.01em}
 a{color:inherit;text-decoration:none}
@@ -24,18 +24,33 @@ a{color:inherit;text-decoration:none}
 .section{padding:80px 0}
 
 /* NAV */
-#nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:14px 0;transition:all .3s}
-#nav.scrolled{background:rgba(6,13,26,.96);padding:10px 0;border-bottom:1px solid rgba(14,165,233,.15)}
-.nav-in{display:flex;align-items:center;justify-content:space-between;max-width:1140px;margin:0 auto;padding:0 24px}
-.nav-logo{font-size:1rem;font-weight:700;color:#fff;letter-spacing:.02em}
-.nav-logo b{color:var(--amber)}
-.nav-links{display:flex;gap:24px;list-style:none}
-.nav-links a{color:rgba(255,255,255,.7);font-size:.84rem;transition:color .2s}
+#nav{position:fixed;top:0;left:0;right:0;z-index:200;transition:all .3s}
+#nav.scrolled{background:rgba(6,13,26,.97);border-bottom:1px solid rgba(14,165,233,.15)}
+.nav-wrap{max-width:1140px;margin:0 auto;padding:0 24px}
+.nav-row1{display:flex;align-items:center;justify-content:space-between;padding:9px 0}
+.nav-row2{display:flex;align-items:center;justify-content:flex-end;gap:20px;padding:3px 0 8px;border-top:1px solid rgba(255,255,255,.07)}
+.nav-links{display:flex;gap:20px;list-style:none;align-items:center}
+.nav-links a{color:rgba(255,255,255,.68);font-size:.81rem;transition:color .2s;white-space:nowrap;font-family:system-ui,sans-serif}
 .nav-links a:hover{color:var(--amber)}
-.nav-cta{padding:7px 18px;border-radius:20px;background:var(--amber);color:var(--navy)!important;font-weight:700}
+.nav-cta{padding:6px 16px;border-radius:20px;background:var(--amber);color:var(--navy)!important;font-weight:700;font-size:.81rem;white-space:nowrap}
 .nav-cta:hover{background:#e08d00!important;color:var(--navy)!important}
-.nav-back{padding:7px 18px;border-radius:20px;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.6)!important;font-size:.82rem}
-.nav-back:hover{border-color:var(--teal3);color:var(--teal3)!important}
+.nav-breathdx{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:20px;background:rgba(14,165,233,.12);border:1px solid rgba(14,165,233,.3);color:#7BBDE8!important;font-size:.78rem;font-weight:700;white-space:nowrap}
+.nav-breathdx:hover{background:rgba(14,165,233,.22)!important;border-color:rgba(14,165,233,.5)!important}
+.nav-burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none;flex-shrink:0}
+.nav-burger span{display:block;width:22px;height:2px;background:rgba(255,255,255,.8);border-radius:2px;transition:all .25s}
+.nav-burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-burger.open span:nth-child(2){opacity:0}
+.nav-burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+#nav-panel{position:fixed;top:0;right:-290px;width:280px;height:100vh;background:rgba(4,17,31,.98);border-left:1px solid rgba(14,165,233,.15);z-index:199;transition:right .3s ease;overflow-y:auto;padding:80px 24px 40px}
+#nav-panel.open{right:0}
+.panel-group{margin-bottom:26px}
+.panel-label{font-size:.63rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:9px;font-family:system-ui,sans-serif}
+.panel-links{display:flex;flex-direction:column}
+.panel-links a{color:rgba(255,255,255,.7);font-size:.9rem;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.05);font-family:system-ui,sans-serif;transition:color .2s}
+.panel-links a:last-child{border-bottom:none}
+.panel-links a:hover{color:var(--amber)}
+#nav-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:198}
+#nav-overlay.open{display:block}
 
 /* SECTION HEADERS */
 .stag{display:inline-block;font-size:.69rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);background:rgba(245,158,11,.08);padding:4px 11px;border-radius:20px;margin-bottom:13px;border:1px solid rgba(245,158,11,.2)}
@@ -285,7 +300,8 @@ footer{background:var(--navy);padding:26px 0;border-top:1px solid rgba(255,255,2
   .sapps-grid{grid-template-columns:1fr 1fr}
   .hw-grid{grid-template-columns:1fr 1fr}
   .hw-features{grid-template-columns:1fr}
-  .nav-links{display:none}
+  .nav-row2,.nav-links{display:none}
+  .nav-burger{display:flex}
 }
 @media(max-width:580px){
   .hstats{grid-template-columns:1fr 1fr}
@@ -316,29 +332,64 @@ footer{background:var(--navy);padding:26px 0;border-top:1px solid rgba(255,255,2
 </head>
 <body>
 <nav id="nav">
-<div class="nav-in">
-  <a href="about.html" style="display:flex;align-items:center;flex-shrink:0"><img src="images/aatg_logo.png" alt="AATG" style="height:38px;width:auto;display:block"></a>
-  <ul class="nav-links">
-    <li><a href="#problem">The Problem</a></li>
-    <li><a href="#advantage">Advantages</a></li>
-    <li><a href="#modes">How It Works</a></li>
-    <li><a href="#hardware">Hardware</a></li>
-    <li><a href="#compare">vs. IMS</a></li>
-    <li><a href="#applications">Applications</a></li>
-    <li><a href="#configs">Configurations</a></li>
-    <li><a href="#science">The Science</a></li>
-    <li><a href="#future">Future</a></li>
-    <li><a href="#status">Status</a></li>
-    
-    
-    <li><a href="#contact" class="nav-cta">Contact</a></li>
-  </ul>
+<div class="nav-wrap">
+  <div class="nav-row1">
+    <a href="about.html" style="display:flex;align-items:center;flex-shrink:0"><img src="images/aatg_logo.png" alt="AATG" style="height:38px;width:auto;display:block"></a>
+    <ul class="nav-links">
+      <li><a href="#problem">The Problem</a></li>
+      <li><a href="#advantage">Advantages</a></li>
+      <li><a href="#modes">How It Works</a></li>
+      <li><a href="#hardware">Hardware</a></li>
+      <li><a href="#compare">vs. IMS</a></li>
+    </ul>
+    <button class="nav-burger" id="nav-burger" aria-label="Menu" onclick="toggleNav()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="nav-row2">
+    <ul class="nav-links">
+      <li><a href="#applications">Applications</a></li>
+      <li><a href="#configs">Configurations</a></li>
+      <li><a href="#science">The Science</a></li>
+      <li><a href="#future">Future</a></li>
+      <li><a href="#status">Status</a></li>
+      <li><a href="index.html" class="nav-breathdx">&#x1FAC1; BreathDX&trade;</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Contact</a>
+  </div>
 </div>
 </nav>
-<div style="background:linear-gradient(90deg,#071828,#0a2540,#071828);border-bottom:2px solid rgba(14,165,233,.3);padding:10px 0;text-align:center;font-family:system-ui,sans-serif;padding-top:58px">
-  <span style="font-size:.75rem;color:rgba(255,255,255,.4);letter-spacing:.06em;text-transform:uppercase;font-weight:600">Also from AATG &nbsp;</span>
-  <a href="index.html" style="display:inline-flex;align-items:center;gap:7px;background:rgba(14,165,233,.15);border:1px solid rgba(14,165,233,.35);border-radius:20px;padding:5px 16px;color:#7BBDE8;font-size:.82rem;font-weight:700;text-decoration:none;transition:all .2s">&#x1FAC1; BreathDX&trade; &mdash; Breath-Based Cancer Diagnostic System &nbsp;&#8594;</a>
+<div id="nav-panel">
+  <div class="panel-group">
+    <div class="panel-label">The Product</div>
+    <div class="panel-links">
+      <a href="#problem" onclick="closeNav()">The Problem</a>
+      <a href="#advantage" onclick="closeNav()">Advantages</a>
+      <a href="#modes" onclick="closeNav()">How It Works</a>
+      <a href="#hardware" onclick="closeNav()">Hardware</a>
+      <a href="#compare" onclick="closeNav()">vs. IMS</a>
+    </div>
+  </div>
+  <div class="panel-group">
+    <div class="panel-label">Details</div>
+    <div class="panel-links">
+      <a href="#applications" onclick="closeNav()">Applications</a>
+      <a href="#configs" onclick="closeNav()">Configurations</a>
+      <a href="#science" onclick="closeNav()">The Science</a>
+      <a href="#future" onclick="closeNav()">Future</a>
+      <a href="#status" onclick="closeNav()">Status</a>
+    </div>
+  </div>
+  <div class="panel-group">
+    <div class="panel-label">Also from AATG</div>
+    <div class="panel-links">
+      <a href="index.html" onclick="closeNav()" style="color:#7BBDE8">&#x1FAC1; BreathDX&trade; &mdash; Cancer Diagnostics</a>
+      <a href="about.html" onclick="closeNav()">About AATG</a>
+    </div>
+  </div>
+  <a href="#contact" onclick="closeNav()" style="display:block;margin-top:8px;padding:12px 20px;border-radius:8px;background:var(--amber);color:var(--navy);font-weight:700;font-size:.9rem;text-align:center;font-family:system-ui,sans-serif">Contact &rarr;</a>
 </div>
+<div id="nav-overlay" onclick="closeNav()"></div>
 <section id="hero">
 <div class="hero-bg"></div><div class="hero-glow1"></div><div class="hero-glow2"></div>
 <div class="hero-in">
@@ -1041,6 +1092,20 @@ window.addEventListener('scroll',function(){
     sessionStorage.setItem("_rg_auth",k);
   }
 })();
+</script>
+<script>
+function toggleNav(){
+  document.getElementById('nav-burger').classList.toggle('open');
+  document.getElementById('nav-panel').classList.toggle('open');
+  document.getElementById('nav-overlay').classList.toggle('open');
+  document.body.style.overflow = document.getElementById('nav-panel').classList.contains('open') ? 'hidden' : '';
+}
+function closeNav(){
+  document.getElementById('nav-burger').classList.remove('open');
+  document.getElementById('nav-panel').classList.remove('open');
+  document.getElementById('nav-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
 </script>
 </body>
 </html>
