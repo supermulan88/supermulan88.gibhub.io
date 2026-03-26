@@ -1080,20 +1080,6 @@ window.addEventListener('scroll',function(){
 <!-- GoatCounter analytics -->
 <script data-goatcounter="https://aatg.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script>
-(function(){
-  var k=atob("YWF0ZzIwMjY=");
-  var p=sessionStorage.getItem("_rg_auth");
-  if(p!==k){
-    var e=prompt("This site is in pre-release. Enter access code:");
-    if(e!==k){
-      document.body.innerHTML="<div style='display:flex;align-items:center;justify-content:center;height:100vh;font-family:system-ui,sans-serif;background:#04111F'><div style='text-align:center;color:rgba(255,255,255,.5)'><div style='font-size:2rem;margin-bottom:12px'>&#128274;</div><div style='font-size:.95rem'>Access restricted. Contact AATG for access.</div></div></div>";
-      return;
-    }
-    sessionStorage.setItem("_rg_auth",k);
-  }
-})();
-</script>
-<script>
 function toggleNav(){
   document.getElementById('nav-burger').classList.toggle('open');
   document.getElementById('nav-panel').classList.toggle('open');
