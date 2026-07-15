@@ -3,128 +3,52 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BreathDX — Point-of-Care Breath Cancer Screening | AATG</title>
+<title>BreathDX™ — Point-of-Care Breath Cancer Screening | AATG</title>
 <meta name="description" content="BreathDX by AATG: a point-of-care system that screens for cancer from a single breath — handheld sampler, compact analyzer, and calibrated AI risk report in under 15 minutes.">
 <link rel="icon" type="image/png" href="images/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/aatg.css">
 <style>
-:root{
-  --paper:#F5F7F8; --panel:#FFFFFF; --panel-2:#FBFCFC;
-  --line:#DBE3E7; --line-soft:#E9EEF0;
-  --ink:#0D1620; --body:#33454F; --muted:#5E6E78; --faint:#8695A0;
-  --teal:#0E6E72; --teal-deep:#0A5053; --teal-tint:#E4EFEF; --teal-line:#BED8D8;
-  --coral:#D6552F; --coral-deep:#B8461F; --coral-tint:#FAEBE3;
-  --shadow:0 1px 2px rgba(13,22,32,.04), 0 8px 28px -18px rgba(13,22,32,.28);
-  --radius:8px;
-  --maxw:1180px;
-  --display:'Space Grotesk',sans-serif;
-  --sans:'IBM Plex Sans',sans-serif;
-  --mono:'IBM Plex Mono',monospace;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{
-  font-family:var(--sans); color:var(--body); background:var(--paper);
-  line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden;
-}
-h1,h2,h3,h4{font-family:var(--display); color:var(--ink); line-height:1.08; letter-spacing:-.02em; font-weight:600}
-a{color:inherit; text-decoration:none}
-img{max-width:100%; display:block}
-.wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px}
-.eyebrow{
-  font-family:var(--mono); font-size:11.5px; font-weight:500; letter-spacing:.16em;
-  text-transform:uppercase; color:var(--teal); display:inline-flex; align-items:center; gap:9px;
-}
-.eyebrow::before{content:""; width:22px; height:1px; background:var(--teal-line)}
-.mono{font-family:var(--mono)}
-
-/* ---------- NAV ---------- */
-header.nav{position:sticky; top:0; z-index:60; background:rgba(6,20,31,.94); backdrop-filter:blur(10px); border-bottom:1px solid rgba(255,255,255,.08)}
-.nav-in{display:flex; align-items:center; justify-content:space-between; height:70px; max-width:var(--maxw); margin:0 auto; padding:0 28px}
-.brand{display:flex; align-items:center; gap:11px; font-family:var(--display); font-weight:700; font-size:19px; letter-spacing:-.02em; color:var(--ink)}
-.brand svg{display:block}
-.brand .sub{font-family:var(--mono); font-weight:500; font-size:10.5px; letter-spacing:.14em; color:var(--faint); text-transform:uppercase; padding-left:11px; margin-left:2px; border-left:1px solid var(--line)}
-.nav-links{display:flex; align-items:center; gap:26px}
-.nav-links a{font-size:14px; color:rgba(255,255,255,.72); font-weight:500; transition:color .15s}
-.nav-links a:hover{color:#fff}
-.nav-links a.guard{color:#5fb6b8; font-weight:600}
-.nav-cta{font-family:var(--sans); font-size:13.5px; font-weight:600; color:#fff!important; background:var(--teal); padding:9px 16px; border-radius:6px; transition:background .15s}
-.nav-cta:hover{background:var(--teal-deep)}
-.burger{display:none; background:none; border:1px solid rgba(255,255,255,.2); border-radius:6px; width:40px; height:38px; cursor:pointer; align-items:center; justify-content:center}
-.burger span{display:block; width:18px; height:2px; background:#fff; position:relative}
-.burger span::before,.burger span::after{content:""; position:absolute; left:0; width:18px; height:2px; background:#fff}
-.burger span::before{top:-6px}.burger span::after{top:6px}
-
-/* ---------- HERO ---------- */
+/* BreathDX page specifics */
 .hero{position:relative; padding:74px 0 40px; overflow:hidden}
 .hero-grid{display:grid; grid-template-columns:1.06fr .94fr; gap:56px; align-items:center}
-.hero .tags{display:flex; gap:8px; flex-wrap:wrap; margin:22px 0 20px}
-.tag{font-family:var(--mono); font-size:11px; letter-spacing:.06em; color:var(--body); background:var(--panel); border:1px solid var(--line); border-radius:100px; padding:5px 12px}
-.tag.lead{border-color:var(--teal-line); color:var(--teal-deep); background:var(--teal-tint)}
+.hero .tags{margin:22px 0 20px}
 .hero h1{font-size:clamp(38px,5.4vw,62px); font-weight:600; letter-spacing:-.03em}
-.hero h1 .u{color:var(--teal); position:relative; white-space:nowrap}
+.hero h1 .u{color:var(--teal); white-space:nowrap}
 .hero p.lede{font-size:18.5px; color:var(--body); margin:22px 0 30px; max-width:33em}
 .hero p.lede b{color:var(--ink); font-weight:600}
 .cta-row{display:flex; gap:13px; flex-wrap:wrap; align-items:center}
-.btn{font-family:var(--sans); font-weight:600; font-size:15px; padding:13px 22px; border-radius:7px; cursor:pointer; border:1px solid transparent; transition:transform .12s, background .15s, border-color .15s; display:inline-flex; align-items:center; gap:9px}
-.btn:active{transform:translateY(1px)}
-.btn-primary{background:var(--teal); color:#fff}
-.btn-primary:hover{background:var(--teal-deep)}
-.btn-ghost{background:transparent; color:var(--ink); border-color:var(--line)}
-.btn-ghost:hover{border-color:var(--ink)}
-.btn .ar{font-family:var(--mono)}
 .hero-trust{margin-top:30px; padding-top:22px; border-top:1px solid var(--line-soft); display:flex; gap:26px; flex-wrap:wrap; font-size:12.5px; color:var(--muted)}
 .hero-trust b{color:var(--ink); font-weight:600}
 .hero-trust span{display:inline-flex; align-items:center; gap:7px}
 .dot{width:6px; height:6px; border-radius:50%; background:var(--teal)}
-
-/* hero product panel */
-.hero-panel{position:relative}
 .device-card{background:linear-gradient(160deg,#fff,#f1f5f5); border:1px solid var(--line); border-radius:16px; padding:30px 30px 22px; box-shadow:var(--shadow); position:relative; overflow:hidden}
 .device-card::before{content:""; position:absolute; inset:0; background:radial-gradient(120% 90% at 80% 0%, rgba(14,110,114,.08), transparent 60%)}
 .device-card img{position:relative; width:100%; border-radius:8px}
 .device-meta{display:flex; justify-content:space-between; align-items:flex-end; margin-top:18px; position:relative}
 .device-meta .name{font-family:var(--display); font-weight:600; font-size:17px; color:var(--ink)}
 .device-meta .role{font-family:var(--mono); font-size:11px; color:var(--faint); letter-spacing:.06em; text-transform:uppercase}
-.pill-live{font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; color:var(--teal-deep); background:var(--teal-tint); border:1px solid var(--teal-line); border-radius:100px; padding:4px 10px; display:inline-flex; align-items:center; gap:6px}
-.pulse{width:6px;height:6px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 0 rgba(14,110,114,.5);animation:pulse 2s infinite}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(14,110,114,.45)}70%{box-shadow:0 0 0 7px rgba(14,110,114,0)}100%{box-shadow:0 0 0 0 rgba(14,110,114,0)}}
-
-/* breath waveform signature */
 .breathline{position:absolute; left:0; right:0; bottom:-2px; height:120px; pointer-events:none; opacity:.9}
-.breathline path{fill:none; stroke:var(--teal-line); stroke-width:1.4}
-.breathline path.accent{stroke:var(--teal); stroke-width:1.8}
+.breathline path{fill:none; stroke:var(--teal); stroke-width:1.8}
 
-/* ---------- SECTION SHELL ---------- */
-section{padding:76px 0; position:relative}
-.section-head{max-width:38em; margin-bottom:46px}
-.section-head h2{font-size:clamp(27px,3.4vw,38px); margin:16px 0 14px}
-.section-head p{font-size:17px; color:var(--muted)}
-.divider-breath{height:1px; background:var(--line-soft); position:relative}
-
-/* ---------- PROOF ---------- */
-.proof{background:var(--ink); color:#cdd8de}
-.proof .eyebrow{color:#5fb6b8}.proof .eyebrow::before{background:#2b5457}
-.proof h2{color:#fff}
-.proof .section-head p{color:#9fb0ba}
+/* proof */
 .proof-grid{display:grid; grid-template-columns:1.15fr 1fr; gap:30px; align-items:stretch}
 .proof-facts{display:flex; flex-direction:column; gap:12px; justify-content:center}
 .pf{background:#0a121a; border:1px solid #1e2c37; border-radius:10px; padding:16px 18px}
-.pf-k{font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:#5fb6b8; margin-bottom:6px}
+.pf-k{font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--teal-lite); margin-bottom:6px}
 .pf-t{font-size:14px; color:#9fb0ba}
-/* rebuilt GUI panel */
 .gui{background:#0a121a; border:1px solid #1e2c37; border-radius:12px; padding:20px 20px 18px; font-family:var(--mono); display:flex; flex-direction:column}
 .gui-top{display:flex; justify-content:space-between; align-items:center; margin-bottom:14px}
-.gui-top .mode{font-size:11px; letter-spacing:.1em; color:#5fb6b8}
+.gui-top .mode{font-size:11px; letter-spacing:.1em; color:var(--teal-lite)}
 .gui-top .st{font-size:10.5px; color:#7d909c}
 .gui-screen{background:#060d14; border:1px solid #17323a; border-radius:6px; padding:12px 14px; color:#7fe3d8; font-size:12.5px; line-height:1.7; margin-bottom:18px}
 .gui-screen .k{color:#4c6b72}
 .gui-label{font-size:10.5px; letter-spacing:.1em; color:#6d818d; text-transform:uppercase; margin-bottom:12px}
 .bars{display:flex; align-items:flex-end; gap:14px; height:120px; padding-bottom:6px; border-bottom:1px solid #1e2c37; margin-bottom:6px}
 .bar{flex:1; display:flex; flex-direction:column; align-items:center; gap:7px; height:100%; justify-content:flex-end}
-.bar .col{width:100%; background:linear-gradient(180deg,#12888c,#0e6e72); border-radius:3px 3px 0 0; position:relative}
+.bar .col{width:100%; background:linear-gradient(180deg,#12888c,#0e6e72); border-radius:3px 3px 0 0}
 .bar .v{font-size:12px; color:#bcd}
 .bar .n{font-size:10px; color:#5f7480}
 .bar-x{display:flex; gap:14px; margin-top:8px}
@@ -132,32 +56,19 @@ section{padding:76px 0; position:relative}
 .gui-sum{display:flex; justify-content:space-between; margin-top:16px; padding-top:14px; border-top:1px solid #1e2c37; font-size:12px; color:#9fb0ba}
 .gui-sum b{color:#fff; font-weight:600}
 
-/* ---------- PROBLEM ---------- */
-.prob-list{display:flex; flex-direction:column; gap:0; border-top:1px solid var(--line)}
-.prob{display:grid; grid-template-columns:34px 1.1fr 1fr; gap:26px; padding:26px 0; border-bottom:1px solid var(--line); align-items:start}
-.prob .idx{font-family:var(--mono); font-size:13px; color:var(--faint); padding-top:3px}
-.prob h3{font-size:18px; margin-bottom:8px; letter-spacing:-.01em}
-.prob .p-old{font-size:14.5px; color:var(--muted)}
-.prob .p-fix{font-size:14.5px; color:var(--body); background:var(--teal-tint); border-left:2px solid var(--teal); padding:12px 15px; border-radius:0 6px 6px 0}
-.prob .p-fix b{color:var(--teal-deep); font-weight:600}
-.prob .p-fix .lbl{font-family:var(--mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--teal); display:block; margin-bottom:5px}
-
-/* ---------- WORKFLOW ---------- */
-.flow{display:grid; grid-template-columns:repeat(4,1fr); gap:0; counter-reset:step}
-.step{padding:26px 24px 26px 0; border-top:2px solid var(--ink); position:relative}
-.step:not(:last-child){border-right:1px solid var(--line); padding-right:24px; margin-right:0; padding-left:0}
-.step{padding-left:0; padding-right:26px}
+/* workflow */
+.flow{display:grid; grid-template-columns:repeat(4,1fr)}
+.step{padding:26px 26px 26px 0; border-top:2px solid var(--ink)}
+.step:not(:last-child){border-right:1px solid var(--line)}
 .step .num{font-family:var(--display); font-weight:700; font-size:15px; color:var(--teal); display:flex; align-items:center; justify-content:space-between; margin-bottom:16px}
 .step .num .t{font-family:var(--mono); font-size:11px; letter-spacing:.04em; color:var(--faint); font-weight:500}
 .step h3{font-size:16px; margin-bottom:9px}
 .step p{font-size:14px; color:var(--muted)}
-@media(max-width:820px){.flow{grid-template-columns:1fr 1fr}}
 
-/* ---------- SYSTEM ---------- */
-.sys{background:var(--panel); border-top:1px solid var(--line); border-bottom:1px solid var(--line)}
+/* system */
 .sys-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px}
 .comp{border:1px solid var(--line); border-radius:12px; background:var(--panel-2); overflow:hidden; display:flex; flex-direction:column}
-.comp .ph{background:#1C2A3B; padding:0; aspect-ratio:4/3; display:flex; align-items:center; justify-content:center; overflow:hidden}
+.comp .ph{background:#1C2A3B; aspect-ratio:4/3; display:flex; align-items:center; justify-content:center; overflow:hidden}
 .comp .ph img{width:100%; height:100%; object-fit:contain}
 .comp .body{padding:22px 22px 24px; flex:1; display:flex; flex-direction:column}
 .comp .k{font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--teal); margin-bottom:9px}
@@ -166,163 +77,84 @@ section{padding:76px 0; position:relative}
 .comp ul{list-style:none; margin-top:auto; display:flex; flex-direction:column; gap:8px}
 .comp li{font-size:13.5px; color:var(--body); padding-left:20px; position:relative}
 .comp li::before{content:"—"; position:absolute; left:0; color:var(--teal); font-family:var(--mono)}
-.specrow{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:8px; overflow:hidden; margin-top:14px}
-.specrow div{background:var(--panel); padding:12px 10px; text-align:center}
-.specrow .val{font-family:var(--display); font-weight:600; font-size:17px; color:var(--ink)}
-.specrow .cap{font-family:var(--mono); font-size:9.5px; letter-spacing:.04em; color:var(--faint); text-transform:uppercase; margin-top:3px}
 
-.investor-note{margin-top:28px; background:var(--ink); color:#cfd9df; border-radius:12px; padding:24px 26px; display:grid; grid-template-columns:auto 1fr; gap:20px; align-items:center}
-.investor-note .k{font-family:var(--mono); font-size:11px; letter-spacing:.12em; color:#5fb6b8; white-space:nowrap; align-self:start; padding-top:3px}
-.investor-note p{font-size:14px; color:#aebac2; margin:0}
-.investor-note b{color:#fff; font-weight:600}
-
-/* ---------- ADVANTAGE TABLE ---------- */
-.cmp-wrap{overflow-x:auto; border:1px solid var(--line); border-radius:12px}
-table.cmp{width:100%; border-collapse:collapse; min-width:820px; font-size:13.5px}
-table.cmp th,table.cmp td{padding:14px 16px; text-align:left; border-bottom:1px solid var(--line-soft)}
-table.cmp thead th{font-family:var(--mono); font-size:11px; letter-spacing:.05em; text-transform:uppercase; color:var(--muted); font-weight:500; background:var(--panel-2); vertical-align:bottom}
-table.cmp thead th.us{color:var(--teal-deep); background:var(--teal-tint)}
-table.cmp tbody th{font-family:var(--sans); font-weight:600; color:var(--ink); font-size:13px}
-table.cmp td.us{background:var(--teal-tint); color:var(--teal-deep); font-weight:500}
-table.cmp td.us b{color:var(--teal-deep)}
-table.cmp tbody tr:last-child td,table.cmp tbody tr:last-child th{border-bottom:none}
-.cmp-note{font-family:var(--mono); font-size:11px; color:var(--faint); margin-top:14px}
-
-/* ---------- SCIENCE ---------- */
-.sci-grid{display:grid; grid-template-columns:1fr 1fr; gap:44px; align-items:start}
+/* science */
+.sciX{display:grid; grid-template-columns:1fr 1fr; gap:44px; align-items:start}
 .sci-card{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:26px}
-.sci-card h3{font-size:19px; margin-bottom:12px; display:flex; align-items:center; gap:10px}
+.sci-card h3{font-size:19px; margin-bottom:12px}
 .sci-card p{font-size:14.5px; color:var(--muted); margin-bottom:18px}
 .biopanel{display:grid; grid-template-columns:repeat(4,1fr); gap:8px}
 .biochip{background:var(--panel-2); border:1px solid var(--line); border-radius:7px; padding:11px 8px; text-align:center}
 .biochip .nm{font-family:var(--mono); font-size:12px; color:var(--ink)}
 .biochip .ar{font-size:13px; font-weight:700}
 .biochip .ar.up{color:var(--coral)}.biochip .ar.dn{color:var(--teal)}
-.reason{display:flex; flex-direction:column; gap:2px}
+.reason{display:flex; flex-direction:column}
 .reason .r{display:flex; gap:14px; padding:14px 0; border-bottom:1px solid var(--line-soft)}
 .reason .r:last-child{border-bottom:none}
 .reason .ri{font-family:var(--mono); font-size:12px; color:var(--teal); width:20px; flex-shrink:0}
-.reason .rt b{color:var(--ink); font-weight:600; font-size:14px; display:block; margin-bottom:2px; font-family:var(--sans)}
+.reason .rt b{color:var(--ink); font-weight:600; font-size:14px; display:block; margin-bottom:2px}
 .reason .rt span{font-size:13px; color:var(--muted)}
-.note-ip{font-family:var(--mono); font-size:11px; color:var(--faint); margin-top:16px; padding-top:14px; border-top:1px solid var(--line-soft)}
 
-/* ---------- DEMO ---------- */
-.demo{background:var(--ink); color:#cdd8de}
-.demo .eyebrow{color:#5fb6b8}.demo .eyebrow::before{background:#2b5457}
-.demo h2{color:#fff}.demo .section-head p{color:#9fb0ba}
+/* demo */
 .demo-grid{display:grid; grid-template-columns:1fr 1fr; gap:30px; align-items:stretch}
-.demo-inputs,.demo-out{background:#0a121a; border:1px solid #1e2c37; border-radius:12px; padding:26px}
-.demo-inputs h4,.demo-out h4{color:#fff; font-family:var(--display); font-size:15px; margin-bottom:20px; font-weight:600}
+.demo-inputs,.demo-out{background:#0a121a; border:1px solid #1e2c37; border-radius:12px; padding:26px; display:flex; flex-direction:column}
+.demo-inputs h4,.demo-out h4{color:#fff; font-family:var(--display); font-size:15px; margin-bottom:16px; font-weight:600}
 .demo-hint{background:#12202a; border:1px solid #24343f; border-left:2px solid var(--teal); border-radius:0 7px 7px 0; padding:11px 14px; font-size:13px; color:#9fb0ba; margin-bottom:22px; line-height:1.5}
-.demo-hint b{color:#5fb6b8; font-weight:600}
+.demo-hint b{color:var(--teal-lite); font-weight:600}
 .ctrl{margin-bottom:20px}
 .ctrl .lab{display:flex; justify-content:space-between; font-size:13px; color:#aebac2; margin-bottom:9px}
-.ctrl .lab b{color:#5fb6b8; font-family:var(--mono); font-weight:500}
-input[type=range]{width:100%; -webkit-appearance:none; height:4px; border-radius:4px; background:#22333f; outline:none}
+.ctrl .lab b{color:var(--teal-lite); font-family:var(--mono); font-weight:500}
+input[type=range]{width:100%; -webkit-appearance:none; appearance:none; height:4px; border-radius:4px; background:#22333f; outline:none}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; width:17px; height:17px; border-radius:50%; background:#12888c; cursor:pointer; border:2px solid #0a121a; box-shadow:0 0 0 1px #12888c}
 input[type=range]::-moz-range-thumb{width:15px; height:15px; border-radius:50%; background:#12888c; cursor:pointer; border:2px solid #0a121a}
 .toggles{display:flex; gap:8px; flex-wrap:wrap}
-.tg{font-family:var(--sans); font-size:12.5px; color:#aebac2; background:#12202a; border:1px solid #24343f; border-radius:100px; padding:7px 14px; cursor:pointer; transition:all .15s; user-select:none}
+.tg{font-size:12.5px; color:#aebac2; background:#12202a; border:1px solid #24343f; border-radius:100px; padding:7px 14px; cursor:pointer; transition:all .15s; user-select:none}
 .tg.on{background:var(--teal); color:#fff; border-color:var(--teal)}
 .seg{display:flex; background:#12202a; border:1px solid #24343f; border-radius:8px; overflow:hidden}
-.seg button{flex:1; font-family:var(--sans); font-size:12.5px; color:#aebac2; background:none; border:none; padding:9px 4px; cursor:pointer; transition:all .15s}
+.seg button{flex:1; font-size:12.5px; color:#aebac2; background:none; border:none; padding:9px 4px; cursor:pointer; transition:all .15s}
 .seg button.on{background:var(--teal); color:#fff}
 .gauge-wrap{display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1}
-.gauge{position:relative; width:210px; height:120px}
+.gauge{width:210px; height:120px}
 .gval{font-family:var(--display); font-weight:600; font-size:46px; color:#fff; text-align:center; line-height:1}
 .gval small{font-size:20px; color:#7d909c}
-.gband{text-align:center; font-family:var(--mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; margin-top:10px; padding:5px 14px; border-radius:100px; display:inline-block}
+.gband{font-family:var(--mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; margin-top:10px; padding:5px 14px; border-radius:100px; display:inline-block}
 .demo-foot{font-family:var(--mono); font-size:11px; color:#6d818d; margin-top:18px; text-align:center}
 
-/* ---------- PLATFORMS ---------- */
-.plat-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
+/* platforms */
 .plat{border:1px solid var(--line); border-radius:12px; padding:24px; background:var(--panel); transition:border-color .15s, transform .15s}
 .plat:hover{border-color:var(--teal-line); transform:translateY(-2px)}
 .plat .k{font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--faint); margin-bottom:12px}
 .plat h3{font-size:19px; color:var(--teal-deep); margin-bottom:10px}
 .plat p{font-size:13.5px; color:var(--muted)}
-.guard-strip{margin-top:20px; background:linear-gradient(120deg,var(--ink),#13252d); border-radius:12px; padding:26px 28px; display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap}
-.guard-strip .gt .k{font-family:var(--mono); font-size:11px; letter-spacing:.1em; color:#5fb6b8; text-transform:uppercase}
-.guard-strip .gt h3{color:#fff; font-size:22px; margin:8px 0 4px}
-.guard-strip .gt p{color:#9fb0ba; font-size:14px; max-width:44em}
-.guard-strip .btn-primary{background:#fff; color:var(--ink)}
-.guard-strip .btn-primary:hover{background:var(--teal-tint)}
 
-/* ---------- INVESTMENT ---------- */
-.inv{background:var(--panel); border-top:1px solid var(--line)}
+/* investment */
 .inv-grid{display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center}
 .inv-stats{display:grid; grid-template-columns:1fr 1fr; gap:16px}
-.istat{border:1px solid var(--line); border-radius:10px; padding:22px; background:var(--panel-2)}
-.istat .v{font-family:var(--display); font-weight:600; font-size:30px; color:var(--ink); letter-spacing:-.02em}
-.istat .v small{color:var(--teal); font-size:22px}
-.istat .l{font-size:13px; color:var(--muted); margin-top:6px}
 .inv-body h2{margin-bottom:16px}
 .inv-body p{font-size:15.5px; color:var(--body); margin-bottom:16px}
 .inv-tags{display:flex; gap:8px; flex-wrap:wrap; margin-top:20px}
 .inv-tags span{font-family:var(--mono); font-size:12px; color:var(--teal-deep); background:var(--teal-tint); border:1px solid var(--teal-line); border-radius:100px; padding:6px 13px}
 
-/* ---------- CONTACT ---------- */
-.contact{background:var(--ink); color:#cdd8de}
-.contact h2{color:#fff}
-.contact-grid{display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:start}
-.contact .eyebrow{color:#5fb6b8}.contact .eyebrow::before{background:#2b5457}
-.contact .section-head p{color:#9fb0ba}
-.cdetails{display:flex; flex-direction:column; gap:16px; margin-top:4px}
-.cdet{display:flex; align-items:center; gap:14px; font-size:15px; color:#cfd9df}
-.cdet .ic{width:40px; height:40px; border-radius:8px; background:#12202a; border:1px solid #24343f; display:flex; align-items:center; justify-content:center; color:#5fb6b8; font-family:var(--mono); font-size:15px}
-.cdet a{color:#fff}
-.cdet a:hover{color:#5fb6b8}
-.audience{display:flex; flex-direction:column; gap:10px}
-.aud{display:flex; align-items:center; gap:12px; background:#0a121a; border:1px solid #1e2c37; border-radius:9px; padding:14px 18px; font-size:14px; color:#cfd9df; transition:border-color .15s}
-.aud:hover{border-color:#2f4a52}
-.aud .n{font-family:var(--mono); font-size:11px; color:#5fb6b8}
-.big-cta{display:inline-flex; margin-top:8px; background:var(--teal); color:#fff; font-weight:600; padding:14px 26px; border-radius:8px; font-size:15px}
-.big-cta:hover{background:var(--teal-deep)}
-
-/* ---------- FOOTER ---------- */
-footer.ft{background:#06141F; color:#7d909c; padding:44px 0 34px; font-size:13px}
-.ft-in{display:flex; justify-content:space-between; align-items:flex-start; gap:30px; flex-wrap:wrap}
-.ft .brand{color:#fff}.ft .brand .sub{color:#5f7480; border-color:#22333f}
-.ft-links{display:flex; gap:26px; flex-wrap:wrap}
-.ft-links a{color:#9fb0ba}.ft-links a:hover{color:#fff}
-.ft-legal{margin-top:26px; padding-top:22px; border-top:1px solid rgba(255,255,255,.08); display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; font-family:var(--mono); font-size:11px; color:#5f7480}
-
-/* reveal */
-.rv{opacity:0; transform:translateY(16px); transition:opacity .6s cubic-bezier(.2,.7,.2,1), transform .6s cubic-bezier(.2,.7,.2,1)}
-.rv.in{opacity:1; transform:none}
-
-@media(prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important} .rv{opacity:1; transform:none}}
-
-/* ---------- RESPONSIVE ---------- */
 @media(max-width:940px){
-  .hero-grid,.proof-grid,.sci-grid,.demo-grid,.inv-grid,.contact-grid{grid-template-columns:1fr}
+  .hero-grid,.proof-grid,.sciX,.demo-grid,.inv-grid{grid-template-columns:1fr}
   .hero-grid{gap:36px}
-  .sys-grid,.plat-grid{grid-template-columns:1fr}
-  .prob{grid-template-columns:26px 1fr; gap:16px}
-  .prob .p-fix{grid-column:1/-1}
-  .nav-links{display:none}
-  .burger{display:flex}
-  .nav-links.open{display:flex; position:absolute; top:70px; left:0; right:0; background:#06141F; flex-direction:column; align-items:flex-start; gap:0; border-bottom:1px solid rgba(255,255,255,.1); padding:8px 28px 18px}
-  .nav-links.open a{padding:11px 0; width:100%; border-bottom:1px solid rgba(255,255,255,.07)}
-  .inv-stats{grid-template-columns:1fr 1fr}
-  .investor-note{grid-template-columns:1fr}
+  .sys-grid{grid-template-columns:1fr}
+  .flow{grid-template-columns:1fr 1fr}
 }
 @media(max-width:560px){
-  .wrap,.nav-in{padding-left:20px; padding-right:20px}
   .flow{grid-template-columns:1fr}
+  .step:not(:last-child){border-right:none}
   .biopanel{grid-template-columns:repeat(2,1fr)}
-  .specrow{grid-template-columns:1fr 1fr}
   .hero{padding-top:44px}
-  section{padding:56px 0}
+  .inv-stats{grid-template-columns:1fr 1fr}
 }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <header class="nav">
   <div class="nav-in">
-    <a href="about.html" style="display:flex;align-items:center;flex-shrink:0"><img src="images/aatg_logo.png" alt="AATG" style="height:38px;width:auto;display:block"></a>
+    <a class="nav-logo" href="index.html"><img src="images/aatg_logo.png" alt="AATG — Advanced Analytical Technology Group"></a>
     <nav class="nav-links" id="navlinks">
       <a href="#problem">Problem</a>
       <a href="#system">System</a>
@@ -330,7 +162,8 @@ footer.ft{background:#06141F; color:#7d909c; padding:44px 0 34px; font-size:13px
       <a href="#science">Science</a>
       <a href="#demo">Live Demo</a>
       <a href="#invest">Investment</a>
-      <a class="guard" href="r-guard.html">r-Guard ↗</a>
+      <a class="alt" href="r-guard.html">r-Guard ↗</a>
+      <a href="about.html">About</a>
       <a class="nav-cta" href="#contact">Contact</a>
     </nav>
     <button class="burger" id="burger" aria-label="Menu"><span></span></button>
@@ -341,7 +174,7 @@ footer.ft{background:#06141F; color:#7d909c; padding:44px 0 34px; font-size:13px
 <section class="hero" id="top">
   <div class="wrap">
     <div class="hero-grid">
-      <div class="hero-copy">
+      <div>
         <span class="eyebrow">AATG · Point-of-care breath diagnostics</span>
         <div class="tags">
           <span class="tag lead">Lung Cancer</span>
@@ -360,7 +193,7 @@ footer.ft{background:#06141F; color:#7d909c; padding:44px 0 34px; font-size:13px
           <span><span class="dot"></span>NJ CSIT-supported</span>
         </div>
       </div>
-      <div class="hero-panel">
+      <div>
         <div class="device-card">
           <span class="pill-live" style="position:absolute; top:20px; right:20px; z-index:3"><span class="pulse"></span>PROTOTYPE</span>
           <img src="images/sampler-controller.png" alt="BreathDX-C handheld breath sampler controller">
@@ -379,26 +212,26 @@ footer.ft{background:#06141F; color:#7d909c; padding:44px 0 34px; font-size:13px
     </div>
   </div>
   <svg class="breathline" viewBox="0 0 1440 120" preserveAspectRatio="none">
-    <path class="accent" id="bl1" d="M0,80 C120,80 140,30 220,30 C300,30 300,95 380,95 C460,95 470,20 560,20 C650,20 650,88 740,88 C830,88 840,44 920,44 C1000,44 1010,72 1100,72 C1190,72 1200,52 1290,52 C1380,52 1400,80 1440,80"/>
+    <path id="bl1" d="M0,80 C120,80 140,30 220,30 C300,30 300,95 380,95 C460,95 470,20 560,20 C650,20 650,88 740,88 C830,88 840,44 920,44 C1000,44 1010,72 1100,72 C1190,72 1200,52 1290,52 C1380,52 1400,80 1440,80"/>
   </svg>
 </section>
 
 <!-- PROOF -->
-<section class="proof" id="proof">
+<section class="dark" id="proof">
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow">Built, not promised</span>
       <h2>A working device, capturing real breath data.</h2>
-      <p>The hardware exists and runs today. Here is the bench prototype and a live capture from the collection software — multiple deep-lung breaths accumulated into a single, volume-verified sample.</p>
+      <p>The hardware exists and runs today. This is a live capture from the collection software — multiple deep-lung breaths accumulated into a single, volume-verified sample.</p>
     </div>
     <div class="proof-grid">
       <div class="proof-facts">
-        <div class="pf"><div class="pf-k">Multi-breath</div><div class="pf-t">Accumulates several deep-lung breaths into one representative sample.</div></div>
-        <div class="pf"><div class="pf-k">Volume-verified</div><div class="pf-t">Every breath is measured, and the sample confirmed against a target volume.</div></div>
-        <div class="pf"><div class="pf-k">Guided collection</div><div class="pf-t">Paced prompts help weak or elderly patients complete a clean sample.</div></div>
-        <div class="pf"><div class="pf-k">Sealed for transport</div><div class="pf-t">Stabilized on collection — no cold chain, analyze on-site or off.</div></div>
+        <div class="pf rv"><div class="pf-k">Multi-breath</div><div class="pf-t">Accumulates several deep-lung breaths into one representative sample.</div></div>
+        <div class="pf rv"><div class="pf-k">Volume-verified</div><div class="pf-t">Every breath is measured, and the sample confirmed against a target volume.</div></div>
+        <div class="pf rv"><div class="pf-k">Guided collection</div><div class="pf-t">Paced prompts help weak or elderly patients complete a clean sample.</div></div>
+        <div class="pf rv"><div class="pf-k">Sealed for transport</div><div class="pf-t">Stabilized on collection — no cold chain, analyze on-site or off.</div></div>
       </div>
-      <div class="gui">
+      <div class="gui rv">
         <div class="gui-top"><span class="mode">● COLLECTION MODE</span><span class="st">SAMPLE 3 · DONE</span></div>
         <div class="gui-screen">
           SAMPLE 3 DONE<br>
@@ -457,7 +290,7 @@ footer.ft{background:#06141F; color:#7d909c; padding:44px 0 34px; font-size:13px
 </section>
 
 <!-- WORKFLOW -->
-<section class="sys" id="workflow" style="background:var(--paper)">
+<section id="workflow">
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow">The workflow</span>
@@ -474,7 +307,7 @@ footer.ft{background:#06141F; color:#7d909c; padding:44px 0 34px; font-size:13px
 </section>
 
 <!-- SYSTEM -->
-<section class="sys" id="system">
+<section class="alt-bg" id="system">
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow">The complete system</span>
@@ -502,11 +335,11 @@ footer.ft{background:#06141F; color:#7d909c; padding:44px 0 34px; font-size:13px
           <div class="k">Component 02</div>
           <h3>BreathDX analyzer</h3>
           <p>A compact desktop instrument (~15 lbs) built on AATG's proprietary detection technology, reaching the sensitivity needed to resolve cancer-associated VOCs. Screening and confirmation modes.</p>
-          <div class="specrow">
+          <div class="specrow sq">
             <div><div class="val">≤1<small class="mono" style="font-size:12px"> ppb</small></div><div class="cap">Sensitivity</div></div>
             <div><div class="val">~15<small class="mono" style="font-size:12px"> lb</small></div><div class="cap">Footprint</div></div>
             <div><div class="val">5–15<small class="mono" style="font-size:11px"> min</small></div><div class="cap">Cycle</div></div>
-            <div><div class="val">&gt;90<small>%</small></div><div class="cap">Accuracy*</div></div>
+            <div><div class="val">&gt;90<small style="color:var(--teal)">%</small></div><div class="cap">Accuracy*</div></div>
           </div>
         </div>
       </div>
@@ -525,7 +358,7 @@ footer.ft{background:#06141F; color:#7d909c; padding:44px 0 34px; font-size:13px
         </div>
       </div>
     </div>
-    <div class="investor-note rv">
+    <div class="ipband rv" style="margin-top:28px">
       <span class="k">INVESTOR NOTE · REVENUE MODEL</span>
       <p><b>Razor-and-blade economics.</b> A hardware instrument sale to clinics plus recurring per-test consumable revenue (collection tubes, mouthpieces). Test cost is a fraction of mammography ($100–$250) or low-dose CT ($200–$500+), enabling broad adoption and high-volume throughput.</p>
     </div>
@@ -546,30 +379,30 @@ footer.ft{background:#06141F; color:#7d909c; padding:44px 0 34px; font-size:13px
           <th>Criterion</th><th>Low-dose CT</th><th>Bronchoscopy / biopsy</th><th>Blood-based tests</th><th>Other breath methods</th><th class="us">BreathDX (AATG)</th>
         </tr></thead>
         <tbody>
-          <tr><th>Invasiveness</th><td>Non-invasive</td><td>Highly invasive</td><td>Blood draw</td><td>Non-invasive</td><td class="us"><b>Exhaled breath only</b></td></tr>
-          <tr><th>Radiation</th><td>Yes — ionising</td><td>Minimal</td><td>None</td><td>None</td><td class="us"><b>Zero radiation</b></td></tr>
-          <tr><th>Time to result</th><td>Days–weeks</td><td>Days–weeks</td><td>Hours–days</td><td>Hours — varies</td><td class="us"><b>~15 min, point-of-care</b></td></tr>
-          <tr><th>Cost per test</th><td>$200–$500+</td><td>$1,500–$8,000+</td><td>$100–$400</td><td>Often research-only</td><td class="us"><b>Fraction of CT / mammography</b></td></tr>
-          <tr><th>Primary-care ready</th><td>No — specialist</td><td>No — hospital</td><td>Lab infrastructure</td><td>Research settings</td><td class="us"><b>Any clinical setting</b></td></tr>
-          <tr><th>Multi-disease</th><td>Single modality</td><td>Single site</td><td>Separate tests</td><td>Single-disease typical</td><td class="us"><b>LC + BC + expandable</b></td></tr>
-          <tr><th>Probability score</th><td>Radiologist reads</td><td>Pathologist reads</td><td>Positive / negative</td><td>Limited AI</td><td class="us"><b>AI probability score + report</b></td></tr>
-          <tr><th>IP position</th><td>Established</td><td>Established</td><td>Competitive</td><td>Publication-stage</td><td class="us"><b>Full system IP filed</b></td></tr>
+          <tr><th>Invasiveness</th><td>Non-invasive</td><td>Highly invasive</td><td>Blood draw</td><td>Non-invasive</td><td class="us">Exhaled breath only</td></tr>
+          <tr><th>Radiation</th><td>Yes — ionising</td><td>Minimal</td><td>None</td><td>None</td><td class="us">Zero radiation</td></tr>
+          <tr><th>Time to result</th><td>Days–weeks</td><td>Days–weeks</td><td>Hours–days</td><td>Hours — varies</td><td class="us">~15 min, point-of-care</td></tr>
+          <tr><th>Cost per test</th><td>$200–$500+</td><td>$1,500–$8,000+</td><td>$100–$400</td><td>Often research-only</td><td class="us">Fraction of CT / mammography</td></tr>
+          <tr><th>Primary-care ready</th><td>No — specialist</td><td>No — hospital</td><td>Lab infrastructure</td><td>Research settings</td><td class="us">Any clinical setting</td></tr>
+          <tr><th>Multi-disease</th><td>Single modality</td><td>Single site</td><td>Separate tests</td><td>Single-disease typical</td><td class="us">LC + BC + expandable</td></tr>
+          <tr><th>Probability score</th><td>Radiologist reads</td><td>Pathologist reads</td><td>Positive / negative</td><td>Limited AI</td><td class="us">AI probability score + report</td></tr>
+          <tr><th>IP position</th><td>Established</td><td>Established</td><td>Competitive</td><td>Publication-stage</td><td class="us">Full system IP filed</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="cmp-note">* R&amp;D-stage platform. Cost and performance figures are projections based on published literature. Clinical validation studies are planned.</p>
+    <p class="foot-note">* R&amp;D-stage platform. Cost and performance figures are projections based on published literature. Clinical validation studies are planned.</p>
   </div>
 </section>
 
 <!-- SCIENCE -->
-<section id="science" style="background:var(--paper)">
+<section id="science" class="alt-bg">
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow">The science</span>
       <h2>Grounded in large-scale research. Powered by AI.</h2>
       <p>The biology of breath is public, peer-reviewed science. How we detect it, and how our model weighs it, is proprietary.</p>
     </div>
-    <div class="sci-grid">
+    <div class="sciX">
       <div class="sci-card rv">
         <h3>Your breath carries the signal</h3>
         <p>As cancer cells grow, altered metabolism generates volatile organic compounds (VOCs) that enter the bloodstream and are exhaled. BreathDX resolves a validated panel across multiple compound classes:</p>
@@ -600,7 +433,7 @@ footer.ft{background:#06141F; color:#7d909c; padding:44px 0 34px; font-size:13px
 </section>
 
 <!-- DEMO -->
-<section class="demo" id="demo">
+<section class="dark" id="demo">
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow">Live demonstration</span>
@@ -654,12 +487,12 @@ footer.ft{background:#06141F; color:#7d909c; padding:44px 0 34px; font-size:13px
       <h2>One detection core, many missions.</h2>
       <p>AATG's proprietary detection platform extends beyond diagnostics into security, defense, and pharmaceutical compliance.</p>
     </div>
-    <div class="plat-grid">
+    <div class="grid-3">
       <div class="plat rv"><div class="k">Security · Detection</div><h3>r-Trace™</h3><p>High-sensitivity explosive trace detection for airports, venues, and critical infrastructure — with no radioactive source and no licensing burden.</p></div>
       <div class="plat rv"><div class="k">Defense · Safety</div><h3>r-CWA™</h3><p>Broad-spectrum detection of chemical warfare agents and toxic industrial compounds. Wearable, battery-powered, built for continuous field monitoring.</p></div>
-      <div class="plat rv"><div class="k">Pharma · Compliance</div><h3>r-Pharm™</h3><p>On-site cleaning-validation analyzer for pharmaceutical manufacturing — results in under a minute, replacing lab-based HPLC/MS and cutting downtime.</p></div>
+      <div class="plat rv"><div class="k">Pharma · Compliance</div><h3>r-Pharm™</h3><p>On-site cleaning-validation analyzer for pharmaceutical manufacturing — results in under a minute, replacing lab-based analysis and cutting downtime.</p></div>
     </div>
-    <div class="guard-strip rv">
+    <div class="guard-strip rv" style="margin-top:20px">
       <div class="gt">
         <div class="k">Featured · Chemical threat detection</div>
         <h3>r-Guard™</h3>
@@ -671,12 +504,12 @@ footer.ft{background:#06141F; color:#7d909c; padding:44px 0 34px; font-size:13px
 </section>
 
 <!-- INVESTMENT -->
-<section class="inv" id="invest">
+<section class="alt-bg" id="invest">
   <div class="wrap">
     <div class="inv-grid">
       <div class="inv-body">
         <span class="eyebrow">Investment &amp; partnership</span>
-        <h2>A fundable New Jersey deep-tech story.</h2>
+        <h2 style="margin-top:16px">A fundable New Jersey deep-tech story.</h2>
         <p>AATG has built a proprietary molecular-detection platform and is commercializing its first application — BreathDX — into two large, underserved screening markets, on a proven hardware-plus-consumable model.</p>
         <p>We're actively seeking investment and strategic partners. Full biomarker panel, detection methodology, and AI pipeline are available to qualified collaborators and licensees under NDA.</p>
         <div class="inv-tags">
@@ -684,23 +517,23 @@ footer.ft{background:#06141F; color:#7d909c; padding:44px 0 34px; font-size:13px
         </div>
       </div>
       <div class="inv-stats">
-        <div class="istat"><div class="v">$11B<small>+</small></div><div class="l">Breast cancer diagnostics market by 2030</div></div>
-        <div class="istat"><div class="v">$3B<small>+</small></div><div class="l">Lung cancer screening market by 2030</div></div>
-        <div class="istat"><div class="v">2<small>+</small></div><div class="l">Cancers on one device — software-expandable</div></div>
-        <div class="istat"><div class="v">~15<small class="mono" style="font-size:15px"> min</small></div><div class="l">Breath sample to probability score</div></div>
+        <div class="mcard rv"><div class="v">$11B<small>+</small></div><div class="l">Breast cancer diagnostics market by 2030</div></div>
+        <div class="mcard rv"><div class="v">$3B<small>+</small></div><div class="l">Lung cancer screening market by 2030</div></div>
+        <div class="mcard rv"><div class="v">2<small>+</small></div><div class="l">Cancers on one device — software-expandable</div></div>
+        <div class="mcard rv"><div class="v">~15<small class="mono" style="font-size:15px"> min</small></div><div class="l">Breath sample to probability score</div></div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- CONTACT -->
-<section class="contact" id="contact">
+<section class="dark" id="contact">
   <div class="wrap">
     <div class="contact-grid">
       <div>
         <span class="eyebrow">Get in touch</span>
         <h2 style="margin:16px 0 14px">Let's talk.</h2>
-        <p class="section-head" style="margin-bottom:26px; max-width:34em">We welcome clinical researchers, potential co-founders, investors, and SBIR/STTR program officers — on the breath platform or any AATG detection technology.</p>
+        <p style="color:#9fb0ba; font-size:17px; margin-bottom:26px; max-width:34em">We welcome clinical researchers, potential co-founders, investors, and SBIR/STTR program officers — on the breath platform or any AATG detection technology.</p>
         <div class="cdetails">
           <div class="cdet"><span class="ic">@</span><a href="mailto:info@advanced-analytical-technology-group.com">info@advanced-analytical-technology-group.com</a></div>
           <div class="cdet"><span class="ic">☎</span><a href="tel:+19083345927">(908) 334-5927</a></div>
@@ -723,13 +556,12 @@ footer.ft{background:#06141F; color:#7d909c; padding:44px 0 34px; font-size:13px
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer class="ft">
   <div class="wrap">
     <div class="ft-in">
-      <a href="about.html" style="display:flex;align-items:center;flex-shrink:0"><img src="images/aatg_logo.png" alt="AATG" style="height:40px;width:auto;display:block"></a>
+      <a class="ft-logo" href="index.html"><img src="images/aatg_logo.png" alt="AATG"></a>
       <nav class="ft-links">
-        <a href="#system">System</a><a href="#advantage">Advantage</a><a href="#demo">Live Demo</a><a href="#invest">Investment</a><a href="r-guard.html">r-Guard</a><a href="about.html">About</a><a href="#contact">Contact</a>
+        <a href="#system">System</a><a href="#advantage">Advantage</a><a href="#demo">Live Demo</a><a href="#invest">Investment</a><a href="r-guard.html">r-Guard™</a><a href="about.html">About</a><a href="#contact">Contact</a>
       </nav>
     </div>
     <div class="ft-legal">
@@ -739,46 +571,38 @@ footer.ft{background:#06141F; color:#7d909c; padding:44px 0 34px; font-size:13px
   </div>
 </footer>
 
+<script src="js/aatg.js"></script>
 <script>
-// mobile nav
-document.getElementById('burger').addEventListener('click',function(){
-  document.getElementById('navlinks').classList.toggle('open');
-});
-document.querySelectorAll('#navlinks a').forEach(function(a){a.addEventListener('click',function(){document.getElementById('navlinks').classList.remove('open')})});
-
-// reveal on scroll
-var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.14});
-document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
-
-// breath line draw
+// breath line draw-in
 window.addEventListener('load',function(){
-  var p=document.getElementById('bl1'); if(p&&!window.matchMedia('(prefers-reduced-motion:reduce)').matches){var L=p.getTotalLength();p.style.strokeDasharray=L;p.style.strokeDashoffset=L;p.getBoundingClientRect();p.style.transition='stroke-dashoffset 2.4s cubic-bezier(.4,0,.2,1)';p.style.strokeDashoffset=0;}
+  var p=document.getElementById('bl1');
+  if(p&&!window.matchMedia('(prefers-reduced-motion:reduce)').matches){
+    var L=p.getTotalLength(); p.style.strokeDasharray=L; p.style.strokeDashoffset=L;
+    p.getBoundingClientRect();
+    p.style.transition='stroke-dashoffset 2.4s cubic-bezier(.4,0,.2,1)'; p.style.strokeDashoffset=0;
+  }
 });
 
-// ---- live demo ----
+// ---- live demo (black-box: inputs -> calibrated risk out) ----
 var state={age:2, rf:0, A:20, C:20, F:60};
 function clamp(x,a,b){return Math.max(a,Math.min(b,x))}
 function compute(){
-  // black-box scoring: monotonic blend of context + markers, normalised to a probability.
   var base=[3,6,10,16,24][state.age];
-  var markers=(state.A*0.20 + state.C*0.18);      // elevated markers push risk up
-  var protect=(state.F-50)*0.14;                   // high protective marker pulls risk down
-  var raw=base + state.rf + markers*0.6 - protect;
-  var p=clamp(Math.round(raw),2,97);
-  return p;
+  var markers=(state.A*0.20 + state.C*0.18);
+  var protect=(state.F-50)*0.14;
+  return clamp(Math.round(base + state.rf + markers*0.6 - protect),2,97);
 }
 function label(v){return v<20?'Normal':v<45?'Slightly elevated':v<70?'Elevated':'High'}
 function render(){
   var p=compute();
   document.getElementById('pct').innerHTML=p+'<small>%</small>';
   var arc=document.getElementById('arc'); arc.style.strokeDashoffset=283-(283*p/100);
-  var band=document.getElementById('band'); var col,txt,bg;
+  var band=document.getElementById('band'), col,txt,bg;
   if(p<25){txt='Low risk';col='#12888c';bg='rgba(18,136,140,.15)'}
   else if(p<50){txt='Moderate';col='#c9a227';bg='rgba(201,162,39,.15)'}
   else if(p<72){txt='Elevated';col='#e07b3c';bg='rgba(224,123,60,.15)'}
   else{txt='High risk';col='#d6552f';bg='rgba(214,85,47,.18)'}
-  band.textContent=txt; band.style.color=col; band.style.background=bg;
-  arc.style.stroke=col;
+  band.textContent=txt; band.style.color=col; band.style.background=bg; arc.style.stroke=col;
   document.getElementById('vA').textContent=label(state.A);
   document.getElementById('vC').textContent=label(state.C);
   document.getElementById('vF').textContent=label(state.F);
