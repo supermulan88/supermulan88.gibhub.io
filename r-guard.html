@@ -3,1095 +3,555 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AATG &middot; r-Guard&trade; Multi-Threat Detection Platform</title>
-<link rel="icon" type="image/png" href="images/aatg_logo.png">
+<title>r-Guard™ — Multi-Threat Vapor Detection Platform | AATG</title>
+<meta name="description" content="r-Guard by AATG: a handheld, battery-powered multi-threat detector for chemical warfare agents, explosives, and toxic industrial chemicals. ~10s screening, ~120s on-site confirmation. No carrier gas. No radioactive source.">
+<link rel="icon" type="image/png" href="images/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/aatg.css">
 <style>
+/* r-guard page specifics */
+.hero-g{padding:70px 0 40px}
+.hero-grid{display:grid; grid-template-columns:1.05fr .95fr; gap:52px; align-items:center}
+.hero-g h1{font-size:clamp(38px,5.2vw,60px); font-weight:600; letter-spacing:-.03em; margin:18px 0 0}
+.hero-g h1 .u{color:var(--teal)}
+.hero-g p.lede{font-size:17px; color:var(--body); margin:20px 0 26px; max-width:36em}
+.hero-g p.lede b{color:var(--ink); font-weight:600}
+.device-card{background:linear-gradient(160deg,#fff,#eef3f4); border:1px solid var(--line); border-radius:16px; padding:26px; box-shadow:var(--shadow); position:relative; overflow:hidden}
+.device-card::before{content:""; position:absolute; inset:0; background:radial-gradient(120% 90% at 80% 0%, rgba(14,110,114,.09), transparent 60%)}
+.device-card img{position:relative; width:100%; border-radius:8px}
+.device-meta{display:flex; justify-content:space-between; align-items:flex-end; margin-top:16px; position:relative}
+.device-meta .name{font-family:var(--display); font-weight:600; font-size:17px; color:var(--ink)}
+.device-meta .role{font-family:var(--mono); font-size:11px; color:var(--faint); letter-spacing:.06em; text-transform:uppercase}
 
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --navy:#04111F;--navy2:#071828;--navy3:#0A1F35;
-  --teal:#0067B8;--teal2:#2E8DD4;--teal3:#7BBDE8;--teal-d:#005496;
-  --pink:#EC4899;--pink2:#F9A8D4;--green:#10B981;--amber:#F59E0B;
-  --red:#EF4444;--purple:#8B5CF6;--purple2:#C4B5FD;
-  --slate3:#E2E8F0;--white:#F8FAFC;--text:#1E293B;--text2:#475569;
-  --orange:#F97316;
-}
-html{scroll-behavior:smooth;scroll-padding-top:100px}
-body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;color:var(--text);background:#fff;line-height:1.6;overflow-x:hidden}
-h1,h2,h3,h4{font-family:Georgia,'Times New Roman',serif;line-height:1.15;letter-spacing:-.01em}
-a{color:inherit;text-decoration:none}
-.container{max-width:1140px;margin:0 auto;padding:0 24px}
-.section{padding:80px 0}
+.modes-grid{display:grid; grid-template-columns:1fr 1fr; gap:22px}
+.mode{border:1px solid var(--line); border-radius:12px; background:var(--panel); overflow:hidden}
+.mode .mh{padding:20px 24px; border-bottom:1px solid var(--line-soft); background:var(--panel-2)}
+.mode .mh .k{font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--teal); margin-bottom:8px}
+.mode .mh h3{font-size:19px; margin-bottom:8px}
+.mode .mh p{font-size:13.5px; color:var(--muted)}
+.mode ol{list-style:none; padding:8px 24px 22px}
+.mode ol li{display:grid; grid-template-columns:24px 1fr; gap:14px; padding:14px 0; border-bottom:1px solid var(--line-soft)}
+.mode ol li:last-child{border-bottom:none}
+.mode ol .n{font-family:var(--mono); font-size:12px; color:var(--teal)}
+.mode ol b{display:block; font-size:14px; color:var(--ink); font-weight:600; margin-bottom:3px}
+.mode ol span{font-size:13px; color:var(--muted)}
 
-/* NAV */
-#nav{position:fixed;top:0;left:0;right:0;z-index:200;transition:all .3s}
-#nav.scrolled{background:rgba(6,13,26,.97);border-bottom:1px solid rgba(14,165,233,.15)}
-.nav-wrap{max-width:1140px;margin:0 auto;padding:0 24px}
-.nav-row1{display:flex;align-items:center;justify-content:space-between;padding:9px 0}
-.nav-row2{display:flex;align-items:center;justify-content:flex-end;gap:20px;padding:3px 0 8px;border-top:1px solid rgba(255,255,255,.07)}
-.nav-links{display:flex;gap:20px;list-style:none;align-items:center}
-.nav-links a{color:rgba(255,255,255,.68);font-size:.81rem;transition:color .2s;white-space:nowrap;font-family:system-ui,sans-serif}
-.nav-links a:hover{color:var(--amber)}
-.nav-cta{padding:6px 16px;border-radius:20px;background:var(--amber);color:var(--navy)!important;font-weight:700;font-size:.81rem;white-space:nowrap}
-.nav-cta:hover{background:#e08d00!important;color:var(--navy)!important}
-.nav-breathdx{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:20px;background:rgba(14,165,233,.12);border:1px solid rgba(14,165,233,.3);color:#7BBDE8!important;font-size:.78rem;font-weight:700;white-space:nowrap}
-.nav-breathdx:hover{background:rgba(14,165,233,.22)!important;border-color:rgba(14,165,233,.5)!important}
-.nav-burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none;flex-shrink:0}
-.nav-burger span{display:block;width:22px;height:2px;background:rgba(255,255,255,.8);border-radius:2px;transition:all .25s}
-.nav-burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
-.nav-burger.open span:nth-child(2){opacity:0}
-.nav-burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-#nav-panel{position:fixed;top:0;right:-290px;width:280px;height:100vh;background:rgba(4,17,31,.98);border-left:1px solid rgba(14,165,233,.15);z-index:199;transition:right .3s ease;overflow-y:auto;padding:80px 24px 40px}
-#nav-panel.open{right:0}
-.panel-group{margin-bottom:26px}
-.panel-label{font-size:.63rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:9px;font-family:system-ui,sans-serif}
-.panel-links{display:flex;flex-direction:column}
-.panel-links a{color:rgba(255,255,255,.7);font-size:.9rem;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.05);font-family:system-ui,sans-serif;transition:color .2s}
-.panel-links a:last-child{border-bottom:none}
-.panel-links a:hover{color:var(--amber)}
-#nav-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:198}
-#nav-overlay.open{display:block}
+.adv-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:18px}
+.adv{border:1px solid var(--line); border-radius:12px; background:var(--panel); padding:22px; display:grid; grid-template-columns:64px 1fr; gap:18px}
+.adv .big{font-family:var(--display); font-weight:600; font-size:22px; color:var(--teal); line-height:1.1; padding-top:2px}
+.adv h3{font-size:16px; margin-bottom:8px}
+.adv p{font-size:13.5px; color:var(--muted)}
+.adv .vs{font-family:var(--mono); font-size:11px; color:var(--coral-deep); background:var(--coral-tint); border-radius:5px; padding:6px 10px; margin-top:12px; display:inline-block}
 
-/* SECTION HEADERS */
-.stag{display:inline-block;font-size:.69rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);background:rgba(245,158,11,.08);padding:4px 11px;border-radius:20px;margin-bottom:13px;border:1px solid rgba(245,158,11,.2)}
-.stag.red{color:#991B1B;background:rgba(239,68,68,.07);border-color:rgba(239,68,68,.17)}
-.stag.teal{color:var(--teal-d);background:rgba(14,165,233,.07);border-color:rgba(14,165,233,.17)}
-.stag.green{color:#065F46;background:rgba(16,185,129,.07);border-color:rgba(16,185,129,.17)}
-.stag.purple{color:#5B21B6;background:rgba(139,92,246,.07);border-color:rgba(139,92,246,.17)}
-.stitle{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:900;color:var(--text);margin-bottom:13px}
-.stitle em{font-style:normal;color:var(--teal-d)}
-.ssub{font-size:.97rem;color:var(--text2);max-width:560px;line-height:1.7;font-family:system-ui,sans-serif}
-.hdr{margin-bottom:48px}
-.hdr.center{text-align:center}.hdr.center .ssub{margin:0 auto}
-.dark .stag{color:var(--amber);background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.22)}
-.dark .stag.teal{color:var(--teal2);background:rgba(14,165,233,.11);border-color:rgba(14,165,233,.22)}
-.dark .stitle{color:#fff}.dark .ssub{color:rgba(255,255,255,.54)}
+.sci-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
+.sci{border:1px solid var(--line); border-radius:12px; background:var(--panel); padding:26px}
+.sci .k{font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--faint); margin-bottom:10px}
+.sci h3{font-size:19px; color:var(--teal-deep); margin-bottom:10px}
+.sci p{font-size:14px; color:var(--muted); margin-bottom:14px}
+.sci ul{list-style:none; display:flex; flex-direction:column; gap:8px}
+.sci li{font-size:13px; color:var(--body); padding-left:18px; position:relative}
+.sci li::before{content:"→"; position:absolute; left:0; color:var(--teal); font-family:var(--mono); font-size:11px}
 
-/* HERO */
-#hero{min-height:100vh;background:var(--navy);display:flex;align-items:center;position:relative;overflow:hidden}
-.hero-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(245,158,11,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(245,158,11,.03) 1px,transparent 1px);background-size:60px 60px}
-.hero-glow1{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(245,158,11,.12),transparent 70%);top:-100px;right:-80px;filter:blur(70px)}
-.hero-glow2{position:absolute;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,rgba(14,165,233,.1),transparent 70%);bottom:0;left:0;filter:blur(60px)}
-.hero-in{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;max-width:1140px;margin:0 auto;padding:120px 24px 80px}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:5px 13px;border-radius:20px;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.28);color:var(--amber);font-size:.71rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}
-.hero-dot{width:6px;height:6px;border-radius:50%;background:var(--amber);animation:pdot 2s ease-in-out infinite}
-@keyframes pdot{0%,100%{opacity:1}50%{opacity:.3}}
-.hero-title{font-size:clamp(2rem,4vw,3.4rem);font-weight:900;color:#fff;margin-bottom:16px}
-.hero-title em{font-style:normal;color:var(--amber)}
-.hero-sub{font-size:.97rem;color:rgba(255,255,255,.62);line-height:1.75;margin-bottom:24px;font-family:system-ui,sans-serif}
-.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
-.btn-solid{padding:12px 24px;border-radius:8px;background:var(--amber);color:var(--navy);font-weight:700;font-size:.87rem;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:background .2s,transform .2s}
-.btn-solid:hover{background:#e08d00;transform:translateY(-2px)}
-.btn-line{padding:12px 24px;border-radius:8px;background:transparent;color:#fff;font-weight:600;font-size:.87rem;border:1px solid rgba(255,255,255,.24);cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:all .2s}
-.btn-line:hover{border-color:var(--amber);color:var(--amber)}
-.hstats{display:grid;grid-template-columns:1fr 1fr;gap:13px}
-.hstat{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:18px;transition:border-color .3s,transform .25s}
-.hstat:hover{border-color:rgba(245,158,11,.35);transform:translateY(-4px)}
-.hstat-n{font-size:1.85rem;font-weight:900;color:#fff;line-height:1}
-.hstat-n.ac{color:var(--amber)}.hstat-n.tc{color:var(--teal2)}.hstat-n.gc{color:#6EE7B7}.hstat-n.pc{color:var(--purple2)}
-.hstat-l{font-size:.73rem;color:rgba(255,255,255,.43);margin-top:5px;line-height:1.4;font-family:system-ui,sans-serif}
-
-/* IP BAR */
-.ip-bar{background:linear-gradient(135deg,#1a0f00,#0F2010 55%,#0B1628);border-top:1px solid rgba(245,158,11,.18);border-bottom:1px solid rgba(245,158,11,.18);padding:10px 0;text-align:center;font-size:.72rem;color:rgba(255,255,255,.43);letter-spacing:.04em}
-.ip-bar span{color:var(--amber)}
-
-/* CARD LIFT */
-.card-lift{transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
-.card-lift:hover{transform:translateY(-5px);box-shadow:0 18px 48px rgba(0,0,0,.15);border-color:rgba(245,158,11,.35)!important}
-
-/* PROBLEM */
-#problem{background:#fafbfc}
-.prob-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.prob-card{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:24px;transition:transform .25s,box-shadow .25s,border-color .25s}
-.prob-card:hover{transform:translateY(-5px);box-shadow:0 18px 48px rgba(0,0,0,.09)}
-.prob-ico{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;margin-bottom:12px}
-.prob-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;font-family:system-ui,sans-serif}
-.prob-card p{font-size:.84rem;color:var(--text2);line-height:1.7;margin-bottom:14px;font-family:system-ui,sans-serif}
-.fix-box{background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.18);border-radius:8px;padding:10px 14px;display:flex;gap:8px;align-items:flex-start}
-.fix-arrow{color:#10B981;font-weight:800;font-size:.9rem;flex-shrink:0}
-.fix-box span{font-size:.79rem;color:#065f46;font-family:system-ui,sans-serif;line-height:1.5}
-.rg-fix{background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.2);border-radius:8px;padding:12px 15px;margin-top:14px}
-.rg-fix-lbl{font-size:.7rem;font-weight:800;color:#10B981;text-transform:uppercase;letter-spacing:.07em;margin-bottom:7px;font-family:system-ui,sans-serif}
-.rg-fix p{font-size:.8rem!important;color:#064e36!important;line-height:1.65!important;margin-bottom:0!important}
-.rg-fix strong{color:#064e36}
-
-/* THREE-LAYER ARCHITECTURE */
-#architecture{background:var(--navy)}
-.arch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:40px}
-.arch-card{background:rgba(255,255,255,.04);border-radius:16px;padding:28px 24px;position:relative;overflow:hidden;transition:transform .25s,box-shadow .25s}
-.arch-card:hover{transform:translateY(-5px);box-shadow:0 20px 56px rgba(0,0,0,.25)}
-.arch-top-bar{position:absolute;top:0;left:0;right:0;height:3px}
-.arch-layer{font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;font-family:system-ui,sans-serif}
-.arch-card h3{font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:10px;font-family:system-ui,sans-serif}
-.arch-card p{font-size:.84rem;color:rgba(255,255,255,.55);line-height:1.7;font-family:system-ui,sans-serif;margin-bottom:16px}
-.arch-bullets{list-style:none;display:flex;flex-direction:column;gap:6px}
-.arch-bullets li{font-size:.79rem;color:rgba(255,255,255,.65);font-family:system-ui,sans-serif;display:flex;align-items:flex-start;gap:8px;line-height:1.5}
-.arch-bullets li::before{content:'→';flex-shrink:0;font-weight:700}
-
-/* OPERATING MODES */
-#modes{background:var(--navy2);padding:80px 0}
-.modes-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
-.mode-card{background:rgba(255,255,255,.04);border-radius:16px;padding:28px;position:relative;overflow:hidden}
-.mode-badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px;font-family:system-ui,sans-serif}
-.mode-card h3{font-size:1.2rem;font-weight:800;color:#fff;margin-bottom:10px;font-family:system-ui,sans-serif}
-.mode-card p{font-size:.87rem;color:rgba(255,255,255,.55);line-height:1.7;margin-bottom:16px;font-family:system-ui,sans-serif}
-.mode-steps{list-style:none;display:flex;flex-direction:column;gap:8px}
-.mode-step{display:flex;align-items:flex-start;gap:12px;padding:10px 14px;border-radius:8px;font-size:.82rem;font-family:system-ui,sans-serif;line-height:1.5}
-.mode-step-n{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:800;flex-shrink:0;margin-top:1px}
-.mode-step-txt{color:rgba(255,255,255,.72)}
-.mode-step-txt strong{color:#fff;display:block;margin-bottom:1px}
-
-/* SIGMA TRIGGER */
-.sigma-strip{background:rgba(255,255,255,.03);border:1px solid rgba(245,158,11,.15);border-radius:12px;padding:20px 24px;margin-top:24px;display:flex;align-items:flex-start;gap:16px}
-.sigma-icon{font-size:1.8rem;flex-shrink:0}
-.sigma-strip h4{font-size:.95rem;font-weight:700;color:var(--amber);margin-bottom:6px;font-family:system-ui,sans-serif}
-.sigma-strip p{font-size:.84rem;color:rgba(255,255,255,.54);line-height:1.65;font-family:system-ui,sans-serif}
-
-/* AI SECTION */
-#ai{background:#fff}
-.ai-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
-.ai-left h3{font-size:1.1rem;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:9px;font-family:system-ui,sans-serif}
-.ai-left p{color:var(--text2);line-height:1.7;margin-bottom:13px;font-size:.92rem;font-family:system-ui,sans-serif}
-.ai-table{width:100%;border-collapse:collapse;font-size:.82rem;border-radius:10px;overflow:hidden;border:1px solid var(--slate3);margin-bottom:16px}
-.ai-table thead{background:var(--navy)}
-.ai-table thead th{padding:10px 14px;text-align:left;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--teal3);font-family:system-ui,sans-serif}
-.ai-table tbody td{padding:10px 14px;border-bottom:1px solid var(--slate3);color:var(--text2);font-family:system-ui,sans-serif;vertical-align:top;line-height:1.45}
-.ai-table tbody tr:last-child td{border-bottom:none}
-.ai-table tbody tr:hover td{background:#f8fafc}
-.ai-table td:first-child{font-weight:700;color:var(--text)}
-.unknown-box{background:rgba(139,92,246,.05);border:1px solid rgba(139,92,246,.18);border-radius:10px;padding:18px 20px}
-.unknown-box h4{font-size:.93rem;font-weight:700;color:#5B21B6;margin-bottom:10px;font-family:system-ui,sans-serif}
-.unknown-layers{display:flex;flex-direction:column;gap:8px;margin-top:10px}
-.ul-item{display:flex;align-items:flex-start;gap:10px;padding:8px 12px;background:rgba(139,92,246,.04);border-radius:7px;border:1px solid rgba(139,92,246,.1)}
-.ul-n{width:20px;height:20px;border-radius:50%;background:var(--purple);color:#fff;font-size:.65rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
-.ul-item div{font-size:.82rem;font-family:system-ui,sans-serif;line-height:1.5}
-.ul-item strong{color:var(--text);display:block;margin-bottom:2px}
-.ul-item span{color:var(--text2)}
-.cross-domain{background:linear-gradient(135deg,rgba(14,165,233,.07),rgba(16,185,129,.05));border:1px solid rgba(14,165,233,.2);border-radius:10px;padding:18px 20px;margin-top:16px}
-.cross-domain h4{font-size:.88rem;font-weight:700;color:var(--teal-d);margin-bottom:7px;font-family:system-ui,sans-serif}
-.cross-domain p{font-size:.82rem;color:var(--text2);line-height:1.65;font-family:system-ui,sans-serif}
-
-/* HARDWARE */
-#hardware{background:var(--white)}
-.hw-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:32px}
-.hw-card{background:#fff;border:1px solid var(--slate3);border-radius:12px;padding:22px 18px;text-align:center;transition:transform .25s,box-shadow .25s,border-color .25s}
-.hw-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(0,0,0,.08);border-color:var(--amber)}
-.hw-ico{font-size:1.8rem;margin-bottom:10px}
-.hw-n{font-size:1.6rem;font-weight:900;color:var(--navy);margin-bottom:4px;font-family:Georgia,serif}
-.hw-l{font-size:.78rem;font-weight:600;color:var(--text);margin-bottom:5px;font-family:system-ui,sans-serif}
-.hw-s{font-size:.72rem;color:var(--text2);line-height:1.5;font-family:system-ui,sans-serif}
-.hw-features{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.hwf{background:#fff;border:1px solid var(--slate3);border-radius:10px;padding:18px;display:flex;align-items:flex-start;gap:12px;transition:border-color .25s}
-.hwf:hover{border-color:var(--amber)}
-.hwf-ico{font-size:1.2rem;flex-shrink:0;margin-top:2px}
-.hwf h4{font-size:.88rem;font-weight:700;color:var(--text);margin-bottom:4px;font-family:system-ui,sans-serif}
-.hwf p{font-size:.78rem;color:var(--text2);line-height:1.6;font-family:system-ui,sans-serif}
-
-/* COMPARE TABLE */
-#compare{background:var(--navy);padding:80px 0}
-.tbl-wrap{overflow-x:auto;border-radius:12px;border:1px solid rgba(255,255,255,.07);margin-top:6px}
-table{width:100%;border-collapse:collapse;font-size:.82rem}
-thead tr{background:rgba(245,158,11,.1);border-bottom:2px solid rgba(245,158,11,.2)}
-th{padding:13px 15px;text-align:left;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--amber);font-family:system-ui,sans-serif}
-th:first-child{color:rgba(255,255,255,.4)}
-td{padding:11px 15px;border-bottom:1px solid rgba(255,255,255,.05);vertical-align:middle;color:rgba(255,255,255,.68);line-height:1.45;font-family:system-ui,sans-serif}
-tr:last-child td{border-bottom:none}
-tr:hover td{background:rgba(255,255,255,.02)}
-.crit{font-weight:600;color:rgba(255,255,255,.45);font-size:.78rem}
-.bad{color:#FCA5A5}.mid{color:#FCD34D}.good{color:#6EE7B7}
-.th-us{color:var(--amber)!important;background:rgba(245,158,11,.15)!important}
-.us{color:#fff;font-weight:600;background:rgba(245,158,11,.05)}
-.ck{color:#10B981;font-weight:700;margin-right:3px}
-.cx{color:#EF4444;font-weight:700;margin-right:3px}
-.cw{color:#F59E0B;font-weight:700;margin-right:3px}
-.tbl-note{font-size:.7rem;color:rgba(255,255,255,.27);margin-top:12px;text-align:center;font-family:system-ui,sans-serif}
-
-/* APPLICATIONS */
-#applications{background:var(--white)}
-.apps-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-bottom:32px}
-.app-card{border-radius:12px;padding:26px;overflow:hidden;transition:transform .25s,box-shadow .25s}
-.app-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,.1)}
-.app-badge{display:inline-block;padding:3px 9px;border-radius:8px;font-size:.65rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px;font-family:system-ui,sans-serif}
-.app-card h3{font-size:1.1rem;font-weight:800;margin-bottom:8px;font-family:system-ui,sans-serif}
-.app-card p{font-size:.84rem;color:var(--text2);line-height:1.7;margin-bottom:13px;font-family:system-ui,sans-serif}
-.app-stats{display:flex;gap:20px}
-.app-sn{font-size:1.2rem;font-weight:800}
-.app-sl{font-size:.68rem;color:var(--text2);margin-top:2px;font-family:system-ui,sans-serif}
-.sapps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.sapp{padding:20px;border-radius:10px;background:#fff;border:1px solid var(--slate3);transition:border-color .2s,box-shadow .2s,transform .2s}
-.sapp:hover{border-color:var(--amber);box-shadow:0 4px 18px rgba(0,0,0,.07);transform:translateY(-3px)}
-.sapp-i{font-size:1.6rem;margin-bottom:9px}
-.sapp h4{font-size:.9rem;font-weight:700;margin-bottom:5px;font-family:system-ui,sans-serif}
-.sapp p{font-size:.77rem;color:var(--text2);line-height:1.6;font-family:system-ui,sans-serif}
-
-/* STATUS */
-#status{background:var(--navy);padding:80px 0}
-.tl{position:relative;max-width:720px;margin:0 auto}
-.tl::before{content:'';position:absolute;left:24px;top:14px;bottom:14px;width:2px;background:linear-gradient(180deg,var(--amber),rgba(245,158,11,.08))}
-.tli{display:flex;gap:24px;margin-bottom:26px}
-.tld{width:16px;height:16px;border-radius:50%;flex-shrink:0;margin-top:5px;position:relative;z-index:1}
-.tld.d{background:var(--amber);box-shadow:0 0 0 4px rgba(245,158,11,.16)}
-.tld.a{background:var(--green);box-shadow:0 0 0 4px rgba(16,185,129,.16);animation:tlp 2s ease-in-out infinite}
-.tld.n{background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.16)}
-@keyframes tlp{0%,100%{box-shadow:0 0 0 4px rgba(16,185,129,.16)}50%{box-shadow:0 0 0 8px rgba(16,185,129,.04)}}
-.tl-date{font-size:.67rem;font-weight:700;color:rgba(255,255,255,.26);text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px;font-family:monospace}
-.tl-ttl{font-size:.98rem;font-weight:700;color:#fff;margin-bottom:4px;font-family:system-ui,sans-serif}
-.tl-d{font-size:.8rem;color:rgba(255,255,255,.46);line-height:1.6;font-family:system-ui,sans-serif}
-.tl-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
-.tlt{padding:2px 7px;border-radius:4px;font-size:.64rem;font-weight:700;background:rgba(245,158,11,.09);color:var(--amber);border:1px solid rgba(245,158,11,.2);font-family:monospace}
-
-/* CONTACT */
-#contact{background:var(--navy2);padding:80px 0}
-.con-g{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
-.con-g h2{font-size:1.8rem;font-weight:800;color:#fff;margin-bottom:13px;font-family:system-ui,sans-serif}
-.con-g>div>p{color:rgba(255,255,255,.48);line-height:1.7;margin-bottom:26px;font-family:system-ui,sans-serif;font-size:.92rem}
-.cdet{display:flex;align-items:center;gap:12px;margin-bottom:13px}
-.cico{width:36px;height:36px;border-radius:8px;background:rgba(245,158,11,.09);border:1px solid rgba(245,158,11,.2);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
-.cdet span{color:rgba(255,255,255,.62);font-size:.87rem;font-family:system-ui,sans-serif}
-.cform{display:flex;flex-direction:column;gap:11px}
-.frow{display:grid;grid-template-columns:1fr 1fr;gap:11px}
-.fi,.fsl,.ft{width:100%;padding:10px 13px;border-radius:7px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.9);font-size:.84rem;font-family:system-ui,sans-serif;transition:border-color .2s}
-.fi:focus,.fsl:focus,.ft:focus{outline:none;border-color:var(--amber)}
-.fi::placeholder,.ft::placeholder{color:rgba(255,255,255,.2)}
-.fsl option{background:#0B1628}
-.ft{min-height:100px;resize:vertical}
-.fsub{padding:12px 24px;border-radius:7px;background:var(--amber);color:var(--navy);font-weight:700;font-size:.87rem;border:none;cursor:pointer;transition:all .2s;align-self:flex-start;font-family:system-ui,sans-serif}
-.fsub:hover{background:#e08d00;transform:translateY(-1px)}
-
-/* FOOTER */
-footer{background:var(--navy);padding:26px 0;border-top:1px solid rgba(255,255,255,.05)}
-.foot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:13px}
-.flogo{font-size:.93rem;font-weight:700;color:rgba(255,255,255,.52)}
-.flogo b{color:var(--amber)}
-.flinks{display:flex;gap:20px}
-.flinks a{color:rgba(255,255,255,.28);font-size:.77rem;transition:color .2s;font-family:system-ui,sans-serif}
-.flinks a:hover{color:var(--amber)}
-.fcopy{color:rgba(255,255,255,.2);font-size:.7rem;font-family:system-ui,sans-serif}
-
-
-/* ADVANTAGE */
-#advantage{background:var(--navy);padding:80px 0}
-.adv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.adv-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:26px;position:relative;overflow:hidden;transition:transform .25s,box-shadow .25s,border-color .25s}
-.adv-card:hover{transform:translateY(-5px);box-shadow:0 20px 48px rgba(0,0,0,.25)}
-.adv-top{position:absolute;top:0;left:0;right:0;height:3px}
-.adv-n{font-size:2.4rem;font-weight:900;line-height:1;margin-bottom:4px;font-family:Georgia,serif}
-.adv-title{font-size:1rem;font-weight:800;color:#fff;margin-bottom:10px;font-family:system-ui,sans-serif}
-.adv-body{font-size:.82rem;color:rgba(255,255,255,.52);line-height:1.65;font-family:system-ui,sans-serif}
-.adv-vs{display:inline-block;margin-top:10px;padding:3px 10px;border-radius:20px;font-size:.68rem;font-weight:700;font-family:system-ui,sans-serif}
-/* CONFIGS */
-#configs{background:var(--navy2);padding:80px 0}
-.cfg-wrap{overflow-x:auto;border-radius:12px;border:1px solid rgba(255,255,255,.08)}
-.cfg-tbl{width:100%;border-collapse:collapse}
-.cfg-tbl thead tr{background:rgba(14,165,233,.1);border-bottom:2px solid rgba(14,165,233,.2)}
-.cfg-tbl th{padding:13px 16px;text-align:left;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--teal2);font-family:system-ui,sans-serif}
-.cfg-tbl td{padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.05);font-size:.84rem;color:rgba(255,255,255,.72);font-family:system-ui,sans-serif;vertical-align:top;line-height:1.5}
-.cfg-tbl tr:last-child td{border-bottom:none}
-.cfg-tbl tr:hover td{background:rgba(255,255,255,.02)}
-.cfg-tbl td:first-child{font-weight:700;color:#fff}
-.cfg-badge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:.67rem;font-weight:700;font-family:system-ui,sans-serif}
-/* RESPONSIVE */
-@media(max-width:900px){
-  .hero-in{grid-template-columns:1fr;gap:32px}
-  .hstats{grid-template-columns:repeat(4,1fr)}
-  .arch-grid,.modes-grid,.ai-grid,.con-g{grid-template-columns:1fr}
-  .prob-grid{grid-template-columns:1fr 1fr}
-  .apps-grid{grid-template-columns:1fr}
-  .sapps-grid{grid-template-columns:1fr 1fr}
-  .hw-grid{grid-template-columns:1fr 1fr}
-  .hw-features{grid-template-columns:1fr}
-  .nav-row2,.nav-links{display:none}
-  .nav-burger{display:flex}
-}
-@media(max-width:580px){
-  .hstats{grid-template-columns:1fr 1fr}
-  .prob-grid{grid-template-columns:1fr}
-  .sapps-grid{grid-template-columns:1fr}
-  .hw-grid{grid-template-columns:1fr 1fr}
-  .frow{grid-template-columns:1fr}
-}
-
-.xlink-bar{background:var(--navy3);border-bottom:1px solid rgba(14,165,233,.18);padding:8px 0;text-align:center;font-size:.78rem;font-family:system-ui,sans-serif}
-.xlink-bar a{color:var(--teal2);font-weight:700;margin:0 8px}
-.xlink-bar a:hover{color:var(--teal3)}
-.xlink-bar span{color:rgba(255,255,255,.3)}
-.cred-strip{background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(14,165,233,.06));border-top:1px solid rgba(245,158,11,.15);border-bottom:1px solid rgba(245,158,11,.15);padding:18px 0}
-.cred-in{max-width:1140px;margin:0 auto;padding:0 24px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
-.cred-ico{font-size:1.6rem;flex-shrink:0}
-.cred-text{font-size:.84rem;color:rgba(255,255,255,.7);line-height:1.6;font-family:system-ui,sans-serif}
-.cred-text strong{color:var(--amber)}
-#future{background:var(--white)}
-.future-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:32px}
-.fut-card{border-radius:12px;padding:24px;border:1px solid var(--slate3);background:#fff;transition:transform .25s,box-shadow .25s,border-color .25s}
-.fut-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(0,0,0,.08);border-color:var(--teal3)}
-.fut-badge{display:inline-block;padding:3px 9px;border-radius:8px;font-size:.65rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px;font-family:system-ui,sans-serif}
-.fut-card h4{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:7px;font-family:system-ui,sans-serif}
-.fut-card p{font-size:.81rem;color:var(--text2);line-height:1.65;font-family:system-ui,sans-serif}
-
+.apps-2{display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:18px}
+.appbox{border:1px solid var(--teal-line); border-radius:12px; background:var(--teal-tint); padding:26px}
+.appbox .k{font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--teal); margin-bottom:10px}
+.appbox h3{font-size:20px; margin-bottom:10px}
+.appbox p{font-size:14px; color:var(--body); margin-bottom:18px}
+@media(max-width:940px){.hero-grid,.modes-grid,.adv-grid,.sci-grid,.apps-2{grid-template-columns:1fr}.adv{grid-template-columns:48px 1fr}}
 </style>
 </head>
 <body>
-<nav id="nav">
-<div class="nav-wrap">
-  <div class="nav-row1">
-    <a href="about.html" style="display:flex;align-items:center;flex-shrink:0"><img src="images/aatg_logo.png" alt="AATG" style="height:38px;width:auto;display:block"></a>
-    <ul class="nav-links">
-      <li><a href="#problem">The Problem</a></li>
-      <li><a href="#advantage">Advantages</a></li>
-      <li><a href="#modes">How It Works</a></li>
-      <li><a href="#hardware">Hardware</a></li>
-      <li><a href="#compare">vs. IMS</a></li>
-    </ul>
-    <button class="nav-burger" id="nav-burger" aria-label="Menu" onclick="toggleNav()">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-  <div class="nav-row2">
-    <ul class="nav-links">
-      <li><a href="#applications">Applications</a></li>
-      <li><a href="#configs">Configurations</a></li>
-      <li><a href="#science">The Science</a></li>
-      <li><a href="#future">Future</a></li>
-      <li><a href="#status">Status</a></li>
-      <li><a href="index.html" class="nav-breathdx">&#x1FAC1; BreathDX&trade;</a></li>
-    </ul>
-    <a href="#contact" class="nav-cta">Contact</a>
-  </div>
-</div>
-</nav>
-<div id="nav-panel">
-  <div class="panel-group">
-    <div class="panel-label">The Product</div>
-    <div class="panel-links">
-      <a href="#problem" onclick="closeNav()">The Problem</a>
-      <a href="#advantage" onclick="closeNav()">Advantages</a>
-      <a href="#modes" onclick="closeNav()">How It Works</a>
-      <a href="#hardware" onclick="closeNav()">Hardware</a>
-      <a href="#compare" onclick="closeNav()">vs. IMS</a>
-    </div>
-  </div>
-  <div class="panel-group">
-    <div class="panel-label">Details</div>
-    <div class="panel-links">
-      <a href="#applications" onclick="closeNav()">Applications</a>
-      <a href="#configs" onclick="closeNav()">Configurations</a>
-      <a href="#science" onclick="closeNav()">The Science</a>
-      <a href="#future" onclick="closeNav()">Future</a>
-      <a href="#status" onclick="closeNav()">Status</a>
-    </div>
-  </div>
-  <div class="panel-group">
-    <div class="panel-label">Also from AATG</div>
-    <div class="panel-links">
-      <a href="index.html" onclick="closeNav()" style="color:#7BBDE8">&#x1FAC1; BreathDX&trade; &mdash; Cancer Diagnostics</a>
-      <a href="about.html" onclick="closeNav()">About AATG</a>
-    </div>
-  </div>
-  <a href="#contact" onclick="closeNav()" style="display:block;margin-top:8px;padding:12px 20px;border-radius:8px;background:var(--amber);color:var(--navy);font-weight:700;font-size:.9rem;text-align:center;font-family:system-ui,sans-serif">Contact &rarr;</a>
-</div>
-<div id="nav-overlay" onclick="closeNav()"></div>
-<section id="hero">
-<div class="hero-bg"></div><div class="hero-glow1"></div><div class="hero-glow2"></div>
-<div class="hero-in">
-  <div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
-      <div class="hero-badge"><div class="hero-dot"></div>Proprietary Technology &middot; IP Protected</div>
-      <div class="hero-badge" style="background:rgba(16,185,129,.12);border-color:rgba(16,185,129,.28);color:#6EE7B7"><div class="hero-dot" style="background:#10B981"></div>CBRN &middot; Multi-Threat Platform</div>
-    </div>
-    <h1 class="hero-title">r-Guard&trade;<br><em>One Instrument.</em><br>Every Vapor Threat.</h1>
-    <div class="hero-tags">
-      <span style="padding:3px 11px;border-radius:20px;font-size:.73rem;font-weight:600;background:rgba(245,158,11,.2);color:#FCD34D;border:1px solid rgba(245,158,11,.4)">&#9760; Chemical Agents</span>
-      <span style="padding:3px 11px;border-radius:20px;font-size:.73rem;font-weight:600;background:rgba(239,68,68,.2);color:#FCA5A5;border:1px solid rgba(239,68,68,.4)">&#128165; Explosives</span>
-      <span style="padding:3px 11px;border-radius:20px;font-size:.73rem;font-weight:600;background:rgba(16,185,129,.2);color:#6EE7B7;border:1px solid rgba(16,185,129,.4)">&#127981; TIC / Industrial</span>
-    </div>
-    <p class="hero-sub">An innovative technology built on cutting-edge detection science, supported by decades of published research and engineering development in related fields &mdash; including published field reference works co-authored with researchers at Edgewood Chemical Biological Center (ECBC). This solid-state, battery-powered multi-threat (CWAs, TICs, and explosives) detector uses proprietary optical detection with exceptional sensitivity (ppb to sub-ppb, pg to ng range). Seconds-level screening. 120-second on-site confirmation. No carrier gas. No radioactive source. No second instrument needed.</p>
-    <div class="hero-actions">
-      <a href="#advantage" class="btn-solid">&#9889;&nbsp; Our Advantages</a>
-      <a href="#compare" class="btn-line">&#9776;&nbsp; vs. IMS</a>
-      <a href="#configs" class="btn-line">&#9881;&#65039;&nbsp; Configurations</a>
-    </div>
-  </div>
-  <div>
-    <img src="images/r-CWA-device.png" alt="r-Guard Multi-Threat Detector" style="width:100%;max-height:320px;object-fit:contain;display:block;margin:0 auto 20px;filter:drop-shadow(0 20px 48px rgba(0,0,0,.5))">
-    <div class="hstats">
-      <div class="hstat"><div class="hstat-n" style="color:var(--amber)">~10s</div><div class="hstat-l">Screening &mdash; continuous real-time monitoring</div></div>
-      <div class="hstat"><div class="hstat-n" style="color:#6EE7B7">120s</div><div class="hstat-l">On-site confirmation &mdash; same device, no lab</div></div>
-      <div class="hstat"><div class="hstat-n" style="color:var(--teal2)">ppb</div><div class="hstat-l">To sub-ppb detection sensitivity</div></div>
-      <div class="hstat"><div class="hstat-n" style="color:var(--purple2)">&lt;5 lbs</div><div class="hstat-l">Handheld &middot; UAV (Unmanned Aerial Vehicle) payload &middot; fixed site</div></div>
-    </div>
-  </div>
-</div>
-</section>
-<div class="ip-bar">
-  <span>&#9888; Proprietary Technology &mdash; IP Protected</span> &mdash; Detection methodology, instrument configuration, signal processing architecture, and AI inference pipeline are IP protected. Full technical specifications, sensitivity data, and system architecture available to qualified government and industry partners under executed NDA. <a href="#contact" style="color:var(--amber);font-weight:700;text-decoration:underline">Request partner access &rarr;</a>
-</div>
-<section id="problem" class="section" style="background:#fafbfc">
-<div class="container">
-  <div class="hdr center">
-    <div class="stag red">Problems We Are Resolving</div>
-    <h2 class="stitle">What current field detectors<br><em>cannot do &mdash; and we can.</em></h2>
-    <p class="ssub">Having worked in the threat detection field for close to 30 years, we understand the limitations operators live with daily. r-Guard&trade; was designed specifically to close every gap that current technology leaves open.</p>
-  </div>
-  <div class="prob-grid">
-    <div class="prob-card card-lift" style="border-top:3px solid #EF4444">
-      <div class="prob-ico" style="background:rgba(239,68,68,.08)">&#128683;</div>
-      <div class="prob-label" style="color:#B91C1C">IMS &mdash; The Standard With Critical Limitations</div>
-      <p class="prob-body">Ion Mobility Spectrometry dominates field CWA detection &mdash; but its limitations are well documented. <strong>Poor spectral resolution and peak shifting lead to high false negative rates. </strong>Charge competition</strong> in mixed-vapor environments suppresses ionization of target agents, causing both nuisance false alarms and potentially fatal false negatives. <strong>Environmental changes, especially high humidity</strong> degrade performance precisely when reliability matters most. And the use of <strong>radioactive Ni-63 ionization source</strong> adds handling, transport, and disposal constraints that limit where and how it can be deployed.</p>
-      <div class="rg-fix"><div class="rg-fix-lbl">&#9889; r-Guard&trade;:</div>
-        <p>Advanced AI deconvolution identifies specific agents in complex mixtures. <strong>No radioactive source.</strong> No charge competition failure mode. Spectroscopy-based identification precisely characterises detected components. Probabilistic confidence scores replace binary alarms, quantifying certainty for both identified agents and potential unknowns. Both false positive and false negative rates dramatically reduced.</span></div>
-    </div>
-    <div class="prob-card card-lift" style="border-top:3px solid #6366F1">
-      <div class="prob-ico" style="background:rgba(99,102,241,.08)">&#128308;</div>
-      <div class="prob-label" style="color:#3730A3">Binary Output &mdash; Alarm or Silence, Nothing More</div>
-      <p class="prob-body">Most field detectors produce a threshold alarm &mdash; positive or negative, a compound class at best. They cannot quantify confidence, report concentration, or distinguish a strong interferent from a genuine threat. Some IMS systems do report specific names, but with significantly higher false identification rates in complex environments where charge competition produces incorrect identifications. In high-stakes scenarios, a wrong answer is as dangerous as no answer.</p>
-      <div class="rg-fix"><div class="rg-fix-lbl">&#9889; r-Guard&trade;:</div>
-        <p>r-Guard&trade; outputs <strong>specific agent identification with probabilistic confidence scores</strong> &mdash; not just a class name. Concentration estimate and full inference chain provided. The operator knows not just "what" but "how certain."</p></div>
-    </div>
-    <div class="prob-card card-lift" style="border-top:3px solid #8B5CF6">
-      <div class="prob-ico" style="background:rgba(139,92,246,.08)">&#128736;&#65039;</div>
-      <div class="prob-label" style="color:#5B21B6">Unknown Threats Produce No Actionable Information</div>
-      <p class="prob-body">Every deployed detector only identifies what is already in its library. A novel synthetic agent, new precursor, or unknown toxic industrial chemical produces either a forced false match or silence. No molecular information reaches the operator. As adversarial chemistry evolves &mdash; novel CWA precursors, improvised materials, next-generation threats &mdash; this gap becomes increasingly critical. Adding a new substance requires a vendor update cycle measured in months.</p>
-      <div class="rg-fix"><div class="rg-fix-lbl">&#9889; r-Guard&trade;:</div>
-        <p>r-Guard&trade; performs <strong>spectral fragment analysis</strong> &mdash; inferring probable functional groups, molecular desorption behavior from the thermal profile, and likely chemical class. Unknown alarms come with intelligence. New threats added via <strong>wireless OTA (Over-The-Air) update</strong>.</p></div>
-    </div>
-    <div class="prob-card card-lift" style="border-top:3px solid #EC4899">
-      <div class="prob-ico" style="background:rgba(236,72,153,.08)">&#128207;</div>
-      <div class="prob-label" style="color:#9D174D">Detection Blind Spots During Analysis Cycles</div>
-      <p class="prob-body">Traditional detection systems are effectively blind during their analysis cycle. GC-based instruments cannot monitor the air stream while processing a sample. IMS-based systems have maintenance windows where monitoring is interrupted. In a dynamic threat environment &mdash; a second release, a moving plume &mdash; a detection gap of even 30 seconds can be operationally decisive.</p>
-      <div class="rg-fix"><div class="rg-fix-lbl">&#9889; r-Guard&trade;:</div>
-        <p><strong>Continuous monitoring with no detection gaps.</strong> One sensor monitors continuously while the second is getting ready, either undergoing thermal purge or remaining idle. Sensor returns to monitoring within seconds of confirmation completion. The adaptive AI trigger primes the pre-concentrator silently during screening so confirmation is always instantly ready.</p></div>
-    </div>
-    <div class="prob-card card-lift" style="border-top:3px solid #F59E0B">
-      <div class="prob-ico" style="background:rgba(245,158,11,.08)">&#9968;&#65039;</div>
-      <div class="prob-label" style="color:#92400E">Logistics Burden Limits Field Deployability</div>
-      <p class="prob-body">GC-MS-based confirmation instruments require <strong>compressed carrier gas cylinders</strong>, high-vacuum pumps, and significant electrical power. IMS units contain <strong>radioactive Ni-63 ionization sources</strong> subject to transport restrictions. These constraints make confirmation-capable instruments laboratory-bound or vehicle-mounted. For dismounted soldiers, UAV (Unmanned Aerial Vehicle) payloads, or resource-constrained first responders, field confirmation capability simply does not exist.</p>
-      <div class="rg-fix"><div class="rg-fix-lbl">&#9889; r-Guard&trade;:</div>
-        <p><strong>Tank-free. Source-free. Battery-powered.</strong> No compressed gas, no radioactive material, no vacuum pump. One replaceable air-scrubbing cartridge lasts hundreds of operating hours. Fits in a sling bag. Mounts on a UAV. Deploys anywhere.</p></div>
-    </div>
-    <div class="prob-card card-lift" style="border-top:3px solid #EF4444">
-      <div class="prob-ico" style="background:rgba(239,68,68,.08)">&#9203;</div>
-      <div class="prob-label" style="color:#B91C1C">Confirmation Is Slow &amp; Requires a Second Instrument</div>
-      <p class="prob-body">When IMS alarms, the operator cannot confirm in the field. If verification is needed, it requires a separate GC-based instrument &mdash; laboratory or vehicle-mounted, requiring carrier gas, vacuum, and significant power. Analysis takes <strong>5&ndash;15 minutes</strong>, during which exposure continues. The gap between "fast alarm" and "confirmed specific agent identification" has never been closed in a single portable instrument. Operators make decisions based on incomplete information or wait for results that arrive too late.</p>
-      <div class="rg-fix"><div class="rg-fix-lbl">&#9889; r-Guard&trade;:</div>
-        <p><strong>Screen and confirm in one device, on site.</strong> ~10 second screening. ~120 second full confirmation. No second instrument. No laboratory. No waiting. The decision cycle closes at the point of exposure &mdash; for the first time in a handheld package.</p></div>
-    </div>
-  </div>
-</div>
-</section>
-<div class="cred-strip" style="background:linear-gradient(135deg,#071828,#0a1f35);border-top:1px solid rgba(245,158,11,.2);border-bottom:1px solid rgba(245,158,11,.2)">
-<div class="cred-in">
-  <div class="cred-ico">&#128218;</div>
-  <div class="cred-text" style="color:rgba(255,255,255,.82)">
-    <strong style="color:var(--amber)">Built on validated science and engineering &mdash; not unsubstantiated claims.</strong>
-    The detection principle and methodology underpinning r-Guard&trade; are grounded in extensive research and engineering development in related fields, including advanced optical detection, trace vapor detection, and probabilistic chemical identification. The proprietary AI inference architecture has been independently validated in a demanding clinical VOC detection application.
-    <strong style="color:var(--amber)">This is demonstrated science, applied to an innovative instrument.</strong>
-  </div>
-</div>
-</div>
-<section id="advantage">
-<div class="container">
-  <div class="hdr dark center">
-    <div class="stag">Performance Advantages</div>
-    <h2 class="stitle">Seven capabilities no current<br><em>field detector offers.</em></h2>
-    <p class="ssub">Each directly addresses a documented limitation of current detectors, especially the most widely deployed IMS-based systems, and the confirmation gap that has never been closed in a single portable field instrument.</p>
-  </div>
-  <div class="adv-grid">
 
-    <div class="adv-card" style="border-color:rgba(239,68,68,.25)">
-      <div class="adv-top" style="background:linear-gradient(90deg,var(--red),#dc2626)"></div>
-      <div class="adv-n" style="color:#FCA5A5">Low</div>
-      <div class="adv-title">Both false positive AND false negative rates reduced</div>
-      <p class="adv-body">Proprietary AI combined with optical identification outputs confidence scores, not binary alarms. Distinguishes target agents from interferents in complex mixtures. Charge competition &mdash; the primary IMS failure mode causing false negatives in mixed environments &mdash; does not apply to our detection principle.</p>
-      <span class="adv-vs" style="background:rgba(239,68,68,.1);color:#FCA5A5;border:1px solid rgba(239,68,68,.2)">IMS: high false positive AND false negative risk</span>
-    </div>
-
-    <div class="adv-card" style="border-color:rgba(14,165,233,.25)">
-      <div class="adv-top" style="background:linear-gradient(90deg,var(--teal),var(--teal2))"></div>
-      <div class="adv-n" style="color:var(--teal2)">ppb</div>
-      <div class="adv-title">Exceptional sensitivity (ppb to sub-ppb, pg to ng range) in real field conditions</div>
-      <p class="adv-body">Proprietary optical detection delivers exceptional sensitivity in a compact field instrument. Sensitivity maintained in humid, dusty, and chemically complex environments where IMS performance degrades significantly. Key for detecting high-volatility explosive vapors such as TATP, NG, and their precursors including acetone and hydrogen peroxide.</p>
-      <span class="adv-vs" style="background:rgba(245,158,11,.1);color:#FCD34D;border:1px solid rgba(245,158,11,.2)">IMS sensitivity degrades with humidity &amp; interferents</span>
-    </div>
-
-    <div class="adv-card" style="border-color:rgba(245,158,11,.25)">
-      <div class="adv-top" style="background:linear-gradient(90deg,var(--amber),#e08d00)"></div>
-      <div class="adv-n" style="color:var(--amber)">1</div>
-      <div class="adv-title">Screen AND confirm on site &mdash; one device</div>
-      <p class="adv-body">~10s screening and ~120s full agent confirmation in one handheld unit. Eliminates the confirmation gap that forces operators to choose between fast-but-unreliable or accurate-but-absent. No second instrument. No laboratory. No waiting.</p>
-      <span class="adv-vs" style="background:rgba(239,68,68,.1);color:#FCA5A5;border:1px solid rgba(239,68,68,.2)">IMS + GC-based instrument required today</span>
-    </div>
-
-    <div class="adv-card" style="border-color:rgba(245,158,11,.25)">
-      <div class="adv-top" style="background:linear-gradient(90deg,var(--amber),var(--purple))"></div>
-      <div class="adv-n" style="color:var(--amber)">&#9879;</div>
-      <div class="adv-title">Unknown compounds characterised &mdash; not just flagged</div>
-      <p class="adv-body">For compounds not in any library, r-Guard&trade; performs spectral fragment analysis analogous to mass spectrometry: characteristic peaks are mapped to molecular functional groups (organophosphate, C=O carbonyl, C-H, halide class). The thermal desorption temperature profile separate components. Together these allow the AI to infer probable chemical class and &mdash; in many cases &mdash; make a reasoned estimate of the specific compound, even without a library match. Unknown alarms come with actionable molecular intelligence, not silence.</p>
-      <span class="adv-vs" style="background:rgba(239,68,68,.1);color:#FCA5A5;border:1px solid rgba(239,68,68,.2)">Current detectors: unknown = silence or forced false match</span>
-    </div>
-
-    <div class="adv-card" style="border-color:rgba(139,92,246,.25)">
-      <div class="adv-top" style="background:linear-gradient(90deg,var(--purple),#7c3aed)"></div>
-      <div class="adv-n" style="color:var(--purple2)">Named</div>
-      <div class="adv-title">Specific agent ID with confidence &mdash; not just a class</div>
-      <p class="adv-body">Some IMS systems report specific agent names, but with significantly higher false identification rates in complex environments where charge competition produces incorrect results. r-Guard&trade; identifies individual molecules with spectroscopic precision, providing the specific agent name alongside a calibrated confidence score and full inference chain the operator can evaluate.</p>
-      <span class="adv-vs" style="background:rgba(245,158,11,.1);color:#FCD34D;border:1px solid rgba(245,158,11,.2)">IMS: class-level or unreliable specific ID</span>
-    </div>
-
-    <div class="adv-card" style="border-color:rgba(16,185,129,.25)">
-      <div class="adv-top" style="background:linear-gradient(90deg,var(--green),#059669)"></div>
-      <div class="adv-n" style="color:#6EE7B7">0</div>
-      <div class="adv-title">No radioactive source, carrier gas, or vacuum pump</div>
-      <p class="adv-body">No Ni-63 ionization source &mdash; no radioactive handling, transport restrictions, or disposal. No compressed gas cylinders. No high-vacuum pump. One replaceable air-scrubbing cartridge used to clean the system when needed is the only consumable, lasting hundreds of operational hours.</p>
-      <span class="adv-vs" style="background:rgba(239,68,68,.1);color:#FCA5A5;border:1px solid rgba(239,68,68,.2)">IMS: Ni-63 source. GC-based: carrier gas + vacuum</span>
-    </div>
-
-    <div class="adv-card" style="border-color:rgba(16,185,129,.25);grid-column:2">
-      <div class="adv-top" style="background:linear-gradient(90deg,#059669,var(--green))"></div>
-      <div class="adv-n" style="color:#6EE7B7">OTA</div>
-      <div class="adv-title">New threats added as wireless OTA (Over-The-Air) software update</div>
-      <p class="adv-body">New AI models and spectral libraries pushed wirelessly to all deployed devices simultaneously. As novel agents, precursors, and emerging threats appear, the entire sensor fleet is updated at software speed &mdash; no hardware recalls, no field modifications, no vendor update cycle measured in months.</p>
-      <span class="adv-vs" style="background:rgba(239,68,68,.1);color:#FCA5A5;border:1px solid rgba(239,68,68,.2)">Current systems: vendor hardware update required</span>
-    </div>
-
-  </div>
-</div>
-</section>
-<section id="modes">
-<div class="container">
-  <div class="hdr dark center">
-    <div class="stag teal">Operating Modes</div>
-    <h2 class="stitle">Always watching.<br><em>Instantly ready to confirm.</em></h2>
-    <p class="ssub">Two adaptive modes run in concert &mdash; continuous monitoring transitions seamlessly to active high-resolution confirmation without user intervention.</p>
-  </div>
-  <div class="modes-grid">
-
-    <!-- Screening Mode -->
-    <div class="mode-card" style="border:1px solid rgba(14,165,233,.2)">
-      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--teal),var(--teal2))"></div>
-      <div class="mode-badge" style="background:rgba(14,165,233,.12);color:var(--teal2);border:1px solid rgba(14,165,233,.25)">&#9679; Screening Mode &mdash; Continuous</div>
-      <h3>Continuous Monitoring</h3>
-      <p>Ambient air flows continuously through the detection sensor. The AI model monitors the real-time detection stream at low power, establishing a dynamic baseline. Provides fast alarming for high-concentration threats with minimal latency.</p>
-      <ul class="mode-steps">
-        <li class="mode-step" style="background:rgba(14,165,233,.06)">
-          <div class="mode-step-n" style="background:var(--teal)">1</div>
-          <div class="mode-step-txt"><strong>Low-power continuous airflow</strong>Micro-pump draws ambient air through the sensor continuously at low flow rate. Battery-conserving baseline operation.</div>
-        </li>
-        <li class="mode-step" style="background:rgba(14,165,233,.06)">
-          <div class="mode-step-n" style="background:var(--teal)">2</div>
-          <div class="mode-step-txt"><strong>AI real-time continuous monitoring</strong>Proprietary AI model monitors every detection cycle (~10 second cycle). Atmospheric reference peaks provide internal calibration standard &mdash; no external reference gas needed.</div>
-        </li>
-        <li class="mode-step" style="background:rgba(14,165,233,.06)">
-          <div class="mode-step-n" style="background:var(--teal)">3</div>
-          <div class="mode-step-txt"><strong>Pre-concentrator silently loading</strong>Airflow passes through the adsorber while its temperature is ramping to release adsorbed components. Preconcentrated components are injected to the sensor and identified and quantified.</div>
-        </li>
-        <li class="mode-step" style="background:rgba(14,165,233,.06)">
-          <div class="mode-step-n" style="background:var(--teal)">4</div>
-          <div class="mode-step-txt"><strong>Instant high-concentration alarm</strong>Lethal-concentration threats detected in &lt;1 second. UI transitions to Yellow (suspicious) or Red (confirmed threat) state.</div>
-        </li>
-      </ul>
-    </div>
-
-    <!-- Confirmation Mode -->
-    <div class="mode-card" style="border:1px solid rgba(245,158,11,.2)">
-      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--amber),#e08d00)"></div>
-      <div class="mode-badge" style="background:rgba(245,158,11,.12);color:var(--amber);border:1px solid rgba(245,158,11,.25)">&#9650; Confirmation Mode &mdash; AI + User Triggered</div>
-      <h3>High-Resolution Active Analysis</h3>
-      <p>Triggered automatically when the AI detects a 1&sigma;/2&sigma; deviation, or manually by the operator. Pre-concentrator desorbs via temperature ramp. AI inference engine runs full multi-variate analysis. Result in ~120 seconds.</p>
-      <ul class="mode-steps">
-        <li class="mode-step" style="background:rgba(245,158,11,.06)">
-          <div class="mode-step-n" style="background:var(--amber);color:var(--navy)">1</div>
-          <div class="mode-step-txt"><strong>Pump ramp to high-force</strong>Airflow increases for maximum molecule throughput through the sensor. AI model continues monitoring on Sensor B while Sensor A enters confirmation.</div>
-        </li>
-        <li class="mode-step" style="background:rgba(245,158,11,.06)">
-          <div class="mode-step-n" style="background:var(--amber);color:var(--navy)">2</div>
-          <div class="mode-step-txt"><strong>Controlled thermal desorption</strong>Pre-concentrator ramps temperature progressively. CWAs and interferences release by boiling point class &mdash; interferents first, agents later. Multi-dimensional data set (spectral intensity &times; optical signature &times; desorption temperature) generated.</div>
-        </li>
-        <li class="mode-step" style="background:rgba(245,158,11,.06)">
-          <div class="mode-step-n" style="background:var(--amber);color:var(--navy)">3</div>
-          <div class="mode-step-txt"><strong>AI multi-variate analysis</strong>Inference engine fuses optical + thermal metadata. Physics-informed constraints prevent false identification. Confidence intervals computed for each candidate agent.</div>
-        </li>
-        <li class="mode-step" style="background:rgba(245,158,11,.06)">
-          <div class="mode-step-n" style="background:var(--amber);color:var(--navy)">4</div>
-          <div class="mode-step-txt"><strong>Result + thermal purge</strong>Agent identity, concentration estimate, and confidence score displayed. Sensor thermally purged with dry scrubbed air. System returns to Screening Mode.</div>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- Sigma trigger callout -->
-  <div class="sigma-strip">
-    <div class="sigma-icon">&#127988;</div>
-    <div>
-      <h4>The Adaptive Trigger &mdash; Context-Aware Sampling</h4>
-      <p>When the AI model detects a 1&sigma; deviation &mdash; before any peak is identified &mdash; the system silently ramps the pump, increases detector integration time, and primes the pre-concentrator. This &ldquo;pre-discovery&rdquo; state maximises data collection during the critical window between &ldquo;something is present&rdquo; and &ldquo;agent confirmed,&rdquo; without triggering a false alarm. Confirmation is only declared at &ge;4&sigma; confidence. This approach doubles effective battery life compared to continuous high-force operation, while ensuring no trace event is missed.</p>
-    </div>
-  </div>
-</div>
-</section>
-<section id="hardware" class="section" style="background:var(--white)">
-<div class="container">
-  <div class="hdr center">
-    <div class="stag teal">Hardware</div>
-    <h2 class="stitle">Lunchbox-sized.<br><em>Lab-grade sensitive.</em></h2>
-    <p class="ssub">Designed from the ground up for field deployment &mdash; not adapted from laboratory equipment. Every component choice reduces size, weight, power, and logistics burden.</p>
-  </div>
-  <div class="hw-grid">
-    <div class="hw-card">
-      <div class="hw-ico">&#128230;</div>
-      <div class="hw-n">~10&sup3;</div>
-      <div class="hw-l">Form Factor (cm)</div>
-      <div class="hw-s">10&times;10&times;10 cm footprint. Fits in a sling bag, attaches to a UAV payload rail, or operates on a vehicle dash.</div>
-    </div>
-    <div class="hw-card">
-      <div class="hw-ico">&#9878;</div>
-      <div class="hw-n">&lt;5 lbs</div>
-      <div class="hw-l">Total System Weight</div>
-      <div class="hw-s">Including battery, sensor assembly, pre-concentrator, and electronics. Dismounted-soldier portable.</div>
-    </div>
-    <div class="hw-card">
-      <div class="hw-ico">&#128267;</div>
-      <div class="hw-n">Full Shift</div>
-      <div class="hw-l">Battery Life</div>
-      <div class="hw-s">Rechargeable Li-ion pack. USB-C PD charging from standard power banks or vehicle supplies. Duty-cycle AI management extends runtime.</div>
-    </div>
-    <div class="hw-card">
-      <div class="hw-ico">&#128260;</div>
-      <div class="hw-n">0</div>
-      <div class="hw-l">Consumable Gases</div>
-      <div class="hw-s">No compressed carrier gas. No GC columns. Single replaceable ambient air-scrubbing cartridge lasts hundreds of operational hours.</div>
-    </div>
-  </div>
-  <div class="hw-features">
-    <div class="hwf">
-      <div class="hwf-ico">&#128376;</div>
-      <div><h4>Cartridge-Style Sensor Module</h4><p>The sensor assembly is pre-aligned in a kinematic-mount sleeve. User swaps a contaminated or degraded module in under 30 seconds with no optical realignment. EEPROM on cartridge stores sensor baseline for instant AI recalibration.</p></div>
-    </div>
-    <div class="hwf">
-      <div class="hwf-ico">&#128311;</div>
-      <div><h4>Dual-Path Zero-Blind-Spot Design</h4><p>Two independent sensor paths operated via proprietary switching architecture. One sensor monitors continuously while the second undergoes thermal purge. No detection gaps during cleaning cycles &mdash; critical in dynamic threat environments.</p></div>
-    </div>
-    <div class="hwf">
-      <div class="hwf-ico">&#128007;</div>
-      <div><h4>Solid-State Pre-Concentrator</h4><p>Compact solid-state trap collects and concentrates the sample stream continuously in the background. Controlled temperature ramp desorption provides separation by volatility class. Integrated heater serves dual purpose: desorption and sensor purge cycle.</p></div>
-    </div>
-    <div class="hwf">
-      <div class="hwf-ico">&#128268;</div>
-      <div><h4>Ambient Air-Scrubbing System</h4><p>Replaceable cartridge containing HEPA filter, molecular sieve desiccant, and activated carbon provides clean dry air for sensor purge cycles &mdash; eliminating the need for compressed gas cylinders entirely. Cartridge replacement interval: hundreds of operating hours.</p></div>
-    </div>
-    <div class="hwf">
-      <div class="hwf-ico">&#128421;</div>
-      <div><h4>Adaptive UI &mdash; Green / Yellow / Red</h4><p>Three-state display reflects real-time AI confidence. Green: clean baseline. Yellow: suspicious deviation detected, system actively investigating. Red: agent confirmed with identity and confidence score. Manual override enables operator-controlled sensitivity threshold.</p></div>
-    </div>
-    <div class="hwf">
-      <div class="hwf-ico">&#128225;</div>
-      <div><h4>Connectivity &amp; Edge Processing</h4><p>On-board NPU provides full offline capability for life-safety alarming. Bluetooth/Wi-Fi bridge optional for data logging, remote monitoring, and cloud forensic library access when connectivity is available. No network dependency for core function.</p></div>
-    </div>
-  </div>
-
-  <!-- GC Module expansion callout -->
-  <div style="margin-top:28px;background:linear-gradient(135deg,rgba(14,165,233,.06),rgba(16,185,129,.04));border:1px solid rgba(14,165,233,.2);border-radius:12px;padding:22px 26px;display:flex;gap:16px;align-items:flex-start">
-    <div style="font-size:1.6rem;flex-shrink:0">&#128300;</div>
-    <div>
-      <div style="font-size:.7rem;font-weight:700;color:var(--teal-d);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;font-family:system-ui,sans-serif">Expansion Path &mdash; Optional Fast GC Module</div>
-      <p style="font-size:.87rem;color:var(--text2);line-height:1.7;font-family:system-ui,sans-serif">For applications requiring the highest confidence identification &mdash; forensic documentation, post-incident analysis, or laboratory use &mdash; r-Guard&trade; accepts an optional fast micro-GC module. Resistive or inductive heating eliminates column warm-up time while maintaining the compact footprint. This transforms the same device into a GC-level analytical instrument without replacing the core sensor and without adding compressed carrier gas requirements. The AI deconvolution layer continues to operate alongside physical separation, combining both for maximum identification confidence and the verification expected for legal or forensic-grade results.</p>
-    </div>
-  </div>
-</div>
-</section>
-<section id="compare">
-<div class="container">
-  <div class="hdr dark">
-    <div class="stag">Competitive Advantage</div>
-    <h2 class="stitle">How r-Guard&trade; compares<br>to existing field detectors</h2>
-    <p class="ssub">Current portable detectors force a choice between speed and specificity. r-Guard&trade; eliminates that trade-off.</p>
-  </div>
-  <div class="tbl-wrap">
-  <table>
-    <thead><tr>
-      <th>Criterion</th>
-      <th>IMS <span style="font-weight:400;opacity:.6;font-size:.65rem">(Field Standard — JCAD, M4A1)</span></th>
-      <th>GC-Based Systems <span style="font-weight:400;opacity:.6;font-size:.65rem">(Lab / Confirmation)</span></th>
-      <th>PID <span style="font-weight:400;opacity:.6;font-size:.65rem">(First Responder Survey)</span></th>
-      <th class="th-us">&#9889; r-Guard&trade; (AATG)</th>
-    </tr></thead>
-    <tbody>
-      <tr><td class="crit">Screening Speed</td><td class="good">&lt;30 sec</td><td class="bad">5&ndash;15 min</td><td class="good">&lt;5 sec</td><td class="us"><span class="ck">&#10003;</span>~10 sec continuous</td></tr>
-      <tr><td class="crit">Confirmation Speed</td><td class="bad">Not applicable</td><td class="mid">5&ndash;15 min</td><td class="bad">Not applicable</td><td class="us"><span class="ck">&#10003;</span>~120 sec field</td></tr>
-      <tr><td class="crit">Molecular Specificity</td><td class="mid">Moderate — drift time only</td><td class="good">High</td><td class="bad">None — class survey only</td><td class="us"><span class="ck">&#10003;</span>High — field grade</td></tr>
-      <tr><td class="crit">False Positive Risk</td><td class="bad">High — perfume, sanitizer, fuels</td><td class="good">Low</td><td class="bad">Very high — non-specific</td><td class="us"><span class="ck">&#10003;</span>Low — AI-filtered</td></tr>
-      <tr><td class="crit">False Negative Risk</td><td class="bad">High — charge competition in mixtures</td><td class="good">Low</td><td class="bad">High — below threshold</td><td class="us"><span class="ck">&#10003;</span>Low — exceptional sensitivity + AI analysis</td></tr>
-      <tr><td class="crit">Mixture Analysis</td><td class="bad">No — charge suppression</td><td class="good">Yes — physical separation</td><td class="bad">No</td><td class="us"><span class="ck">&#10003;</span>3-layer digital deconvolution</td></tr>
-      <tr><td class="crit">Carrier Gas / Consumables</td><td class="good">None</td><td class="bad">Cylinders, columns, calibration gas</td><td class="good">None</td><td class="us"><span class="ck">&#10003;</span>Air cartridge only — no gas</td></tr>
-      <tr><td class="crit">Probabilistic Output</td><td class="bad">Binary alarm only</td><td class="bad">Binary result only</td><td class="bad">Concentration reading only</td><td class="us"><span class="ck">&#10003;</span>Full confidence score + chain</td></tr>
-      <tr><td class="crit">Unknown Compound</td><td class="bad">False alarm or miss</td><td class="mid">Library mismatch flagged</td><td class="bad">Uncharacterised</td><td class="us"><span class="ck">&#10003;</span>Functional group + volatility class</td></tr>
-      <tr><td class="crit">Continuous Monitoring</td><td class="good">Yes</td><td class="bad">No — batch mode</td><td class="good">Yes</td><td class="us"><span class="ck">&#10003;</span>Zero blind spot — dual sensor</td></tr>
-      <tr><td class="crit">Weight</td><td class="mid">2&ndash;15 lbs</td><td class="bad">20&ndash;50 lbs</td><td class="good">&lt;3 lbs</td><td class="us"><span class="ck">&#10003;</span>&lt;5 lbs</td></tr>
-      <tr><td class="crit">Field Deployable</td><td class="good">Yes — handheld</td><td class="bad">Lab / vehicle only</td><td class="good">Yes — handheld</td><td class="us"><span class="ck">&#10003;</span>Handheld / UAV / fixed site</td></tr>
-      <tr><td class="crit">Updateable Library</td><td class="mid">Limited — vendor update</td><td class="mid">Limited — vendor update</td><td class="bad">Not applicable</td><td class="us"><span class="ck">&#10003;</span>OTA wireless update</td></tr>
-    </tbody>
-  </table>
-  </div>
-  <p class="tbl-note">* IMS = Ion Mobility Spectrometry, the most widely deployed field CWA detector technology. GC-based systems include portable GC-MS and related instruments. PID = Photoionization Detector. Development-stage platform — r-Guard&trade; performance figures are projections based on component specifications. Field validation studies are planned.</p>
-</div>
-</section>
-<section id="applications" class="section">
-<div class="container">
-  <div class="hdr">
-    <div class="stag teal">Applications</div>
-    <h2 class="stitle">One platform.<br><em>Multiple deployment domains.</em></h2>
-    <p class="ssub">The same core hardware serves defense, security, and industrial applications. Library and configuration updates tailor the device to each domain without hardware modification.</p>
-  </div>
-  <div class="apps-grid">
-    <div class="app-card" style="background:linear-gradient(135deg,rgba(245,158,11,.07),rgba(245,158,11,.02));border:1.5px solid rgba(245,158,11,.22)">
-      <div class="app-badge" style="background:rgba(245,158,11,.12);color:#92400E;border:1px solid rgba(245,158,11,.25)">&#127981; Primary Application</div>
-      <h3 style="color:#92400E">&#128737;&#65039; CBRNE Defense &mdash; Dismounted &amp; Vehicle</h3>
-      <p>Real-time CWA detection for soldiers, medics, and CBRNE specialists. Wearable/handheld form factor eliminates the logistics burden of compressed gas that currently limits frontline deployment. Continuous monitoring with no detection gap during confirmation cycles.</p>
-      <div class="app-stats">
-        <div><div class="app-sn" style="color:var(--amber)">~10s</div><div class="app-sl">Screening alert</div></div>
-        <div><div class="app-sn" style="color:var(--amber)">120s</div><div class="app-sl">Agent confirmation</div></div>
-        <div><div class="app-sn" style="color:var(--amber)">0</div><div class="app-sl">Gas cylinders</div></div>
-      </div>
-    </div>
-    <div class="app-card" style="background:linear-gradient(135deg,rgba(14,165,233,.07),rgba(14,165,233,.02));border:1.5px solid rgba(14,165,233,.22)">
-      <div class="app-badge" style="background:rgba(14,165,233,.12);color:var(--teal-d);border:1px solid rgba(14,165,233,.25)">&#127981; Primary Application</div>
-      <h3 style="color:var(--teal-d)">&#128640; UAV &amp; Autonomous Platform Payload</h3>
-      <p>Sub-5 lb weight and tank-free design makes r-Guard&trade; the ideal chemical-reconnaissance payload for UAVs and unmanned ground vehicles. Enables standoff CWA detection and area mapping without risking personnel. Edge NPU provides full autonomous operation without ground station connectivity.</p>
-      <div class="app-stats">
-        <div><div class="app-sn" style="color:var(--teal)">&lt;5 lbs</div><div class="app-sl">UAV payload ready</div></div>
-        <div><div class="app-sn" style="color:var(--teal)">100%</div><div class="app-sl">Autonomous capable</div></div>
-        <div><div class="app-sn" style="color:var(--teal)">OTA</div><div class="app-sl">Library updates</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="sapps-grid">
-    <div class="sapp"><div class="sapp-i">&#128119;</div><h4>First Responder &amp; Hazmat</h4><p>Rapid screen-then-confirm capability for civil defense teams at transit hubs, chemical incidents, and disaster sites. Probabilistic output guides triage without false alarms.</p></div>
-    <div class="sapp"><div class="sapp-i">&#127963;</div><h4>Fixed Site &amp; Critical Infrastructure</h4><p>Continuous monitoring at airports, border crossings, government facilities, and chemical plants. Ambient air-scrubbing enables permanent installation without gas supply infrastructure.</p></div>
-    <div class="sapp"><div class="sapp-i">&#127981;</div><h4>Industrial Safety &amp; TIC Monitoring</h4><p>Detection of Toxic Industrial Chemicals (TICs) in manufacturing environments. Same hardware as defense application &mdash; library update targets industrial hazards. No hardware modification required.</p></div>
-    <div class="sapp"><div class="sapp-i">&#128300;</div><h4>Research &amp; Forensic Analysis</h4><p>High-confidence molecular identification with full inference chain output for forensic documentation. Cloud forensic mode accesses extended library of 100,000+ compounds.</p></div>
-  </div>
-</div>
-</section>
-<section id="configs">
-<div class="container">
-  <div class="hdr dark center">
-    <div class="stag">Platform Configurations</div>
-    <h2 class="stitle">One hardware platform.<br><em>Four threat domains.</em></h2>
-    <p class="ssub">Library selection reconfigures r-Guard&trade; for each threat type. The same core hardware and sorbent cartridge &mdash; optimised for VOC collection and moisture removal &mdash; serves all configurations. A software library selection is all that changes.</p>
-  </div>
-  <div class="cfg-wrap">
-  <table class="cfg-tbl">
-    <thead><tr>
-      <th>Configuration</th>
-      <th>Target Threats</th>
-      <th>Key Capability</th>
-      <th>Primary Users</th>
-    </tr></thead>
-    <tbody>
-      <tr>
-        <td>&#9760;&nbsp;CWA Screen<span class="cfg-badge" style="background:rgba(245,158,11,.15);color:var(--amber);border:1px solid rgba(245,158,11,.3);margin-left:8px">Standard</span></td>
-        <td>Nerve agents (G, V series), blister agents (HD, L), blood agents, choking agents</td>
-        <td>Continuous ~10s screening with AI agent identification and confidence scoring. Identifies specific agent, not just compound class. On-site confirmation in ~120s. No second instrument required.</td>
-        <td>Military CBRNE, first responders, fixed-site monitoring</td>
-      </tr>
-      <tr>
-        <td>&#9878;&nbsp;CWA + GC Confirm<span class="cfg-badge" style="background:rgba(14,165,233,.12);color:var(--teal2);border:1px solid rgba(14,165,233,.25);margin-left:8px">Optional add-on</span></td>
-        <td>Full CWA panel + forensic-grade confirmation</td>
-        <td>Physical GC separation combined with AI deconvolution approaches GC-MS-level confirmation performance &mdash; AI layer operates alongside GC for maximum confidence. For legal-grade documentation and post-incident forensic analysis.</td>
-        <td>Forensic teams, post-incident analysis, legal-grade evidence</td>
-      </tr>
-      <tr>
-        <td>&#127981;&nbsp;TIC Monitor<span class="cfg-badge" style="background:rgba(16,185,129,.12);color:#6EE7B7;border:1px solid rgba(16,185,129,.25);margin-left:8px">Library update</span></td>
-        <td>Toxic industrial chemicals: ammonia, chlorine, phosgene, HCN, and 100+ industrial hazards</td>
-        <td>Continuous area monitoring for industrial accident, spill, or deliberate release. Same hardware &mdash; different spectral library selection. No hardware modification required.</td>
-        <td>Industrial safety, occupational health, disaster response, plant monitoring</td>
-      </tr>
-      <tr>
-        <td>&#128165;&nbsp;Explosive Trace<span class="cfg-badge" style="background:rgba(239,68,68,.12);color:#FCA5A5;border:1px solid rgba(239,68,68,.25);margin-left:8px">Library update</span></td>
-        <td>TATP, NG, RDX, PETN, HMTD vapor; TATP precursors (acetone, hydrogen peroxide)</td>
-        <td>TATP and other high-volatility explosive compounds produce detectable vapor signatures at ppb levels. Acetone and hydrogen peroxide detection provides early TATP precursor warning. Addresses a known detection gap in current airport and checkpoint IMS deployments. Same thermal desorption engine &mdash; different temperature profile and spectral library.</td>
-        <td>Military Explosive Ordnance Disposal (EOD), border security, checkpoint screening, aviation security</td>
-      </tr>
-    </tbody>
-  </table>
-  </div>
-  <p style="font-size:.72rem;color:rgba(255,255,255,.27);margin-top:12px;text-align:center;font-family:system-ui,sans-serif">* All configurations use the same core hardware and sorbent cartridge. Switching between CWA, TIC, and Explosive modes requires only a library selection &mdash; no hardware or cartridge change. CWA + GC Confirm requires the optional fast micro-GC add-on module. Development-stage platform &mdash; field validation studies planned.</p>
-</div>
-</section>
-<section id="science" style="background:var(--navy);padding:80px 0">
-<div class="container">
-  <div class="hdr center dark">
-    <div class="stag">The Science Behind r-Guard&trade;</div>
-    <h2 class="stitle">How we achieve what<br><em>others cannot.</em></h2>
-    <p class="ssub">r-Guard&trade; overcomes the fundamental sensitivity and selectivity limitations of conventional field detectors through a proprietary multi-layer approach &mdash; each layer solving a specific failure mode.</p>
-  </div>
-  <div class="arch-grid">
-
-    <!-- Layer 1 -->
-    <div class="arch-card" style="border:1px solid rgba(245,158,11,.22)">
-      <div class="arch-top-bar" style="background:linear-gradient(90deg,var(--amber),#e08d00)"></div>
-      <div class="arch-layer" style="color:var(--amber)">Layer 1 &mdash; Physical Detection</div>
-      <h3>Proprietary Optical Detection</h3>
-      <p>Our proprietary optical detection platform achieves exceptional sensitivity that conventional portable detectors cannot match &mdash; delivering ppb to sub-ppb, pg to ng range detection in a compact field instrument.</p>
-      <ul class="arch-bullets">
-        <li style="color:rgba(255,255,255,.65)"><span style="color:var(--amber)">→</span> Exceptional sensitivity (ppb to sub-ppb, pg to ng range)</li>
-        <li style="color:rgba(255,255,255,.65)"><span style="color:var(--amber)">→</span> Proprietary instrument configuration — IP protected</li>
-        <li style="color:rgba(255,255,255,.65)"><span style="color:var(--amber)">→</span> Compact modular sensor assembly &mdash; fully portable</li>
-        <li style="color:rgba(255,255,255,.65)"><span style="color:var(--amber)">→</span> Enclosed optical path — Class 1 safety profile</li>
-        <li style="color:rgba(255,255,255,.65)"><span style="color:var(--amber)">→</span> Cartridge-style sensor module — 30-second swap in dirty environments</li>
-      </ul>
-    </div>
-
-    <!-- Layer 2 -->
-    <div class="arch-card" style="border:1px solid rgba(14,165,233,.22)">
-      <div class="arch-top-bar" style="background:linear-gradient(90deg,var(--teal),var(--teal2))"></div>
-      <div class="arch-layer" style="color:var(--teal2)">Layer 2 &mdash; Sample Preparation</div>
-      <h3>Controlled Thermal Separation</h3>
-      <p>A solid-state pre-concentrator accumulates the sample stream in parallel with continuous monitoring. When analysis is triggered, a controlled temperature ramp releases compounds by volatility class &mdash; lighter interferents first, heavier threat agents later. This provides physical temporal separation without GC columns, carrier gases, or complex fluidics.</p>
-      <ul class="arch-bullets">
-        <li style="color:rgba(255,255,255,.65)"><span style="color:var(--teal2)">→</span> Temperature ramp separates by volatility class</li>
-        <li style="color:rgba(255,255,255,.65)"><span style="color:var(--teal2)">→</span> Background interferents released before CWA agents</li>
-        <li style="color:rgba(255,255,255,.65)"><span style="color:var(--teal2)">→</span> No carrier gas &mdash; ambient air scrubbing only</li>
-        <li style="color:rgba(255,255,255,.65)"><span style="color:var(--teal2)">→</span> Provides multi-dimensional data set: intensity &times; optical signature &times; temperature</li>
-        <li style="color:rgba(255,255,255,.65)"><span style="color:var(--teal2)">→</span> Pre-concentrator silently loads during screening mode</li>
-      </ul>
-    </div>
-
-    <!-- Layer 3 -->
-    <div class="arch-card" style="border:1px solid rgba(139,92,246,.22)">
-      <div class="arch-top-bar" style="background:linear-gradient(90deg,#7c3aed,var(--purple))"></div>
-      <div class="arch-layer" style="color:var(--purple2)">Layer 3 &mdash; AI Inference</div>
-      <h3>Proprietary AI Inference Engine</h3>
-      <p>A hybrid proprietary AI engine performs real-time analysis. A fast anomaly-detection model monitors continuously for deviations. A full inference engine performs agent identification during confirmation &mdash; providing probabilistic confidence scores, unknown compound attribution, and physics-informed reasoning rather than black-box pattern matching.</p>
-      <ul class="arch-bullets">
-        <li style="color:rgba(255,255,255,.65)"><span style="color:var(--purple2)">→</span> Real-time anomaly detection for 1&sigma;/2&sigma; triggering</li>
-        <li style="color:rgba(255,255,255,.65)"><span style="color:var(--purple2)">→</span> Probabilistic inference for calibrated agent identification</li>
-        <li style="color:rgba(255,255,255,.65)"><span style="color:var(--purple2)">→</span> Physics-informed constraints &mdash; grounded in known signatures of target agents</li>
-        <li style="color:rgba(255,255,255,.65)"><span style="color:var(--purple2)">→</span> Fuses optical + thermal metadata for multi-dimensional analysis</li>
-        <li style="color:rgba(255,255,255,.65)"><span style="color:var(--purple2)">→</span> Cloud-updatable library &mdash; new threats added as software</li>
-      </ul>
-    </div>
-
-  </div>
-
-  <!-- Architecture summary strip -->
-  <div style="background:rgba(255,255,255,.03);border:1px solid rgba(245,158,11,.14);border-radius:14px;padding:24px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
-    <div style="text-align:center;padding:0 12px">
-      <div style="font-size:.67rem;font-weight:700;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;font-family:system-ui,sans-serif">SENSITIVITY SOLVED BY</div>
-      <div style="font-size:1rem;font-weight:700;color:#fff;font-family:Georgia,serif">Proprietary Optical Detection</div>
-      <div style="font-size:.78rem;color:rgba(255,255,255,.42);margin-top:4px;font-family:system-ui,sans-serif">Physical layer &mdash; ppb to sub-ppb, pg to ng sensitivity</div>
-    </div>
-    <div style="text-align:center;padding:0 12px;border-left:1px solid rgba(255,255,255,.07);border-right:1px solid rgba(255,255,255,.07)">
-      <div style="font-size:.67rem;font-weight:700;color:var(--teal2);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;font-family:system-ui,sans-serif">SEPARATION SOLVED BY</div>
-      <div style="font-size:1rem;font-weight:700;color:#fff;font-family:Georgia,serif">Controlled Thermal Separation</div>
-      <div style="font-size:.78rem;color:rgba(255,255,255,.42);margin-top:4px;font-family:system-ui,sans-serif">Sample preparation layer &mdash; no GC needed</div>
-    </div>
-    <div style="text-align:center;padding:0 12px">
-      <div style="font-size:.67rem;font-weight:700;color:var(--purple2);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;font-family:system-ui,sans-serif">IDENTIFICATION SOLVED BY</div>
-      <div style="font-size:1rem;font-weight:700;color:#fff;font-family:Georgia,serif">Proprietary AI Inference</div>
-      <div style="font-size:.78rem;color:rgba(255,255,255,.42);margin-top:4px;font-family:system-ui,sans-serif">AI layer &mdash; probabilistic certainty</div>
-    </div>
-  </div>
-</div>
-</section>
-<section id="future" class="section">
-<div class="container">
-  <div class="hdr">
-    <div class="stag teal">Future Development</div>
-    <h2 class="stitle">A platform that grows.<br><em>Hardware stays. Capabilities expand.</em></h2>
-    <p class="ssub">The r-Guard&trade; instrument is designed as a long-term platform. New capabilities are added through cartridge, library, and accessory updates &mdash; no hardware replacement required for the base unit.</p>
-  </div>
-  <div style="margin-bottom:32px">
-    <div style="font-size:.7rem;font-weight:700;color:var(--teal-d);letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px;font-family:system-ui,sans-serif">Near-Term &mdash; Same Hardware, Software &amp; Accessory Updates</div>
-    <div class="future-grid">
-      <div class="fut-card" style="border-top:3px solid var(--amber)">
-        <div class="fut-badge" style="background:rgba(245,158,11,.1);color:#92400E;border:1px solid rgba(245,158,11,.25)">In Development</div>
-        <h4>&#129531; Surface Contamination &mdash; Wipe &amp; Desorb</h4>
-        <p>A thermal desorber accessory accepts wipe samples from surfaces. The desorbed vapor flows directly into the r-Guard&trade; sensor, enabling surface contamination screening for CWA residues, explosive transfer, and toxic industrial spills &mdash; extending the platform from air monitoring to forensic surface analysis without additional core hardware.</p>
-      </div>
-      <div class="fut-card" style="border-top:3px solid var(--teal)">
-        <div class="fut-badge" style="background:rgba(14,165,233,.1);color:var(--teal-d);border:1px solid rgba(14,165,233,.25)">Planned</div>
-        <h4>&#128165; Expanded Explosive Library</h4>
-        <p>TATP (and TATP precursors, i.e. acetone, hydrogen peroxide), NG,  are high-volatility compounds within r-Guard&trade; detection range. Acetone and peroxide &mdash; commonly used in TATP synthesis &mdash; serve as precursor indicators. Library expansion delivered as OTA software update. No hardware change required.</p>
-      </div>
-      <div class="fut-card" style="border-top:3px solid var(--green)">
-        <div class="fut-badge" style="background:rgba(16,185,129,.1);color:#065F46;border:1px solid rgba(16,185,129,.25)">Planned</div>
-        <h4>&#127981; Extended TIC Library</h4>
-        <p>Expanded library covering 200+ toxic industrial chemicals across ammonia, chlorine, phosgene, HCN, and industrial solvent classes. Supports fixed-site and mobile monitoring for chemical plant incidents, rail hazmat, and environmental contamination events. OTA library update only.</p>
-      </div>
-    </div>
-  </div>
-  <div style="margin-bottom:32px">
-    <div style="font-size:.7rem;font-weight:700;color:var(--teal-d);letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px;font-family:system-ui,sans-serif">Mid-Term &mdash; Instrument Scaling &amp; Application Expansion</div>
-    <div class="future-grid">
-      <div class="fut-card" style="border-top:3px solid var(--purple)">
-        <div class="fut-badge" style="background:rgba(139,92,246,.1);color:#5B21B6;border:1px solid rgba(139,92,246,.25)">Roadmap</div>
-        <h4>&#128300; Tabletop Laboratory Configuration</h4>
-        <p>The same core sensor scaled to a benchtop instrument with an optional fast micro-GC module. Achieves near-GC-MS confirmation performance for forensic, pharmaceutical validation, and advanced field laboratory use &mdash. Bridges field and lab in one platform family.</p>
-      </div>
-      <div class="fut-card" style="border-top:3px solid var(--amber)">
-        <div class="fut-badge" style="background:rgba(245,158,11,.1);color:#92400E;border:1px solid rgba(245,158,11,.25)">Roadmap</div>
-        <h4>&#128737;&#65039; Narcotics &amp; Synthetic Opioid Detection</h4>
-        <p>Fentanyl and novel synthetic opioid analogs at ppb levels &mdash; a critical officer safety and border interdiction need. AI functional group inference handles novel analogs even without a specific library match. Same hardware; narcotics sorbent cartridge and OTA library update required.</p>
-      </div>
-      <div class="fut-card" style="border-top:3px solid var(--teal)">
-        <div class="fut-badge" style="background:rgba(14,165,233,.1);color:var(--teal-d);border:1px solid rgba(14,165,233,.25)">Roadmap</div>
-        <h4>&#127981; Environmental &amp; Pharmaceutical Monitoring</h4>
-        <p>The vapor detection platform extends to industrial environmental compliance and pharmaceutical manufacturing cleaning validation &mdash; detecting residual API and solvent contamination. Aligns with AATG&rsquo;s existing r-Pharm&trade; platform for pharmaceutical applications.</p>
-      </div>
-    </div>
-  </div>
-  <div>
-    <div style="font-size:.7rem;font-weight:700;color:var(--teal-d);letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px;font-family:system-ui,sans-serif">Long-Term &mdash; Medical &amp; Clinical Applications</div>
-    <div style="background:linear-gradient(135deg,rgba(14,165,233,.06),rgba(16,185,129,.04));border:1px solid rgba(14,165,233,.2);border-radius:12px;padding:24px 28px;display:flex;gap:20px;align-items:flex-start">
-      <div style="font-size:2rem;flex-shrink:0">&#x1FAC1;</div>
-      <div>
-        <div style="font-size:.88rem;font-weight:700;color:var(--teal-d);margin-bottom:7px;font-family:system-ui,sans-serif">Breath-Based Medical Diagnostics &mdash; BreathDX&trade;</div>
-        <p style="font-size:.87rem;color:var(--text2);line-height:1.7;font-family:system-ui,sans-serif">The same proprietary optical detection and AI inference architecture already powers <strong>BreathDX&trade;</strong>, our breath-based cancer diagnostic system for lung and breast cancer detection. Volatile organic compounds (VOCs) exhaled by cancer patients are detected and analysed using the same proprietary multi-layer methodology. This cross-domain validation provides the strongest evidence that the r-Guard&trade; platform science is real and validated in a demanding real-world application. <a href="index.html" style="color:var(--teal-d);font-weight:700">Learn more about BreathDX&trade; &rarr;</a></p>
-      </div>
-    </div>
-  </div>
-</div>
-</section>
-<div style="background:linear-gradient(135deg,#071828,#0D2535,#071828);border-top:1px solid rgba(14,165,233,.2);border-bottom:1px solid rgba(14,165,233,.2);padding:22px 0">
-  <div class="container">
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:32px;align-items:center">
-      <div style="display:flex;align-items:flex-start;gap:14px">
-        <div style="font-size:1.6rem;flex-shrink:0">&#127947;</div>
-        <div>
-          <div style="font-size:.68rem;font-weight:700;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px;font-family:system-ui,sans-serif">Team Background</div>
-          <div style="font-size:.82rem;color:rgba(255,255,255,.7);line-height:1.6;font-family:system-ui,sans-serif">30+ years in field threat detection, trace chemical sensing, and defense instrument development. Author of CRC Press and International Labmate field reference works on CWA and explosives detection, co-authored with researchers at <strong style="color:rgba(255,255,255,.9)">Edgewood Chemical Biological Center (ECBC)</strong>.</div>
-        </div>
-      </div>
-      <div style="display:flex;align-items:flex-start;gap:14px">
-        <div style="font-size:1.6rem;flex-shrink:0">&#128219;</div>
-        <div>
-          <div style="font-size:.68rem;font-weight:700;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px;font-family:system-ui,sans-serif">Published Science</div>
-          <div style="font-size:.82rem;color:rgba(255,255,255,.7);line-height:1.6;font-family:system-ui,sans-serif">Author of <em>Detection Technologies for Chemical Warfare Agents and Toxic Vapors</em> (CRC Press) and <em>Field Detection Technologies for Explosives</em> (International Labmate). Proprietary AI inference architecture independently validated in a clinical VOC detection application with demonstrated real-world performance.</div>
-        </div>
-      </div>
-      <div style="display:flex;align-items:flex-start;gap:14px">
-        <div style="font-size:1.6rem;flex-shrink:0">&#128196;</div>
-        <div>
-          <div style="font-size:.68rem;font-weight:700;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px;font-family:system-ui,sans-serif">IP Status</div>
-          <div style="font-size:.82rem;color:rgba(255,255,255,.7);line-height:1.6;font-family:system-ui,sans-serif">Detection methodology, instrument configuration, and AI inference pipeline are IP protected. SBIR/STTR applications in preparation. CWMD and MCDC consortium engagement planned.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<section id="status">
-<div class="container" style="padding:80px 24px">
-  <div class="hdr dark center">
-    <div class="stag">Development Status</div>
-    <h2 class="stitle">Where we are &mdash;<br>and where investment goes</h2>
-    <p class="ssub">Core detection methodology and AI architecture validated. Investment now accelerates hardware integration and field demonstration.</p>
-  </div>
-  <div class="tl">
-    <div class="tli"><div class="tld d"></div><div>
-      <div class="tl-date">Complete</div>
-      <div class="tl-ttl">Core Detection Methodology &amp; AI Engine &mdash; Validated</div>
-      <div class="tl-d">Proprietary optical detection methodology, controlled thermal separation strategy, and hybrid AI inference architecture fully designed and analytically validated. AI inference engine proven in cross-domain VOC detection application (BreathDX). Detection methodology, instrument configuration, and AI pipeline are IP protected. The underlying detection science is documented in published field reference works including <em>Detection Technologies for Chemical Warfare Agents and Toxic Vapors</em> (CRC Press, co-authored with researchers at Edgewood Chemical Biological Center (ECBC)) and <em>Field Detection Technologies for Explosives</em> (International Labmate).</div>
-      <div class="tl-tags"><span class="tlt">Methodology Validated</span><span class="tlt">IP Protected</span><span class="tlt">AI Engine Proven</span><span class="tlt">CRC Press</span><span class="tlt">Edgewood Chemical Biological Center (ECBC)</span></div>
-    </div></div>
-    <div class="tli"><div class="tld a"></div><div>
-      <div class="tl-date">Current &mdash; Active Development</div>
-      <div class="tl-ttl">Hardware Prototype &mdash; Component Integration</div>
-      <div class="tl-d">Active development of integrated hardware prototype combining the proprietary optical detection sensor assembly, solid-state pre-concentrator, dual-path switching architecture, and embedded AI electronics into the target 10&times;10&times;10 cm form factor. Component-level testing ongoing. Target TRL 4&ndash;5 upon prototype completion.</div>
-      <div class="tl-tags"><span class="tlt">Hardware Prototyping</span><span class="tlt">Sensor Integration</span><span class="tlt">Edge NPU</span><span class="tlt">Seeking Investment</span></div>
-    </div></div>
-    <div class="tli"><div class="tld n"></div><div>
-      <div class="tl-date">Next</div>
-      <div class="tl-ttl">Field Demonstration &amp; Government Evaluation</div>
-      <div class="tl-d">Laboratory CWA surrogate testing, followed by controlled field demonstration with CBRNE evaluation partners. SBIR/STTR applications and CWMD/MCDC consortium integration. Commercial pathway: defense prime partnerships and industrial safety licensing.</div>
-      <div class="tl-tags"><span class="tlt">Field Demo</span><span class="tlt">SBIR Phase II</span><span class="tlt">CWMD/MCDC</span><span class="tlt">Commercial Launch</span></div>
-    </div></div>
-  </div>
-</div>
-</section>
-<section id="contact">
-<div class="container" style="padding:80px 24px">
-  <div class="con-g">
-    <div>
-      <h2>Interested in<br>r-Guard&trade;?</h2>
-      <p>We welcome inquiries from defense and security partners, government program officers, UAV/UGV platform integrators, and potential co-founders with spectroscopy or medical device hardware backgrounds.</p>
-      <div class="cdet"><div class="cico">&#x2709;&#xFE0F;</div><span>info [at] advanced-analytical-technology-group.com</span></div>
-      <div class="cdet"><div class="cico">&#x1F4DE;</div><span>(908) 334-5927</span></div>
-      <div class="cdet"><div class="cico">&#x1F4CD;</div><span>New Jersey, USA</span></div>
-      <div style="margin-top:20px;padding:14px 18px;background:rgba(14,165,233,.07);border:1px solid rgba(14,165,233,.25);border-radius:10px">
-        <div style="font-size:.78rem;font-weight:700;color:var(--teal2);margin-bottom:5px;font-family:system-ui,sans-serif">&#128196; Partner &amp; Government Access &mdash; NDA Available</div>
-        <div style="font-size:.78rem;color:rgba(255,255,255,.6);line-height:1.5;font-family:system-ui,sans-serif">Full technical specifications, sensitivity data, instrument architecture details, and AI methodology documentation are available to qualified government program offices, defense prime contractors, and investment partners under a standard NDA. Select &ldquo;r-Guard &mdash; Investment / Funding&rdquo; or the relevant category in the form and note your NDA request.</div>
-      </div>
-      <div style="margin-top:14px;padding:14px 18px;background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2);border-radius:10px">
-        <div style="font-size:.78rem;font-weight:700;color:var(--amber);margin-bottom:5px;font-family:system-ui,sans-serif">Also see: BreathDX Cancer Diagnostic System</div>
-        <div style="font-size:.78rem;color:var(--text2);line-height:1.5;font-family:system-ui,sans-serif">The same proprietary optical detection and AI inference platform also underpins our breath-based cancer detection system. <a href="index.html" style="color:var(--teal-d);font-weight:600">Learn more &rarr;</a></div>
-      </div>
-    </div>
-    <div>
-      <form class="cform" onsubmit="return false">
-        <div class="frow">
-          <input class="fi" type="text" placeholder="First name">
-          <input class="fi" type="text" placeholder="Last name">
-        </div>
-        <input class="fi" type="email" placeholder="Email address">
-        <input class="fi" type="text" placeholder="Organisation / Institution">
-        <select class="fsl">
-          <option value="">Area of interest...</option>
-          <option>r-Guard &mdash; CWA Defense / CBRNE Partnership</option>
-          <option>r-Guard &mdash; Explosive Trace Detection</option>
-          <option>r-Guard &mdash; Narcotics / Law Enforcement</option>
-          <option>r-Guard &mdash; Investment / Funding</option>
-          <option>r-Guard &mdash; UAV / Platform Integration</option>
-          <option>r-Guard &mdash; Government / SBIR Program Officer</option>
-          <option>r-Guard &mdash; Co-founder / Hardware Background</option>
-          <option>r-Guard &mdash; Industrial Safety / TIC</option>
-          <option>BreathDX &mdash; Cancer Diagnostics</option>
-          <option>Both Platforms</option>
-        </select>
-        <textarea class="ft" placeholder="Your message..."></textarea>
-        <button type="submit" class="fsub">Send Message &rarr;</button>
-      </form>
-    </div>
-  </div>
-</div>
-</section>
-<footer>
-<div class="container">
-  <div class="foot">
-    <div class="flogo">AATG <b>&middot;</b> r-Guard&trade; Detection Platform</div>
-    <div class="flinks">
-      <a href="#science">The Science</a>
+<header class="nav">
+  <div class="nav-in">
+    <a class="nav-logo" href="index.html"><img src="images/aatg_logo.png" alt="AATG — Advanced Analytical Technology Group"></a>
+    <nav class="nav-links" id="navlinks">
+      <a href="#problem">Problem</a>
+      <a href="#advantage">Advantages</a>
+      <a href="#modes">How It Works</a>
+      <a href="#hardware">Hardware</a>
+      <a href="#compare">vs. IMS</a>
       <a href="#configs">Configurations</a>
-      <a href="#compare">Advantage</a>
-      <a href="#applications">Applications</a>
-      <a href="index.html">BreathDX &rarr;</a>
-      <a href="#contact">Contact</a>
-    </div>
-    <div class="fcopy">&copy; Advanced Analytical Technology Group LLC, 2002&ndash;2026. All rights reserved.</div>
+      <a href="#science">Science</a>
+      <a href="#status">Status</a>
+      <a class="alt" href="index.html">BreathDX ↗</a>
+      <a class="nav-cta" href="#contact">Contact</a>
+    </nav>
+    <button class="burger" id="burger" aria-label="Menu"><span></span></button>
   </div>
-</div>
+</header>
+
+<!-- HERO -->
+<section class="hero-g" id="top">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow">CBRN · Multi-threat platform</span>
+        <h1>One instrument.<br><span class="u">Every vapor threat.</span></h1>
+        <div class="tags" style="margin:22px 0 0">
+          <span class="tag lead">Chemical Agents</span>
+          <span class="tag lead">Explosives</span>
+          <span class="tag">TIC / Industrial</span>
+          <span class="tag">Narcotics</span>
+        </div>
+        <p class="lede">A solid-state, battery-powered multi-threat detector for CWAs, TICs, and explosives, built on <b>AATG's proprietary detection technology</b> with exceptional sensitivity (ppb to sub-ppb, pg to ng range). Seconds-level screening. 120-second on-site confirmation. <b>No carrier gas. No radioactive source. No second instrument.</b></p>
+        <div style="display:flex; gap:13px; flex-wrap:wrap">
+          <a class="btn btn-primary" href="#advantage">Our advantages <span class="ar">→</span></a>
+          <a class="btn btn-ghost" href="#compare">Compare vs. IMS</a>
+        </div>
+      </div>
+      <div>
+        <div class="device-card">
+          <span class="pill-live" style="position:absolute; top:18px; right:18px; z-index:3"><span class="pulse"></span>IN DEVELOPMENT</span>
+          <img src="images/r-CWA-device.png" alt="r-Guard handheld multi-threat detector">
+          <div class="device-meta">
+            <div>
+              <div class="name">r-Guard™</div>
+              <div class="role">Handheld multi-threat detector</div>
+            </div>
+            <div style="text-align:right">
+              <div class="mono" style="font-size:12px;color:var(--teal-deep);font-weight:500">&lt;5 lbs</div>
+              <div class="mono" style="font-size:10px;color:var(--faint);text-transform:uppercase;letter-spacing:.06em">10×10×10 cm</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="specrow rv" style="margin-top:40px">
+      <div><div class="val">~10<small class="mono" style="font-size:12px"> s</small></div><div class="cap">Screening — continuous</div></div>
+      <div><div class="val">120<small class="mono" style="font-size:12px"> s</small></div><div class="cap">On-site confirmation</div></div>
+      <div><div class="val">ppb</div><div class="cap">To sub-ppb sensitivity</div></div>
+      <div><div class="val">&lt;5<small class="mono" style="font-size:12px"> lbs</small></div><div class="cap">Handheld · UAV · fixed site</div></div>
+    </div>
+
+    <div class="ipband rv" style="margin-top:22px">
+      <span class="k">⚠ IP PROTECTED</span>
+      <p><b>Proprietary technology.</b> Detection methodology, instrument configuration, signal processing architecture, and AI inference pipeline are IP protected. Full technical specifications, sensitivity data, and system architecture are available to qualified government and industry partners under executed NDA. <a href="#contact">Request partner access →</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section id="problem" class="alt-bg">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Problems we are resolving</span>
+      <h2>What current field detectors cannot do — and we can.</h2>
+      <p>Having worked in threat detection for close to 30 years, we understand the limitations operators live with daily. r-Guard™ was designed specifically to close every gap current technology leaves open.</p>
+    </div>
+    <div class="prob-list">
+      <div class="prob rv">
+        <div class="idx">01</div>
+        <div><h3>IMS — the standard, with critical limitations</h3><p class="p-old">Ion Mobility Spectrometry dominates field CWA detection, but its limits are well documented: poor resolution and peak shifting drive false negatives, <b>charge competition</b> in mixed vapor suppresses target agents, <b>high humidity</b> degrades performance exactly when reliability matters, and the <b>radioactive Ni-63 source</b> adds handling, transport, and disposal constraints.</p></div>
+        <div class="p-fix"><span class="lbl">r-Guard approach</span>AI deconvolution identifies specific agents in complex mixtures. <b>No radioactive source. No charge-competition failure mode</b> — it does not apply to our detection principle. Probabilistic confidence scores replace binary alarms, cutting both false positive and false negative rates.</div>
+      </div>
+      <div class="prob rv">
+        <div class="idx">02</div>
+        <div><h3>Binary output — alarm or silence, nothing more</h3><p class="p-old">Most field detectors give a threshold alarm: positive or negative, a compound class at best. They cannot quantify confidence, report concentration, or tell a strong interferent from a genuine threat. In high-stakes scenarios, a wrong answer is as dangerous as no answer.</p></div>
+        <div class="p-fix"><span class="lbl">r-Guard approach</span><b>Specific agent identification with a probabilistic confidence score</b> — not just a class name. Concentration estimate and full inference chain provided. The operator knows not just "what" but "how certain."</div>
+      </div>
+      <div class="prob rv">
+        <div class="idx">03</div>
+        <div><h3>Unknown threats produce no actionable information</h3><p class="p-old">Deployed detectors only identify what is already in their library. A novel synthetic agent, new precursor, or unknown industrial chemical produces a forced false match or silence. As adversarial chemistry evolves, this gap widens — and adding a substance takes a vendor update cycle measured in months.</p></div>
+        <div class="p-fix"><span class="lbl">r-Guard approach</span><b>Molecular signature analysis</b> infers probable functional groups, volatility behaviour, and likely chemical class. Unknown alarms arrive with intelligence, not silence — and new threats are added by <b>wireless OTA update</b>.</div>
+      </div>
+      <div class="prob rv">
+        <div class="idx">04</div>
+        <div><h3>Detection blind spots during analysis cycles</h3><p class="p-old">Traditional systems are effectively blind while analyzing. Lab-style instruments cannot monitor the air stream while processing a sample; IMS units have maintenance windows where monitoring stops. Against a second release or a moving plume, a 30-second gap can be operationally decisive.</p></div>
+        <div class="p-fix"><span class="lbl">r-Guard approach</span><b>Continuous monitoring with no detection gaps.</b> One sensor path monitors while the other prepares or purges, returning to monitoring within seconds of confirmation. The adaptive AI trigger primes the system silently during screening, so confirmation is always instantly ready.</div>
+      </div>
+      <div class="prob rv">
+        <div class="idx">05</div>
+        <div><h3>Logistics burden limits field deployability</h3><p class="p-old">Lab-grade confirmation instruments need <b>compressed carrier gas cylinders</b>, high-vacuum pumps, and significant power. IMS units carry <b>radioactive Ni-63 sources</b> subject to transport restrictions. For dismounted soldiers, UAV payloads, or resource-constrained responders, field confirmation simply does not exist.</p></div>
+        <div class="p-fix"><span class="lbl">r-Guard approach</span><b>Tank-free. Source-free. Battery-powered.</b> No compressed gas, no radioactive material, no vacuum pump. One replaceable air-scrubbing cartridge lasts hundreds of operating hours. Fits in a sling bag. Mounts on a UAV.</div>
+      </div>
+      <div class="prob rv">
+        <div class="idx">06</div>
+        <div><h3>Confirmation is slow and needs a second instrument</h3><p class="p-old">When IMS alarms, the operator cannot confirm in the field — verification means a separate lab or vehicle-mounted instrument needing carrier gas, vacuum, and power. Analysis takes <b>5–15 minutes</b>, during which exposure continues. The gap between fast alarm and confirmed identification has never been closed in one portable instrument.</p></div>
+        <div class="p-fix"><span class="lbl">r-Guard approach</span><b>Screen and confirm in one device, on site.</b> ~10-second screening, ~120-second confirmation. No second instrument, no laboratory, no waiting — the decision cycle closes at the point of exposure, for the first time in a handheld package.</div>
+      </div>
+    </div>
+    <div class="ipband rv" style="margin-top:30px">
+      <span class="k">VALIDATED SCIENCE</span>
+      <p><b>Built on validated science and engineering — not unsubstantiated claims.</b> The detection principle and methodology underpinning r-Guard™ are grounded in extensive research and engineering development in related fields, including trace vapor detection and probabilistic chemical identification, and in published field reference works co-authored with researchers at Edgewood Chemical Biological Center (ECBC). The proprietary AI inference architecture has been independently validated in a demanding clinical VOC detection application.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ADVANTAGES -->
+<section id="advantage">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Performance advantages</span>
+      <h2>Seven capabilities no current field detector offers.</h2>
+      <p>Each addresses a documented limitation of current detectors — especially the widely deployed IMS-based systems — and the confirmation gap never closed in a single portable instrument.</p>
+    </div>
+    <div class="adv-grid">
+      <div class="adv rv"><div class="big">Low</div><div><h3>Both false positive AND false negative rates reduced</h3><p>Proprietary AI combined with molecular-level identification outputs confidence scores, not binary alarms, and distinguishes target agents from interferents in complex mixtures. Charge competition — the primary IMS failure mode causing false negatives in mixed environments — does not apply to our detection principle.</p><span class="vs">IMS: high false positive AND false negative risk</span></div></div>
+      <div class="adv rv"><div class="big">ppb</div><div><h3>Exceptional sensitivity in real field conditions</h3><p>Proprietary detection technology delivers ppb to sub-ppb (pg to ng range) sensitivity in a compact field instrument — maintained in humid, dusty, and chemically complex environments where IMS degrades significantly. Key for high-volatility explosive vapors such as TATP and NG, and precursors including acetone and hydrogen peroxide.</p><span class="vs">IMS sensitivity degrades with humidity &amp; interferents</span></div></div>
+      <div class="adv rv"><div class="big">1</div><div><h3>Screen AND confirm on site — one device</h3><p>~10s screening and ~120s full agent confirmation in one handheld unit. Eliminates the confirmation gap that forces operators to choose between fast-but-unreliable and accurate-but-absent. No second instrument. No laboratory. No waiting.</p><span class="vs">IMS + lab-grade instrument required today</span></div></div>
+      <div class="adv rv"><div class="big">?</div><div><h3>Unknown compounds characterised — not just flagged</h3><p>For compounds in no library, r-Guard™ performs molecular signature analysis: characteristic features map to functional groups (organophosphate, C=O carbonyl, C-H, halide class), and volatility behaviour further resolves components. Together these let the AI infer probable chemical class and — often — a reasoned estimate of the specific compound, without a library match.</p><span class="vs">Current detectors: unknown = silence or forced false match</span></div></div>
+      <div class="adv rv"><div class="big">ID</div><div><h3>Specific agent ID with confidence — not just a class</h3><p>Some IMS systems report agent names, but with far higher false identification rates in complex environments where charge competition corrupts the result. r-Guard™ identifies individual molecules with high precision, providing the specific agent name alongside a calibrated confidence score and a full inference chain the operator can evaluate.</p><span class="vs">IMS: class-level or unreliable specific ID</span></div></div>
+      <div class="adv rv"><div class="big">0</div><div><h3>No radioactive source, carrier gas, or vacuum pump</h3><p>No Ni-63 source — no radioactive handling, transport restrictions, or disposal. No compressed gas cylinders. No high-vacuum pump. One replaceable air-scrubbing cartridge, used to clean the system when needed, is the only consumable — lasting hundreds of operational hours.</p><span class="vs">IMS: Ni-63 source. Lab-grade: carrier gas + vacuum</span></div></div>
+      <div class="adv rv"><div class="big">OTA</div><div><h3>New threats added as a wireless update</h3><p>New AI models and threat libraries are pushed wirelessly to all deployed devices simultaneously. As novel agents, precursors, and emerging threats appear, the entire sensor fleet updates at software speed — no hardware recalls, no field modifications, no vendor cycle measured in months.</p><span class="vs">Current systems: vendor hardware update required</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- MODES -->
+<section id="modes" class="alt-bg">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Operating modes</span>
+      <h2>Always watching. Instantly ready to confirm.</h2>
+      <p>Two adaptive modes run in concert — continuous monitoring transitions seamlessly to active high-resolution confirmation without user intervention.</p>
+    </div>
+    <div class="modes-grid">
+      <div class="mode rv">
+        <div class="mh">
+          <div class="k">● Screening mode — continuous</div>
+          <h3>Continuous monitoring</h3>
+          <p>Ambient air flows continuously through the detection module. The AI monitors the real-time stream at low power, establishing a dynamic baseline and alarming fast on high-concentration threats.</p>
+        </div>
+        <ol>
+          <li><span class="n">01</span><div><b>Low-power continuous airflow</b><span>A micro-pump draws ambient air through the module continuously at low flow rate — battery-conserving baseline operation.</span></div></li>
+          <li><span class="n">02</span><div><b>AI real-time monitoring</b><span>The proprietary AI model monitors every detection cycle (~10 seconds). Atmospheric reference features provide an internal calibration standard — no external reference gas needed.</span></div></li>
+          <li><span class="n">03</span><div><b>Sample concentrator silently loading</b><span>The concentrator collects in the background during monitoring, so confirmation is always primed and ready.</span></div></li>
+          <li><span class="n">04</span><div><b>Instant high-concentration alarm</b><span>Lethal-concentration threats detected in under 1 second. The UI transitions to Yellow (suspicious) or Red (confirmed threat).</span></div></li>
+        </ol>
+      </div>
+      <div class="mode rv">
+        <div class="mh">
+          <div class="k">▲ Confirmation mode — AI or user triggered</div>
+          <h3>High-resolution active analysis</h3>
+          <p>Triggered automatically when the AI detects a statistically significant deviation, or manually by the operator. The AI inference engine runs full multi-variate analysis, with a result in ~120 seconds.</p>
+        </div>
+        <ol>
+          <li><span class="n">01</span><div><b>Pump ramps to high flow</b><span>Airflow increases for maximum throughput. The AI continues monitoring on the second sensor path while the first enters confirmation.</span></div></li>
+          <li><span class="n">02</span><div><b>Controlled sample release</b><span>The concentrator releases collected compounds in a controlled sequence by volatility class — interferents first, agents later — generating a multi-dimensional data set.</span></div></li>
+          <li><span class="n">03</span><div><b>AI multi-variate analysis</b><span>The inference engine fuses detection and sample metadata. Physics-informed constraints prevent false identification, and confidence intervals are computed for each candidate agent.</span></div></li>
+          <li><span class="n">04</span><div><b>Result and purge</b><span>Agent identity, concentration estimate, and confidence score displayed. The module is purged with dry scrubbed air and returns to Screening Mode.</span></div></li>
+        </ol>
+      </div>
+    </div>
+    <div class="ipband rv" style="margin-top:22px">
+      <span class="k">ADAPTIVE TRIGGER</span>
+      <p><b>Context-aware sampling.</b> When the AI detects a slight deviation — before any agent is identified — the system silently ramps the pump, increases integration time, and primes for confirmation. This "pre-discovery" state maximises data collection during the critical window between "something is present" and "agent confirmed," without triggering a false alarm. Confirmation is only declared at high statistical confidence. The approach roughly doubles effective battery life versus continuous high-power operation, while ensuring no trace event is missed.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HARDWARE -->
+<section id="hardware">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Hardware</span>
+      <h2>Lunchbox-sized. Lab-grade sensitive.</h2>
+      <p>Designed from the ground up for field deployment — not adapted from laboratory equipment. Every component choice reduces size, weight, power, and logistics burden.</p>
+    </div>
+    <div class="specrow rv" style="margin-bottom:22px">
+      <div><div class="val">10³<small class="mono" style="font-size:11px"> cm</small></div><div class="cap">10×10×10 form factor</div></div>
+      <div><div class="val">&lt;5<small class="mono" style="font-size:12px"> lbs</small></div><div class="cap">Total system weight</div></div>
+      <div><div class="val">Full<small class="mono" style="font-size:12px"> shift</small></div><div class="cap">Battery life · USB-C PD</div></div>
+      <div><div class="val">0</div><div class="cap">Consumable gases</div></div>
+    </div>
+    <div class="grid-3">
+      <div class="card rv"><div class="k">Module</div><h3>Cartridge-style sensor module</h3><p>The sensor assembly is pre-aligned in a kinematic-mount sleeve. A contaminated or degraded module swaps in under 30 seconds with no realignment. On-cartridge memory stores the sensor baseline for instant AI recalibration.</p></div>
+      <div class="card rv"><div class="k">Architecture</div><h3>Dual-path, zero-blind-spot design</h3><p>Two independent sensor paths operated via proprietary switching architecture. One path monitors continuously while the other purges — no detection gaps during cleaning cycles, critical in dynamic threat environments.</p></div>
+      <div class="card rv"><div class="k">Sample handling</div><h3>Solid-state sample concentrator</h3><p>A compact solid-state trap collects and concentrates the sample stream continuously in the background. Controlled release resolves components by volatility class, and the integrated heater doubles as the purge cycle.</p></div>
+      <div class="card rv"><div class="k">Consumable</div><h3>Ambient air-scrubbing system</h3><p>A replaceable cartridge — HEPA filter, molecular sieve desiccant, and activated carbon — provides clean dry air for purge cycles, eliminating compressed gas cylinders entirely. Replacement interval: hundreds of operating hours.</p></div>
+      <div class="card rv"><div class="k">Interface</div><h3>Adaptive UI — green / yellow / red</h3><p>A three-state display reflects real-time AI confidence. Green: clean baseline. Yellow: suspicious deviation, actively investigating. Red: agent confirmed with identity and confidence score. Manual override enables operator-controlled thresholds.</p></div>
+      <div class="card rv"><div class="k">Compute</div><h3>Connectivity &amp; edge processing</h3><p>An on-board NPU provides full offline capability for life-safety alarming. Optional Bluetooth/Wi-Fi bridge for data logging, remote monitoring, and cloud forensic library access. No network dependency for core function.</p></div>
+    </div>
+    <div class="guard-strip rv" style="margin-top:20px">
+      <div class="gt">
+        <div class="k">Expansion path · optional add-on</div>
+        <h3>Forensic confirmation module</h3>
+        <p>For applications demanding the highest identification confidence — forensic documentation, post-incident analysis, or laboratory use — r-Guard™ accepts an optional add-on module that raises the same device to laboratory-grade analytical performance, without replacing the core sensor and without adding compressed carrier gas requirements. The AI layer continues to operate alongside it, combining both for maximum confidence and legal-grade verification.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARE -->
+<section id="compare" class="alt-bg">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Competitive advantage</span>
+      <h2>How r-Guard™ compares to existing field detectors.</h2>
+      <p>Current portable detectors force a choice between speed and specificity. r-Guard™ eliminates that trade-off.</p>
+    </div>
+    <div class="cmp-wrap rv">
+      <table class="cmp">
+        <thead><tr>
+          <th>Criterion</th>
+          <th>IMS<small>Field standard — JCAD, M4A1</small></th>
+          <th>Lab-grade systems<small>Confirmation instruments</small></th>
+          <th>PID<small>First responder survey</small></th>
+          <th class="us">r-Guard™ (AATG)</th>
+        </tr></thead>
+        <tbody>
+          <tr><th>Screening speed</th><td>&lt;30 sec</td><td>5–15 min</td><td>&lt;5 sec</td><td class="us">~10 sec continuous</td></tr>
+          <tr><th>Confirmation speed</th><td>Not applicable</td><td>5–15 min</td><td>Not applicable</td><td class="us">~120 sec, in field</td></tr>
+          <tr><th>Molecular specificity</th><td>Moderate — drift time only</td><td>High</td><td>None — class survey only</td><td class="us">High — field grade</td></tr>
+          <tr><th>False positive risk</th><td>High — perfume, sanitizer, fuels</td><td>Low</td><td>Very high — non-specific</td><td class="us">Low — AI-filtered</td></tr>
+          <tr><th>False negative risk</th><td>High — charge competition in mixtures</td><td>Low</td><td>High — below threshold</td><td class="us">Low — high sensitivity + AI</td></tr>
+          <tr><th>Mixture analysis</th><td>No — charge suppression</td><td>Yes</td><td>No</td><td class="us">Multi-layer digital deconvolution</td></tr>
+          <tr><th>Carrier gas / consumables</th><td>None</td><td>Cylinders, columns, calibration gas</td><td>None</td><td class="us">Air cartridge only — no gas</td></tr>
+          <tr><th>Probabilistic output</th><td>Binary alarm only</td><td>Binary result only</td><td>Concentration reading only</td><td class="us">Full confidence score + chain</td></tr>
+          <tr><th>Unknown compound</th><td>False alarm or miss</td><td>Library mismatch flagged</td><td>Uncharacterised</td><td class="us">Functional group + volatility class</td></tr>
+          <tr><th>Continuous monitoring</th><td>Yes</td><td>No — batch mode</td><td>Yes</td><td class="us">Zero blind spot — dual path</td></tr>
+          <tr><th>Weight</th><td>2–15 lbs</td><td>20–50 lbs</td><td>&lt;3 lbs</td><td class="us">&lt;5 lbs</td></tr>
+          <tr><th>Field deployable</th><td>Yes — handheld</td><td>Lab / vehicle only</td><td>Yes — handheld</td><td class="us">Handheld / UAV / fixed site</td></tr>
+          <tr><th>Updateable library</th><td>Limited — vendor update</td><td>Limited — vendor update</td><td>Not applicable</td><td class="us">OTA wireless update</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="foot-note">IMS = Ion Mobility Spectrometry, the most widely deployed field CWA detector technology. PID = Photoionization Detector. Development-stage platform — r-Guard™ performance figures are projections based on component specifications. Field validation studies are planned.</p>
+  </div>
+</section>
+
+<!-- APPLICATIONS -->
+<section id="applications">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Applications</span>
+      <h2>One platform. Multiple deployment domains.</h2>
+      <p>The same core hardware serves defense, security, and industrial applications. Library and configuration updates tailor the device to each domain without hardware modification.</p>
+    </div>
+    <div class="apps-2">
+      <div class="appbox rv">
+        <div class="k">Primary application</div>
+        <h3>CBRNE defense — dismounted &amp; vehicle</h3>
+        <p>Real-time CWA detection for soldiers, medics, and CBRNE specialists. The wearable/handheld form factor eliminates the compressed-gas logistics burden that currently limits frontline deployment, with continuous monitoring and no detection gap during confirmation cycles.</p>
+        <div class="specrow"><div><div class="val">~10<small class="mono" style="font-size:11px">s</small></div><div class="cap">Screening alert</div></div><div><div class="val">120<small class="mono" style="font-size:11px">s</small></div><div class="cap">Agent confirmation</div></div><div><div class="val">0</div><div class="cap">Gas cylinders</div></div><div><div class="val">24/7</div><div class="cap">Continuous</div></div></div>
+      </div>
+      <div class="appbox rv">
+        <div class="k">Primary application</div>
+        <h3>UAV &amp; autonomous platform payload</h3>
+        <p>Sub-5 lb weight and a tank-free design make r-Guard™ an ideal chemical-reconnaissance payload for UAVs and unmanned ground vehicles — enabling standoff CWA detection and area mapping without risking personnel. Edge NPU provides full autonomous operation without a ground station.</p>
+        <div class="specrow"><div><div class="val">&lt;5<small class="mono" style="font-size:11px"> lbs</small></div><div class="cap">UAV payload ready</div></div><div><div class="val">100<small>%</small></div><div class="cap">Autonomous capable</div></div><div><div class="val">OTA</div><div class="cap">Library updates</div></div><div><div class="val">NPU</div><div class="cap">On-board edge AI</div></div></div>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="card rv"><div class="k">Civil defense</div><h3>First responder &amp; hazmat</h3><p>Rapid screen-then-confirm capability for civil defense teams at transit hubs, chemical incidents, and disaster sites. Probabilistic output guides triage without false alarms.</p></div>
+      <div class="card rv"><div class="k">Infrastructure</div><h3>Fixed site &amp; critical infrastructure</h3><p>Continuous monitoring at airports, border crossings, government facilities, and chemical plants. Ambient air-scrubbing enables permanent installation without gas supply infrastructure.</p></div>
+      <div class="card rv"><div class="k">Industry</div><h3>Industrial safety &amp; TIC monitoring</h3><p>Detection of Toxic Industrial Chemicals in manufacturing environments. Same hardware as the defense application — a library update targets industrial hazards, with no hardware modification.</p></div>
+      <div class="card rv"><div class="k">Forensics</div><h3>Research &amp; forensic analysis</h3><p>High-confidence molecular identification with full inference chain output for forensic documentation. Cloud forensic mode accesses an extended library of 100,000+ compounds.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONFIGS -->
+<section id="configs" class="alt-bg">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Platform configurations</span>
+      <h2>One hardware platform. Four threat domains.</h2>
+      <p>Library selection reconfigures r-Guard™ for each threat type. The same core hardware and collection cartridge serves all configurations — a software library selection is all that changes.</p>
+    </div>
+    <div class="cmp-wrap rv">
+      <table class="cmp">
+        <thead><tr><th>Configuration</th><th>Target threats</th><th>Key capability</th><th>Primary users</th></tr></thead>
+        <tbody>
+          <tr>
+            <th>CWA Screen<br><span class="mono" style="font-size:10px;color:var(--faint);font-weight:400">STANDARD</span></th>
+            <td>Nerve agents (G, V series), blister agents (HD, L), blood agents, choking agents</td>
+            <td>Continuous ~10s screening with AI agent identification and confidence scoring. Identifies the specific agent, not just a compound class. On-site confirmation in ~120s, no second instrument.</td>
+            <td>Military CBRNE, first responders, fixed-site monitoring</td>
+          </tr>
+          <tr>
+            <th>CWA + Forensic Confirm<br><span class="mono" style="font-size:10px;color:var(--faint);font-weight:400">OPTIONAL ADD-ON</span></th>
+            <td>Full CWA panel + forensic-grade confirmation</td>
+            <td>The optional confirmation module combined with AI deconvolution approaches laboratory-level performance — the AI layer operates alongside it for maximum confidence. For legal-grade documentation and post-incident analysis.</td>
+            <td>Forensic teams, post-incident analysis, legal-grade evidence</td>
+          </tr>
+          <tr>
+            <th>TIC Monitor<br><span class="mono" style="font-size:10px;color:var(--faint);font-weight:400">LIBRARY UPDATE</span></th>
+            <td>Toxic industrial chemicals: ammonia, chlorine, phosgene, HCN, and 100+ industrial hazards</td>
+            <td>Continuous area monitoring for industrial accident, spill, or deliberate release. Same hardware — different library selection, no hardware modification required.</td>
+            <td>Industrial safety, occupational health, disaster response, plant monitoring</td>
+          </tr>
+          <tr>
+            <th>Explosive Trace<br><span class="mono" style="font-size:10px;color:var(--faint);font-weight:400">LIBRARY UPDATE</span></th>
+            <td>TATP, NG, RDX, PETN, HMTD vapor; TATP precursors (acetone, hydrogen peroxide)</td>
+            <td>High-volatility explosive compounds produce detectable vapor signatures at ppb levels. Acetone and peroxide detection provides early TATP precursor warning — addressing a known gap in current airport and checkpoint IMS deployments.</td>
+            <td>Military EOD, border security, checkpoint screening, aviation security</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="foot-note">All configurations use the same core hardware and collection cartridge. Switching between CWA, TIC, and Explosive modes requires only a library selection — no hardware or cartridge change. CWA + Forensic Confirm requires the optional add-on module. Development-stage platform — field validation studies planned.</p>
+  </div>
+</section>
+
+<!-- SCIENCE -->
+<section id="science">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">The science behind r-Guard™</span>
+      <h2>Three failure modes. Three solutions.</h2>
+      <p>r-Guard™ overcomes the sensitivity and selectivity limits of conventional field detectors through a proprietary multi-layer approach — each layer solving one specific failure mode. What the platform delivers is below; how it is built is IP protected.</p>
+    </div>
+    <div class="sci-grid">
+      <div class="sci rv">
+        <div class="k">Sensitivity solved by</div>
+        <h3>Proprietary detection</h3>
+        <p>Our proprietary detection technology achieves sensitivity conventional portable detectors cannot match — in a compact field instrument.</p>
+        <ul>
+          <li>Exceptional sensitivity — ppb to sub-ppb, pg to ng range</li>
+          <li>Maintained in humid, dusty, chemically complex air</li>
+          <li>Compact modular assembly — fully portable</li>
+          <li>Fully enclosed module — safe for operator handling</li>
+          <li>Cartridge module — 30-second swap in dirty environments</li>
+        </ul>
+      </div>
+      <div class="sci rv">
+        <div class="k">Selectivity solved by</div>
+        <h3>Proprietary sample preparation</h3>
+        <p>Compounds are collected in parallel with continuous monitoring, then released in a controlled sequence — resolving interferents from threat agents before identification.</p>
+        <ul>
+          <li>Interferents resolved ahead of threat agents</li>
+          <li>No carrier gas — ambient air scrubbing only</li>
+          <li>Produces a multi-dimensional data set per sample</li>
+          <li>Loads silently during screening — always primed</li>
+          <li>No cylinders, columns, or complex fluidics</li>
+        </ul>
+      </div>
+      <div class="sci rv">
+        <div class="k">Certainty solved by</div>
+        <h3>Proprietary AI inference</h3>
+        <p>A hybrid AI engine performs real-time analysis: a fast anomaly model watches continuously, and a full inference engine identifies agents during confirmation.</p>
+        <ul>
+          <li>Real-time anomaly detection for adaptive triggering</li>
+          <li>Probabilistic inference — calibrated agent identification</li>
+          <li>Physics-informed constraints, not black-box matching</li>
+          <li>Unknown compound attribution with reasoning</li>
+          <li>Cloud-updatable library — new threats added as software</li>
+        </ul>
+      </div>
+    </div>
+    <p class="foot-note">Detection methodology, instrument configuration, and AI inference pipeline are IP protected. Full technical architecture is available to qualified partners under executed NDA.</p>
+  </div>
+</section>
+
+<!-- FUTURE -->
+<section id="future" class="alt-bg">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Future development</span>
+      <h2>A platform that grows. Hardware stays, capabilities expand.</h2>
+      <p>r-Guard™ is designed as a long-term platform. New capabilities arrive through cartridge, library, and accessory updates — no hardware replacement for the base unit.</p>
+    </div>
+    <div class="grid-3" style="margin-bottom:18px">
+      <div class="card rv"><div class="k">In development · near-term</div><h3>Surface contamination — wipe &amp; desorb</h3><p>An accessory accepts wipe samples from surfaces, feeding vapor directly into the r-Guard™ module. Extends the platform from air monitoring to forensic surface analysis for CWA residues, explosive transfer, and industrial spills — no additional core hardware.</p></div>
+      <div class="card rv"><div class="k">Planned · near-term</div><h3>Expanded explosive library</h3><p>TATP and precursors (acetone, hydrogen peroxide) and NG are high-volatility compounds within r-Guard™ detection range, with precursors serving as early indicators. Delivered as an OTA software update — no hardware change.</p></div>
+      <div class="card rv"><div class="k">Planned · near-term</div><h3>Extended TIC library</h3><p>Expanded coverage of 200+ toxic industrial chemicals across ammonia, chlorine, phosgene, HCN, and solvent classes. Supports fixed-site and mobile monitoring for plant incidents, rail hazmat, and environmental events. OTA update only.</p></div>
+      <div class="card rv"><div class="k">Roadmap · mid-term</div><h3>Tabletop laboratory configuration</h3><p>The same core sensor scaled to a benchtop instrument with the optional confirmation module — approaching laboratory-grade performance for forensic, pharmaceutical validation, and advanced field laboratory use. Bridges field and lab in one platform family.</p></div>
+      <div class="card rv"><div class="k">Roadmap · mid-term</div><h3>Narcotics &amp; synthetic opioid detection</h3><p>Fentanyl and novel synthetic opioid analogs at ppb levels — a critical officer-safety and border-interdiction need. AI functional-group inference handles novel analogs even without a library match. Same hardware; narcotics cartridge and OTA library update.</p></div>
+      <div class="card rv"><div class="k">Roadmap · mid-term</div><h3>Environmental &amp; pharmaceutical monitoring</h3><p>The vapor detection platform extends to environmental compliance and pharmaceutical cleaning validation — detecting residual API and solvent contamination. Aligns with AATG's r-Pharm™ platform.</p></div>
+    </div>
+    <div class="guard-strip rv">
+      <div class="gt">
+        <div class="k">Long-term · medical &amp; clinical</div>
+        <h3>BreathDX™ — breath-based medical diagnostics</h3>
+        <p>The same proprietary detection and AI inference architecture already powers BreathDX™, our breath-based cancer diagnostic system for lung and breast cancer. VOCs exhaled by patients are detected and analysed using the same proprietary multi-layer methodology — cross-domain validation that is the strongest evidence the r-Guard™ platform science is real.</p>
+      </div>
+      <a class="btn btn-primary" href="index.html">Learn about BreathDX™ <span class="ar">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- STATUS -->
+<section id="status">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Development status</span>
+      <h2>Where we are — and where investment goes.</h2>
+      <p>Core detection methodology and AI architecture are validated. Investment now accelerates hardware integration and field demonstration.</p>
+    </div>
+    <div class="tl">
+      <div class="tl-item done rv">
+        <div class="st">Complete</div>
+        <h3>Core detection methodology &amp; AI engine — validated</h3>
+        <p>Proprietary detection methodology, sample preparation strategy, and hybrid AI inference architecture fully designed and analytically validated. The AI engine is proven in a cross-domain VOC detection application (BreathDX). The underlying detection science is documented in published field reference works including <i>Detection Technologies for Chemical Warfare Agents and Toxic Vapors</i> (CRC Press, co-authored with ECBC researchers) and <i>Field Detection Technologies for Explosives</i> (International Labmate).</p>
+        <div class="chips"><span>Methodology validated</span><span>IP protected</span><span>AI engine proven</span><span>CRC Press</span><span>ECBC</span></div>
+      </div>
+      <div class="tl-item now rv">
+        <div class="st">Current — active development · seeking investment</div>
+        <h3>Hardware prototype — component integration</h3>
+        <p>Active development of an integrated hardware prototype combining the proprietary sensor assembly, solid-state concentrator, dual-path switching architecture, and embedded AI electronics into the target 10×10×10 cm form factor. Component-level testing ongoing. Target TRL 4–5 upon prototype completion.</p>
+        <div class="chips"><span>Hardware prototyping</span><span>Sensor integration</span><span>Edge NPU</span><span>Seeking investment</span></div>
+      </div>
+      <div class="tl-item rv">
+        <div class="st">Next</div>
+        <h3>Field demonstration &amp; government evaluation</h3>
+        <p>Laboratory CWA surrogate testing, followed by controlled field demonstration with CBRNE evaluation partners. SBIR/STTR applications and CWMD/MCDC consortium integration. Commercial pathway: defense prime partnerships and industrial safety licensing.</p>
+        <div class="chips"><span>Field demo</span><span>SBIR Phase II</span><span>CWMD / MCDC</span><span>Commercial launch</span></div>
+      </div>
+    </div>
+    <div class="grid-3" style="margin-top:30px">
+      <div class="card rv"><div class="k">Team</div><h3>Team background</h3><p>30+ years in field threat detection, trace chemical sensing, and defense instrument development. Author of CRC Press and International Labmate field reference works on CWA and explosives detection, co-authored with ECBC researchers.</p></div>
+      <div class="card rv"><div class="k">Publications</div><h3>Published science</h3><p>Author of <i>Detection Technologies for Chemical Warfare Agents and Toxic Vapors</i> (CRC Press) and <i>Field Detection Technologies for Explosives</i> (International Labmate). Proprietary AI inference architecture independently validated in a clinical VOC application.</p></div>
+      <div class="card rv"><div class="k">IP</div><h3>IP status</h3><p>Detection methodology, instrument configuration, and AI inference pipeline are IP protected. SBIR/STTR applications in preparation. CWMD and MCDC consortium engagement planned.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="dark" id="contact">
+  <div class="wrap">
+    <div class="contact-grid">
+      <div>
+        <span class="eyebrow">Get in touch</span>
+        <h2 style="margin:16px 0 14px">Interested in r-Guard™?</h2>
+        <p style="color:#9fb0ba; font-size:17px; margin-bottom:26px; max-width:34em">We welcome inquiries from defense and security partners, government program officers, UAV/UGV platform integrators, and potential co-founders with detection instrument or medical device hardware backgrounds.</p>
+        <div class="cdetails">
+          <div class="cdet"><span class="ic">@</span><a href="mailto:info@advanced-analytical-technology-group.com">info@advanced-analytical-technology-group.com</a></div>
+          <div class="cdet"><span class="ic">☎</span><a href="tel:+19083345927">(908) 334-5927</a></div>
+          <div class="cdet"><span class="ic">◎</span><span>New Jersey, USA</span></div>
+        </div>
+        <a class="big-cta" href="mailto:info@advanced-analytical-technology-group.com?subject=r-Guard%20Enquiry">Send a message →</a>
+      </div>
+      <div>
+        <div class="eyebrow" style="margin-bottom:16px">Area of interest</div>
+        <div class="audience">
+          <a class="aud" href="mailto:info@advanced-analytical-technology-group.com?subject=r-Guard%20-%20CWA%20Defense%20/%20CBRNE%20Partnership"><span class="n">01</span> CWA defense / CBRNE partnership</a>
+          <a class="aud" href="mailto:info@advanced-analytical-technology-group.com?subject=r-Guard%20-%20Explosive%20Trace%20Detection"><span class="n">02</span> Explosive trace detection</a>
+          <a class="aud" href="mailto:info@advanced-analytical-technology-group.com?subject=r-Guard%20-%20Narcotics%20/%20Law%20Enforcement"><span class="n">03</span> Narcotics / law enforcement</a>
+          <a class="aud" href="mailto:info@advanced-analytical-technology-group.com?subject=r-Guard%20-%20Investment%20/%20Funding"><span class="n">04</span> Investment / funding</a>
+          <a class="aud" href="mailto:info@advanced-analytical-technology-group.com?subject=r-Guard%20-%20UAV%20/%20Platform%20Integration"><span class="n">05</span> UAV / platform integration</a>
+          <a class="aud" href="mailto:info@advanced-analytical-technology-group.com?subject=r-Guard%20-%20Government%20/%20SBIR%20Program%20Officer"><span class="n">06</span> Government / SBIR program officer</a>
+          <a class="aud" href="mailto:info@advanced-analytical-technology-group.com?subject=r-Guard%20-%20Co-founder"><span class="n">07</span> Co-founder / hardware background</a>
+          <a class="aud" href="mailto:info@advanced-analytical-technology-group.com?subject=r-Guard%20-%20Industrial%20Safety%20/%20TIC"><span class="n">08</span> Industrial safety / TIC</a>
+        </div>
+      </div>
+    </div>
+    <div class="ipband rv" style="margin-top:34px; background:#0a121a; border:1px solid #1e2c37">
+      <span class="k">NDA AVAILABLE</span>
+      <p><b>Partner &amp; government access.</b> Full technical specifications, sensitivity data, instrument architecture details, and AI methodology documentation are available to qualified government program offices, defense prime contractors, and investment partners under a standard NDA. Note your NDA request when you contact us.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="ft">
+  <div class="wrap">
+    <div class="ft-in">
+      <a class="ft-logo" href="index.html"><img src="images/aatg_logo.png" alt="AATG"></a>
+      <nav class="ft-links">
+        <a href="#science">The Science</a><a href="#configs">Configurations</a><a href="#advantage">Advantage</a><a href="#applications">Applications</a><a href="index.html">BreathDX™</a><a href="about.html">About</a><a href="#contact">Contact</a>
+      </nav>
+    </div>
+    <div class="ft-legal">
+      <span>© Advanced Analytical Technology Group LLC, 2002–2026. All rights reserved.</span>
+      <span>Proprietary technology · IP protected · Development-stage platform</span>
+    </div>
+  </div>
 </footer>
 
-<script>
-window.addEventListener('scroll',function(){
-  document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50);
-},{passive:true});
-</script>
-
-<!-- GoatCounter analytics -->
-<script data-goatcounter="https://aatg.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-<script>
-function toggleNav(){
-  document.getElementById('nav-burger').classList.toggle('open');
-  document.getElementById('nav-panel').classList.toggle('open');
-  document.getElementById('nav-overlay').classList.toggle('open');
-  document.body.style.overflow = document.getElementById('nav-panel').classList.contains('open') ? 'hidden' : '';
-}
-function closeNav(){
-  document.getElementById('nav-burger').classList.remove('open');
-  document.getElementById('nav-panel').classList.remove('open');
-  document.getElementById('nav-overlay').classList.remove('open');
-  document.body.style.overflow = '';
-}
-</script>
+<script src="js/aatg.js"></script>
 </body>
 </html>
